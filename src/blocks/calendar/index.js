@@ -8,14 +8,14 @@ import icon from './icon';
 
 import Inspector from "./components/Inspector";
 import Resizable from "../../components/Resizable";
-import { Map, Cluster } from "../../components/Map";
+import RevoCalendar from "revo-calendar";
 
-export default registerBlockType('map-block-leaflet/map-block-leaflet-multimarker', {
-    title: __('Map Leaflet multimarker', 'map-block-leaflet'),
+export default registerBlockType('map-block-leaflet/map-block-leaflet-calendar', {
+    title: __('Map Leaflet Calendar', 'map-block-leaflet'),
     description: __('Easy way to inside maps in your contents', 'map-block-leaflet'),
     category: 'embed',
     keywords: [
-        __('map', 'map-block-leaflet'),
+        __('kalendar', 'map-block-leaflet'),
         __('leaflet', 'map-block-leaflet'),
     ],
     attributes,
@@ -26,10 +26,7 @@ export default registerBlockType('map-block-leaflet/map-block-leaflet-multimarke
     },
     edit: props => {
         const { attributes, setAttributes, toggleSelection } = props;
-        const { markers } = attributes;
 
-        const defaultPosition = [51.340199, 12.360103]
-        const handleZoom = () => { }
         const handleHeight = (height) => setAttributes({ height })
 
         return (
@@ -40,16 +37,7 @@ export default registerBlockType('map-block-leaflet/map-block-leaflet-multimarke
                     setHeight={handleHeight}
                     toggleSelection={toggleSelection}
                 >
-                    <Map
-                        disableScrollZoom={attributes.disableScrollZoom}
-                        position={defaultPosition}
-                        zoom={10}
-                        themeUrl={attributes.themeUrl}
-                        height={attributes.height}
-                        setZoom={handleZoom}
-                    >
-                        <Cluster markers={markers} />
-                    </Map>
+                    <RevoCalendar/>
                 </Resizable>
             </>
         )

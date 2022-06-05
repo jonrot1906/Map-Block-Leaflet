@@ -1,0 +1,38 @@
+list_wrapper {
+  scroll-behavior: smooth;
+  }
+.modal.left .modal-dialog {
+  position:fixed;
+  right: 0;
+  margin: auto;
+  width: 1200px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+  border-radius: 0;
+  border: none;
+}
+
+.modal-header {
+  padding: 50px 30px 50px;
+  border-bottom-color: #eeeeee;
+  background-color: #fafafa;
+}
+
+.filter-btn-unterkategorie {
+  box-sizing: border-box;
+  margin: 2px;
+}

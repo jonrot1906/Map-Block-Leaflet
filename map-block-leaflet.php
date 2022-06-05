@@ -8,7 +8,7 @@
  * Plugin Name: Map Block Leaflet
  * Description: Map Block Leaflet -- Allows embed maps in your contents, good alternative to Google Maps without the need for api key
  * Version:     2.2.1
- * Author:      Jesús Olazagoitia
+ * Author:      Jonas Rotter
  * Author URI:  https://goiblas.com
  * Text Domain: map-block-leaflet
  * Domain Path: /languages
@@ -39,10 +39,14 @@ function map_block_leaflet_register() {
 	$lib_style_path = '/lib/leaflet.css';
 	$lib_version = '1.7.1';
 
+	//wp_register_style( 'bootstrap-css', plugins_url('/lib/bootstrap.min.css', __FILE__), array(), '4.6.1');
+	//wp_register_script( 'bootstrap-js', plugins_url('/lib/bootstrap.min.js', __FILE__), array(), '4.6.1', false );
 	wp_register_style( 'lib-css-map-block-leaflet', plugins_url($lib_style_path, __FILE__), array(), $lib_version );
 	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array(), $lib_version, false );
 	wp_register_style( 'lib-css-map-block-leaflet-cluster', plugins_url("/lib/MarkerCluster.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
 	wp_register_script( 'lib-js-map-block-leaflet-cluster', plugins_url("/lib/leaflet.markercluster.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
+
+	wp_register_style( 'lib-css-bootstrap-blocks', plugins_url('/lib/bootstrap-blocks.css', __FILE__) );
 
 	// Enqueue the bundled block JS file
 	wp_register_script(
@@ -86,7 +90,7 @@ function map_block_leaflet_register() {
 			],
 			'height' => [
 				'type' => 'number',
-				'default' => 220
+				'default' => 600
 			],
 			'disableScrollZoom'=> [
 				'type' => 'boolean',
@@ -94,7 +98,7 @@ function map_block_leaflet_register() {
 			],
 			'zoom' => [
 				'type' => 'number',
-				'default' => 15
+				'default' => 13
 			],
 			'themeId' => [
 				'type' => 'number',
@@ -113,7 +117,7 @@ function map_block_leaflet_register() {
 		'editor_style' => 'css-editor-map-block-leaflet',
 		'render_callback' => 'map_block_leaflet_multi_marker_render',
 		'script' => 'lib-js-map-block-leaflet-cluster',
-		'style' => 'lib-css-map-block-leaflet-cluster',
+		'style' => ['lib-css-map-block-leaflet-cluster', 'lib-css-bootstrap-blocks'],
 		'attributes' => [
 			'markers' => [
 				'type' => 'array',
@@ -129,7 +133,34 @@ function map_block_leaflet_register() {
 			],
 			'height' => [
 				'type' => 'number',
-				'default' => 220
+				'default' => 800
+			],
+			'themeId' => [
+				'type' => 'number',
+				'default' => 1
+			],
+		]
+	 ) );
+
+	 // Register map-block-leaflet-calendar
+	 register_block_type( 'map-block-leaflet/map-block-leaflet-calendar', array(
+		'editor_script' => 'js-editor-map-block-leaflet',
+		'editor_style' => 'css-editor-map-block-leaflet',
+		'render_callback' => 'map_block_leaflet_calendar_render',
+		'script' => 'lib-js-map-block-leaflet-cluster',
+		'style' => ['lib-css-map-block-leaflet-cluster', 'lib-css-bootstrap-blocks'],
+		'attributes' => [
+			'themeUrl' => [
+				'type' => 'string',
+				'default' =>  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+			],
+			'themeAttribution' => [
+				'type' => 'string',
+				'default' => '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+			],
+			'height' => [
+				'type' => 'number',
+				'default' => 600
 			],
 			'themeId' => [
 				'type' => 'number',
@@ -139,6 +170,8 @@ function map_block_leaflet_register() {
 	 ) );
 }
 add_action('init', 'map_block_leaflet_register');
+
+
 
 /**
  * Render in frontend leaflet map
@@ -220,7 +253,7 @@ function map_block_leaflet_render($settings) {
 /**
  * Render in frontend leaflet map multimarker
  */
-function map_block_leaflet_multi_marker_render($settings) {
+/*function map_block_leaflet_multi_marker_render2($settings) {
 
 	$classes = 'map_block_leaflet';
 	if(array_key_exists('align', $settings)) {
@@ -239,6 +272,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	return '
 	<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>
 	<script>
+		console.log('. json_encode($settings).');
 		document.addEventListener("DOMContentLoaded", function() {
 			var markets = '. json_encode($settings['markers']).';
 			var center = [51.505, -0.09];
@@ -270,7 +304,1074 @@ function map_block_leaflet_multi_marker_render($settings) {
 		});
 	</script>
 	';
+}*/
+function map_block_leaflet_multi_marker_render($settings) {
+
+	$classes = 'map_block_leaflet';
+	if(array_key_exists('align', $settings)) {
+		switch ($settings['align']) {
+			case 'wide':
+			$classes .= ' alignwide';
+			break;
+			case 'full':
+			$classes .= ' alignfull';
+			break;
+		}
+	}
+
+	$id = uniqid('lmb_');
+	$id2 = uniqid('lmb_');
+
+	return '
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js" integrity="sha512-o0rWIsZigOfRAgBxl4puyd0t6YKzeAw9em/29Ag7lhCQfaaua/mDwnpE2PVzwqJ08N7/wqrgdjc2E0mwdSY2Tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<style>
+	
+	</style>
+	<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+		<h5>Filter dich zur Nachhaltigkeit!</h5>
+            <div class="card p-2 py-3">
+			  <div class="row g-3">
+			  <div class="col-9">
+				<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with filter buttons">
+				<input type="checkbox" class="btn-check filter-btn" id="alle-btn" autocomplete="off" checked>
+				<label class="btn btn-outline-secondary filter-btn" for="alle-btn">Alle</label><br>
+				<input type="checkbox" class="btn-check filter-btn check-category-single" id="initiative-btn" autocomplete="off">
+				<label class="btn btn-outline-primary filter-btn" for="initiative-btn">Initiativen</label><br>
+				<input type="checkbox" class="btn-check filter-btn check-category-single" id="angebote-btn" autocomplete="off">
+				<label class="btn btn-outline-danger filter-btn" for="angebote-btn">Angebote</label><br>
+				<input type="checkbox" class="btn-check filter-btn check-category-single" id="veranstaltungen-btn" autocomplete="off">
+				<label class="btn btn-outline-warning filter-btn" for="veranstaltungen-btn">Veranstaltungen</label><br>
+				</div>
+				</div>
+				<div class="col-3 text-end">
+				<button type="button" class="btn btn-default swalDefaultQuestion">
+				<i class="fa fa-question-circle" aria-hidden="true"></i>
+</button>
+				</div>
+                </div>
+				<div class="row g-3 mt-1">
+				<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Suche nach..." aria-label="Suche" aria-describedby="button-addon2">
+				<button class="btn btn-outline-success btn-arrow" type="button" id="button-addon2"><span>Los!</span></button>
+			  </div>
+			  </div>
+                <div> <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="advanced"> Erweiterte Suche  <i class="fa fa-angle-down"></i> </a>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <div class="row">
+	  							<div class="col-md-6">
+								  <div class="d-flex flex-column">
+								  <label for="test">Region</label>
+								  <select class="selectpicker" multiple data-live-search="true" title="Alles ausgewählt" id="regions_picker" style="width:100%">
+								</select>
+								</div>
+								</div>
+
+						  		<div class="col-md-6">
+								  <div class="d-flex flex-column">
+								  <label for="test">Unterkategorie</label>
+								  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with filter buttons">
+								  <input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
+								  <label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">Alle</label><br>
+								  <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-2-outlined">Energie</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Mobilität</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-4-outlined">Sonstiges</label><br>
+</div>
+								  </div>
+								</div>
+                            </div>
+							<div class="row">
+						  <div class="col-md-6">
+						  <div class="d-flex flex-column">
+						  <label for="test">Kategorie</label>
+						  <select class="selectpicker" multiple data-live-search="true" title="Alles ausgewählt" id="kategorie_picker" style="width:100%">
+						</select>
+						  </div>
+						</div>
+						<div class="col-md-6">
+						<div class="row g-1 mt-1">
+						<div class="col-lg-6 col-sm-6">
+						<label for="startDate">Start</label>
+						<input id="startDate" class="form-control" type="date" />
+						<span id="startDateSelected"></span>
+						</div>
+					<div class="col-lg-6 col-sm-6">
+						<label for="endDate">Ende</label>
+						<input id="endDate" class="form-control" type="date" />
+						<span id="endDateSelected"></span>
+						</div>
+					</div>
+					<div class="row g-1 mt-1">
+					<div class="d-grid gap-2 d-md-block">
+<button class="btn btn-outline-primary btn-sm" type="button" id="thisWeek">Diese Woche</button>
+<button class="btn btn-outline-primary btn-sm" type="button" id="thisMonth">Dieser Monat</button>
+<button class="btn btn-outline-primary btn-sm" type="button" id="clearThis">Leeren</button>
+</div>
+</div>
+					  <br>
+						  <div id="calendar"></div>
+					  </div>
+					  </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<br>
+	<div class="row">
+	<div class="col-md-8" id="map_wrapper">
+	<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>
+	</div>
+	<div class="col-md-4 overflow-auto bg-light result_wrapper" id="list_wrapper" style="height: '. $settings['height'] . 'px">
+	</div>
+	</div>
+	</div>
+  
+
+
+  <hr/>
+  <div class="row">
+  <div class="col-10">
+  <a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
+  </div>
+  <div class="col-2">
+  </div>
+  </div>
+</div>
+
+<div class="modal left fade" id="infoModal" tabindex="" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
+				<div class="container">
+				<div class="row">
+				<div class="col-3">
+				<img src="https://verschenkekiste.de/wp-content/uploads/2021/12/Verschenkekiste_Logo_Neu-100x107.png" class="img-fluid" alt="Responsive image">
+				</div>
+				<div class="col-9">
+					<div style="display: block; margin-right: 4px;">
+					<h3 id="info-modal-title">Beispieltext</h3>
+					</div>
+					<div style="display: block; margin-right: 4px;">
+					<p id="info-modal-type" class="text-secondary";>Beispiel-Kategorie</p>
+					</div>
+					<div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
+					<input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
+					<label class="btn btn-outline-primary filter-btn-unterkategorie" for="btn-check-1-outlined">Leipzig</label><br>
+					<input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+<label class="btn btn-outline-info filter-btn-unterkategorie" for="btn-check-2-outlined">Wirtschaft</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Energie</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+<label class="btn btn-outline-warning filter-btn-unterkategorie" for="btn-check-4-outlined">Angebot</label><br>
+</div>
+				</div>
+				</div>
+				</div>
+				</div>
+                <div class="modal-body">
+					Von: <b>AERACURA e.V.</b>
+					<hr>
+					<div class="card" style="display: inline-block; margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Beschreibung</b>
+					<p>Hier werden später ganz viele interessante Infos über den Verein stehen.</p>
+					</div>
+					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Kontaktdaten</b>
+					<p>
+					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.musterverein.de" target="_blank">www.musterverein.de</a><br>
+					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="mailto:info@musterverein.de">info@musterverein.de</a><br>
+					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="tel:01731999999">01731999999</a><br>
+					</p>
+					</div>
+					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Adresse & Karte</b>
+					<p>
+					<i class="fa fa-map-marker" aria-hidden="true"></i> Musterstraße 13, 04444 Musterhausen<br>
+					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.google.com/maps/dir/?api=1&destination=Verschenkekiste+e.V." target="_blank">Route</a>
+					</p>
+					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
+					</div>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<script>
+		console.log('. json_encode($settings).');
+		var markers, map, map2 = {}, former_div, single_marker;
+		document.addEventListener("DOMContentLoaded", function() {
+			var randomParent = document.getElementById("list_wrapper");
+			var markets = [
+    {
+        "latlng": {
+            "lat": 51.31648569225387,
+            "lng": 12.367877059020055
+        },
+        "label": "Chemnitz, Sachsen, Deutschland",
+        "title": "Verschenkekiste e.V.",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 345,
+		"category":"Umwelt",
+		"type":"Veranstaltung"
+    },
+    {
+        "latlng": {
+            "lat": 51.28487224227432,
+            "lng": 12.335614519666239
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "Aeracura",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 346,
+		"category":"Umwelt",
+		"type":"Initiative"
+    },
+	{
+        "latlng": {
+            "lat": 51.32007910798171,
+            "lng": 12.33572431023343
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "Pavillon der Hoffnung",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 347,
+		"category":"Umwelt",
+		"type":"Initiative"
+    },
+	{
+        "latlng": {
+            "lat": 51.34378920033103,
+            "lng": 12.35939433799315
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "FISCHER Druck",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 348,
+		"category":"Umwelt",
+		"type":"Initiative"
+    },
+	{
+        "latlng": {
+            "lat": 51.32649031397098,
+            "lng": 12.357616793279819
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "OpenGeoSys",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 356,
+		"category":"Umwelt",
+		"type":"Veranstaltung"
+    },
+	{
+        "latlng": {
+            "lat": 51.348623393260205,
+            "lng": 12.390429014367959
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "INSPIRATA",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 349,
+		"category":"Umwelt",
+		"type":"Angebot"
+    },
+	{
+        "latlng": {
+            "lat": 51.33572595619215,
+            "lng": 12.39104431830719
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "#engmaschig",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 350,
+		"category":"Energie",
+		"type":"Veranstaltung"
+    },
+	{
+        "latlng": {
+            "lat": 51.344688692548985,
+            "lng": 12.40929480960208
+        },
+        "label": "Leipzig, Sachsen, Deutschland",
+        "title": "ZAQUENSIS",
+		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
+		"id": 351,
+		"category":"Umwelt",
+		"type":"Angebot"
+    }
+]
+
+const list_container = document.getElementById("list_wrapper");
+
+function returnCards(markets) {
+	markets.forEach(function(market) {
+		switch(market.type){
+			case "Initiative":
+				market.color = "#4169E1"; //blue
+				break;
+			case "Veranstaltung":
+				market.color = "#FFBF00"; //yellow
+				break;
+			case "Angebot":
+				market.color = "#D2042D"; //red
+				break;
+			}			
+		});
+	console.log(markets);
+  return "<div id=\"list_results\" class=\"result-list list-group\">" + markets.map(markets => `
+  <div class="card result_list list-group-item-action" id="${markets.id}_div" style="border-right: solid 7px ${markets.color}">
+  <div class="card-body">
+  <div class="row">
+  <div class="col-9">
+  	<h5><a class="modal_link link-dark" data-bs-target="#infoModal" data-bs-toggle="modal" id="${markets.id}_link">${markets.title}</a></h5>
+  </div>
+  <div class="col-3" align="right">
+  <p class="text-success"><small>${markets.category}</small></p>
+  </div>
+  </div>
+  	<p class="card-text">${markets.content}</p>
+    </div> 
+  </div>`).join("") + "</div>";
 }
+
+list_container.innerHTML = returnCards(markets);
+
+
+
+			var center = [51.340199,12.360103]; //51.340199,12.360103
+
+			var layer = L.tileLayer(\''. $settings['themeUrl'] . '\', {
+				attribution: \''. $settings['themeAttribution'] .'\'
+			})
+
+			var layer2 = L.tileLayer(\''. $settings['themeUrl'] . '\', {
+				attribution: \''. $settings['themeAttribution'] .'\'
+			})
+
+			map = L.map('. $id .', { center: center, layers: [layer]});
+			//map.scrollWheelZoom.disable();
+
+			map2 = L.map('. $id2 .', { center: center, layers: [layer2], zoom: 12});
+			map2.scrollWheelZoom.disable();
+
+			var yellowIcon = new L.Icon({
+				iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png",
+				shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+				shadowSize: [41, 41]
+			  });
+			
+			  var redIcon = new L.Icon({
+				iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+				shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+				shadowSize: [41, 41]
+			  });
+			
+			  var blueIcon = new L.Icon({
+				iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+				shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+				shadowSize: [41, 41]
+			  });
+			
+
+			L.Control.zoomHome = L.Control.extend({
+				options: {
+					position: "topleft",
+					zoomHomeText: "<i class=\"fa fa-home\" style=\"line-height:1.65;\"></i>",
+					zoomHomeTitle: "Zoom home"
+				},
+			
+				onAdd: function (map) {
+					var controlName = "gin-control-zoom",
+						container = L.DomUtil.create("div", controlName + " leaflet-bar"),
+						options = this.options;
+			
+					this._zoomHomeButton = this._createButton(options.zoomHomeText, options.zoomHomeTitle,
+					controlName + "-home", container, this._zoomHome);
+			
+					this._updateDisabled();
+					map.on("zoomend zoomlevelschange", this._updateDisabled, this);
+			
+					return container;
+				},
+			
+				onRemove: function (map) {
+					map.off("zoomend zoomlevelschange", this._updateDisabled, this);
+				},
+			
+				_zoomHome: function (e) {
+					map.setView([51.340199,12.360103], 13);
+				},
+			
+				_createButton: function (html, title, className, container, fn) {
+					var link = L.DomUtil.create("a", className, container);
+					link.innerHTML = html;
+					link.href = "#";
+					link.title = title;
+			
+					L.DomEvent.on(link, "mousedown dblclick", L.DomEvent.stopPropagation)
+						.on(link, "click", L.DomEvent.stop)
+						.on(link, "click", fn, this)
+						.on(link, "click", this._refocusOnMap, this);
+			
+					return link;
+				},
+			
+				_updateDisabled: function () {
+					var map = this._map,
+						className = "leaflet-disabled";
+				}
+			});
+			// add the new control to the map
+			var zoomHome = new L.Control.zoomHome();
+			zoomHome.addTo(map);
+			
+
+			if(markets.length > 0) {
+				//markers = L.markerClusterGroup();
+				markers = L.featureGroup();
+
+				markets.forEach(function(market) {
+					var ID = market.id;
+					switch(market.type){
+						case "Initiative":
+							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:blueIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
+							break;
+						case "Veranstaltung":
+							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:yellowIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
+							break;
+						case "Angebot":
+							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:redIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
+							break;
+									
+					} 
+					market[ID].on("click", function(e){
+						map.panTo(this.getLatLng());
+						//var secondoffcanvas = document.getElementById("offcanvasExample");
+						//var bsOffcanvas2 = new bootstrap.Offcanvas(secondoffcanvas);
+  						//bsOffcanvas2.show();
+						//$("#infoModal").modal("show");
+						//document.getElementById("345_div").scrollIntoView();
+						let selected_div = document.getElementById(e.target.options.ID+"_div");
+						if(!former_div){
+							former_div = selected_div;
+						}else{
+							console.log(former_div);
+							former_div.style.backgroundColor="";
+							former_div = selected_div;
+						}
+						scrollParentToChild(list_wrapper, selected_div);
+						selected_div.style.backgroundColor="#D3D3D3";
+						console.log(e.target.options.ID);
+					});
+					market[ID].on("mouseover", function(e){
+						e.target.openPopup();
+					});
+				})
+
+				map.addLayer(markers);
+				map.fitBounds(markers.getBounds(), {padding: [50, 50]})
+			}
+
+      var container = document.getElementById(\'' . $id . '\');
+      var observer = ResizeObserver && new ResizeObserver(function() {
+        map.invalidateSize(true);
+      });
+	  var container2 = document.getElementById(\'' . $id2 . '\');
+      var observer2 = ResizeObserver && new ResizeObserver(function() {
+		map2.invalidateSize(true);
+      });
+
+      observer && observer.observe(container);
+	  observer2 && observer2.observe(container2);
+
+	  /*$(".result_list").click(function() {
+		console.log(this.id)
+		var div_id_bf = this.id;
+		var div_id = div_id_bf.substr(0, div_id_bf.indexOf("_"));
+		console.log(div_id);
+		  let marker_arr=markers.getLayers();
+		  marker_arr.forEach(function(market) {
+			  console.log("MarketID"+market.options.ID);
+			  console.log(div_id);
+			  if(market.options.ID == div_id){
+				map.panTo(market.getLatLng());
+			  }
+			});
+ 	});*/
+
+			function scrollParentToChild(parent, child) {
+			
+			  // Where is the parent on page
+			  var parentRect = parent.getBoundingClientRect();
+			  // What can you see?
+			  var parentViewableArea = {
+				height: parent.clientHeight,
+				width: parent.clientWidth
+			  };
+			
+			  // Where is the child
+			  var childRect = child.getBoundingClientRect();
+			  // Is the child viewable?
+			  var isViewable = (childRect.top >= parentRect.top) && (childRect.top <= parentRect.top + parentViewableArea.height);
+			  console.log(isViewable);
+			  // if you cant see the child try to scroll parent
+			  //if (!isViewable) {
+				// scroll by offset relative to parent
+				parent.scrollTop = (childRect.top + parent.scrollTop) - (parentRect.top+200)
+			  //}
+			
+			}
+			$(".modal_link").click(function(e){
+				var marker_id_long = e.target.id;
+				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
+				let selected_div = document.getElementById(marker_id+"_div");
+				if(!former_div){
+					former_div = selected_div;
+				}else{
+					former_div.style.backgroundColor="";
+					former_div = selected_div;
+				}
+				selected_div.style.backgroundColor="#D3D3D3";
+				var obj = markets.find(x => x.id === parseInt(marker_id));
+
+				$("#info-modal-title").text(obj.title);
+				$("#info-modal-type").text(obj.type);
+				switch(obj.type){
+					case "Initiative":
+						obj.color = "#4169E1"; //blue
+						break;
+					case "Veranstaltung":
+						obj.color = "#FFBF00"; //yellow
+						break;
+					case "Angebot":
+						obj.color = "#D2042D"; //red
+						break;
+					}	
+				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
+				
+				if (single_marker != undefined) {
+					map2.removeLayer(single_marker);
+			  	};
+				single_marker = L.marker([obj.latlng.lat, obj.latlng.lng]).addTo(map2)
+    			.bindPopup("<b>"+obj.title+"</b>");
+				map2.setView([obj.latlng.lat, obj.latlng.lng], 13);
+            	//document.getElementById("").value = "Hallo"; 
+
+        });
+
+		 $(".input-daterange").datepicker({
+			format: "dd.mm.yyyy",
+			weekStart: 1,
+			todayBtn: true,
+			language: "de",
+			clearBtn: true,
+			beforeShowDay: function(date){
+				  if (date.getMonth() == (new Date()).getMonth())
+					switch (date.getDate()){
+					  case 4:
+						return {
+						  tooltip: "Example tooltip",
+						  classes: "active"
+						};
+					  case 8:
+						return false;
+					  case 12:
+						return "green";
+				  }
+				}
+		});
+
+
+			  var Toast = Swal.mixin({
+				toast: true,
+				position: "top-end",
+				showConfirmButton: true,
+				timer: 10000
+			  });
+
+			  $(".swalDefaultQuestion").click(function() {
+				Toast.fire({
+				  icon: "question",
+				  title: "Um die Ergebnisse zu filtern, klickst du einfach auf die Kategorien Initiativen, Angebote und Veranstaltungen, gibst ein Stichwort in der Suche ein oder wählst einen Zeitraum für Veranstaltungen aus."
+				})
+			  });
+			  $("#alle-btn").change(function() {
+				$( ".check-category-single" ).prop( "checked", false );
+			  });
+
+			  $(".check-category-single").change(function() {
+				if ($(".check-category-single:checked").length == $(".check-category-single").length) {
+					$( "#alle-btn" ).prop( "checked", true );
+					$( ".check-category-single" ).prop( "checked", false );
+				}else{
+					$( "#alle-btn" ).prop( "checked", false );
+				}
+			  });
+			  
+			  $("#thisWeek").click(function(){
+				var curr = new Date; // get current date
+				var first = curr.getDate() - (curr.getDay() - 1); // First day is the day of the month - the day of the week
+				var last = first + 6; // last day is the first day + 6
+
+				document.getElementById("startDate").value = new Date(curr.setDate(first)).toISOString().substring(0,10);
+				document.getElementById("endDate").value = new Date(curr.setDate(last)).toISOString().substring(0,10);
+			});
+
+			$("#thisMonth").click(function(){
+				var date = new Date();
+				var firstDay = new Date(date.getFullYear(), date.getMonth(), 2);
+				var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+
+				document.getElementById("startDate").value = firstDay.toISOString().substring(0,10);
+				document.getElementById("endDate").value = lastDay.toISOString().substring(0,10);
+			});
+
+			$("#clearThis").click(function(){
+				document.getElementById("startDate").value = "";
+				document.getElementById("endDate").value = "";
+			});
+
+
+			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json", function( data ) {
+				var items = [];
+				$.each( data, function(ind, elem) {
+
+					$("#kategorie_picker").append($("<option>", {
+						value: elem.id,
+						text: elem.name
+					  }));
+				});
+				$("#kategorie_picker").selectpicker("refresh");
+			});
+
+			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json", function( data ) {
+				var items = [];
+				$.each( data, function(ind, elem) {
+
+					$("#regions_picker").append($("<option>", {
+						value: elem.id,
+						text: elem.name
+					  }));
+				});
+				$("#regions_picker").selectpicker("refresh");
+			});
+
+
+		});//end
+
+		function getLoc(zoomLevel) {
+			map.setView([51.3406, 12.3747], zoomLevel); // ([lat, lng], zoom)
+		};
+
+
+	</script>
+	';
+}
+
+	function map_block_leaflet_calendar_render($settings) {
+
+		$classes = 'map_block_leaflet';
+		if(array_key_exists('align', $settings)) {
+			switch ($settings['align']) {
+				case 'wide':
+				$classes .= ' alignwide';
+				break;
+				case 'full':
+				$classes .= ' alignfull';
+				break;
+			}
+		}
+	
+		$id = uniqid('lmb_');
+		$id2 = uniqid('lmb_');
+	
+		return '
+		<!-- Add the evo-calendar.css for styling -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.royal-navy.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<!-- Add jQuery library (required) -->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<!-- Add the evo-calendar.js for.. obviously, functionality! -->
+		<script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/js/evo-calendar.min.js"></script>
+		<style>
+
+		</style>
+		<div class="container mt-5">
+		<div id=\''. $id .'\' style="height: '. $settings['height'] . 'px"></div>
+		</div>
+
+		<div class="modal left fade" id="infoModal" tabindex="" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
+				<div class="container">
+				<div class="row">
+				<div class="col-3">
+				<img src="https://verschenkekiste.de/wp-content/uploads/2021/12/Verschenkekiste_Logo_Neu-100x107.png" class="img-fluid" alt="Responsive image">
+				</div>
+				<div class="col-9">
+					<div style="display: block; margin-right: 4px;">
+					<h3 id="info-modal-title">Beispieltext</h3>
+					</div>
+					<div style="display: block; margin-right: 4px;">
+					<p id="info-modal-type" class="text-secondary";>Beispiel-Kategorie</p>
+					</div>
+					<div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
+					<input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
+					<label class="btn btn-outline-primary filter-btn-unterkategorie" for="btn-check-1-outlined">Leipzig</label><br>
+					<input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
+<label class="btn btn-outline-info filter-btn-unterkategorie" for="btn-check-2-outlined">Wirtschaft</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Energie</label><br>
+<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+<label class="btn btn-outline-warning filter-btn-unterkategorie" for="btn-check-4-outlined">Angebot</label><br>
+</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</hr>
+                <div class="modal-body">
+				<div class="row">
+				<div class="col-8">
+				<div class="card" style="margin-left: -4px;">
+				<div class="card-body">
+				<small>Datum:</small>
+				<b class="font-weight-bold" id="event_dates"></b><br>
+				<small>Uhrzeit:</small>
+				<b id="event_times"></b>
+				</div>
+				</div>
+
+				</div>
+				<div class="col-4">
+				<button type="button" class="btn btn-outline-secondary" id="calendarButton">Zum Kalender hinzufügen</button>
+				</div>
+				</div>
+					
+					<hr>
+					Von: <b>AERACURA e.V.</b>
+					<hr>
+					<div class="card" style="display: inline-block; margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Beschreibung</b>
+					<p>Hier werden später ganz viele interessante Infos über den Verein stehen.</p>
+					</div>
+					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Kontaktdaten</b>
+					<p>
+					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.musterverein.de" target="_blank">www.musterverein.de</a><br>
+					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="mailto:info@musterverein.de">info@musterverein.de</a><br>
+					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="tel:01731999999">01731999999</a><br>
+					</p>
+					</div>
+					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Adresse & Karte</b>
+					<p>
+					<i class="fa fa-map-marker" aria-hidden="true"></i> Musterstraße 13, 04444 Musterhausen<br>
+					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.google.com/maps/dir/?api=1&destination=Verschenkekiste+e.V." target="_blank">Route</a>
+					</p>
+					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
+					</div>
+					</div>
+                </div>
+                <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="start-time">9:30am</div>
+<div class="end-time">10:30am</div>
+<div class="Location">California</div>
+<p><a href="#" class="test">Add to Calendar</a></p>
+</div>
+
+
+		<script>
+			console.log('. json_encode($settings).');
+			var single_marker;
+			document.addEventListener("DOMContentLoaded", function() {
+				$(".calendarButton").click(function(event) {
+					event.preventDefault();
+					
+					// Format: https://docs.fileformat.com/email/ics/
+					//icsMSG += "DTSTART:" + $(".start-time").text() + "\r\n";
+					var icsMSG = "BEGIN:VCALENDAR\nVERSION:2.0\r\n";
+					icsMSG += "PRODID:-//Our Company//NONSGML v1.0//EN\r\n";
+					icsMSG += "BEGIN:VEVENT\r\n";
+					icsMSG += "UID:rotter.jonas@google.com\r\n"
+					icsMSG += "DTSTAMP:20220516T170000Z\r\n";
+					icsMSG += "ATTENDEE;CN=My Self;RSVP=TRUE:MAILTO:rotter.jonas@gmail.com\r\n";
+					icsMSG += "ORGANIZER;CN=Me:MAILTO::rotter.jonas@gmail.com\r\n";
+					icsMSG += "DTSTART:20220516T170000Z\r\n";
+					icsMSG += "DTEND:20220516T180000Z\r\n";
+					icsMSG += "LOCATION:" + $(".Location").text() + "\r\n";
+					icsMSG += "SUMMARY:Our Meeting Office\r\n";
+					icsMSG += "END:VEVENT\r\nEND:VCALENDAR";
+					var title = "newEvent.ics";
+					var uri = "data:text/calendar;charset=utf8," + escape(icsMSG);
+					var link = $("<a>", {
+					  href: uri,
+					  download: title,
+					  target: "_BLANK"
+					}).html("").appendTo("body");
+					link.get(0).click();
+					link.remove();
+				  });
+
+				  var eventObj = [
+					{
+					  id: "bHay68s", // Event"s ID (required)
+					  name: "Tauschmarkt", // Event name (required)
+					  badge: "10:00 - 16:00 Uhr",
+					  date: "04/30/2022", // Event date (required)
+					  type: "offer", // Event type (required)
+					  color: "#7743f0" ,
+					  "latlng": {
+						"lat": 51.344688692548985,
+						"lng": 12.40929480960208
+					},
+					"times": ["14:00", "18:00"]
+					},
+					{
+						id: "bHay68t", // Event"s ID (required)
+						name: "Sammelfest", // Event name (required)
+						badge: "08:00 - 18:00 Uhr",
+						date: "04/02/2022", // Event date (required)
+						type: "offer", // Event type (required)
+						color: "#ddb713",
+						"latlng": {
+							"lat": 51.344688692548985,
+							"lng": 12.40929480960208
+						},
+						"times": ["14:00", "18:00"]
+					  },
+					  {
+						id: "bHay68u", // Event"s ID (required)
+						name: "Cleanup 1", // Event name (required)
+						badge: "16:00 - 18:00 Uhr",
+						date: "04/03/2022", // Event date (required)
+						type: "angebot", // Event type (required)
+						color: "#4bfa30",
+						"latlng": {
+							"lat": 51.344688692548985,
+							"lng": 12.40929480960208
+						},
+						"times": ["14:00", "18:00"]
+					  },
+					  {
+						id: "bHay68v", // Event"s ID (required)
+						name: "Cleanup 2", // Event name (required)
+						badge: "16:00 - 18:00 Uhr",
+						date: "04/13/2022", // Event date (required)
+						type: "fest", // Event type (required)
+						color: "#1decaf",
+						"latlng": {
+							"lat": 51.344688692548985,
+							"lng": 12.40929480960208
+						},
+						"times": ["14:00", "18:00"]
+					  },
+					  {
+						id: "bHay68w", // Event"s ID (required)
+						name: "Workshop", // Event name (required)
+						badge: "13:00 - 14:00 Uhr",
+						date: "04/17/2022", // Event date (required)
+						type: "angebot", // Event type (required)
+						description: "Der Workshop dient zur Auseinandersetzung mit der persönlichen Abfallvermeidung.",
+						color: "#ddb713",
+						"latlng": {
+							"lat": 51.344688692548985,
+							"lng": 12.40929480960208
+						},
+						"times": ["14:00", "18:00"]
+					  },
+					{
+					  id: "sdf222",
+					  name: "Tauschfest",
+					  badge: "13. April - 16. April", // Event badge (optional)
+					  date: ["04/13/2022", "04/16/2022"], // Date range
+					  description: "Event über 3 Tage", // Event description (optional)
+					  type: "event",
+					  color: "#63d867", // Event custom color (optional),
+					  "latlng": {
+						"lat": 51.344688692548985,
+						"lng": 12.40929480960208
+					},
+					"times": ["14:00", "18:00"]
+					}
+				];
+				var calendar = $('. $id .').evoCalendar({
+					theme: "Royal Navy",
+					language: "de",
+					format: "dd. MM yyyy",
+					eventHeaderFormat: "dd. MM yyyy",
+					titleFormat: "MM",
+					firstDayofWeek: 1,
+					calendarEvents: eventObj
+				});
+	
+				/*function is_loading() {
+					return document.body.classList.contains("loading");
+				}
+				var timer = 100;
+				function checkRender() {
+					if( is_loading()) {
+						setTimeout(function(){
+							checkRender();
+						}, timer);
+					} else {
+						map.invalidateSize(true);
+					}
+				}
+				if( is_loading()) {
+					checkRender();
+				} else {
+					document.addEventListener("DOMContentLoaded", function() {
+						map.invalidateSize(true);
+					});
+				}
+*/
+
+			var center = [51.340199,12.360103]; //51.340199,12.360103
+
+			var layer = L.tileLayer(\''. $settings['themeUrl'] . '\', {
+				attribution: \''. $settings['themeAttribution'] .'\'
+			})
+
+			var map = L.map('. $id2 .', { center: center, layers: [layer]});
+			map.setView(center, 13);
+			//map.scrollWheelZoom.disable();
+
+		var container = document.getElementById(\'' . $id2 . '\');
+		
+		var observer = ResizeObserver && new ResizeObserver(function() {
+		  map.invalidateSize(true);
+		});
+		observer && observer.observe(container);
+		  
+		  $('. $id .').on("selectEvent", function(event, activeEvent) {
+			$("#infoModal").modal("toggle");
+			console.log(activeEvent.id);
+			var singleEvent = eventObj.find(x => x.id === activeEvent.id);
+
+				$("#info-modal-title").text(singleEvent.name);
+				$("#info-modal-type").text(singleEvent.type);
+				document.getElementById("info-modal-header").style.borderBottomColor = singleEvent.color;
+				console.log(singleEvent.date);
+				var date_var = "";
+				var times_var = "";
+				if($.isArray(singleEvent.date)){
+					jQuery.each(singleEvent.date, function(index, item) {
+						var d = new Date(item);
+						var curr_date = d.getDate();
+						var curr_month = d.getMonth();
+						var curr_year = d.getFullYear();
+						var newDate = curr_date + "." + curr_month + "." + curr_year;
+						date_var += newDate;
+						if(index == 0){
+							date_var += " - ";
+						}
+					});
+					$("#event_dates").text(singleEvent.date);
+				}else{
+					var d = new Date(singleEvent.date);
+					var curr_date = d.getDate();
+					var curr_month = d.getMonth();
+					var curr_year = d.getFullYear();
+					var newDate = curr_date + "." + curr_month + "." + curr_year;
+					date_var = newDate;
+				}
+				$("#event_dates").text(date_var);
+
+				if($.isArray(singleEvent.times)){
+					jQuery.each(singleEvent.times, function(index, item) {
+						var d = new Time(item);
+						var curr_hour= d.getHours();
+						var curr_minute = d.getMinutes();
+						var newDate = curr_hour + ":" + curr_minute;
+						times_var += newDate;
+						if(index == 0){
+							times_var += " - ";
+						}
+					});
+				}else{
+					var d = new Date(singleEvent.times);
+					var curr_date = d.getDate();
+					var curr_month = d.getMonth();
+					var curr_year = d.getFullYear();
+					var newDate = curr_date + "." + curr_month + "." + curr_year;
+					times_var = newDate;
+				}
+
+				$("#event_times").text(times_var);
+
+				if (single_marker != undefined) {
+					map.removeLayer(single_marker);
+			  	};
+				single_marker = L.marker([singleEvent.latlng.lat, singleEvent.latlng.lng]).addTo(map)
+    			.bindPopup("<b>"+singleEvent.name+"</b>");
+				map.setView([singleEvent.latlng.lat, singleEvent.latlng.lng], 13);
+			});
+
+			});
+		</script>
+		';
+}
+
 
 /**
  * Dequeue assets from plugin block leaflet if isn't in page
@@ -286,6 +1387,7 @@ function map_block_leaflet_dequeue_lib_script()
     wp_dequeue_style('css-editor-map-block-leaflet');
     wp_dequeue_style('lib-css-map-block-leaflet');
     wp_dequeue_style('lib-css-map-block-leaflet-cluster');
+	wp_dequeue_style('test');
   }
 }
 
