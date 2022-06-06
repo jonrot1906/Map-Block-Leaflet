@@ -111,3 +111,9 @@ list_wrapper {
   text-decoration: none;
   font: bold 18px "Lucida Console", Monaco, monospace;
 }
+
+.img-fluid {
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+}

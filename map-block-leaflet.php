@@ -373,9 +373,10 @@ function map_block_leaflet_multi_marker_render($settings) {
 				<button class="btn btn-outline-success btn-arrow" type="button" id="button-addon2"><span>Los!</span></button>
 			  </div>
 			  </div>
-                <div> <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="advanced"> Erweiterte Suche  <i class="fa fa-angle-down"></i> </a>
+                <div> 
+				<a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="advanced"> Erweiterte Suche  <i class="fa fa-angle-down"></i> </a>
                     <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
+                        <div class="card card-body my-2">
                             <div class="row">
 	  							<div class="col-md-6">
 								  <div class="d-flex flex-column">
@@ -392,12 +393,12 @@ function map_block_leaflet_multi_marker_render($settings) {
 								  <input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
 								  <label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">Alle</label><br>
 								  <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
-<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-2-outlined">Energie</label><br>
-<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
-<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Mobilität</label><br>
-<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
-<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-4-outlined">Sonstiges</label><br>
-</div>
+									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-2-outlined">Energie</label><br>
+									<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
+									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Mobilität</label><br>
+									<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
+									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-4-outlined">Sonstiges</label><br>
+								</div>
 								  </div>
 								</div>
                             </div>
@@ -468,7 +469,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 				<div class="container">
 				<div class="row">
 				<div class="col-3">
-				<img src="https://verschenkekiste.de/wp-content/uploads/2021/12/Verschenkekiste_Logo_Neu-100x107.png" class="img-fluid" alt="Responsive image">
+				<img src="/lib/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
 				</div>
 				<div class="col-9">
 					<div style="display: block; margin-right: 4px;">
@@ -477,27 +478,38 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<div style="display: block; margin-right: 4px;">
 					<p id="info-modal-type" class="text-secondary";>Beispiel-Kategorie</p>
 					</div>
-					<div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
-					<input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
-					<label class="btn btn-outline-primary filter-btn-unterkategorie" for="btn-check-1-outlined">Leipzig</label><br>
-					<input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
-<label class="btn btn-outline-info filter-btn-unterkategorie" for="btn-check-2-outlined">Wirtschaft</label><br>
-<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
-<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Energie</label><br>
-<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
-<label class="btn btn-outline-warning filter-btn-unterkategorie" for="btn-check-4-outlined">Angebot</label><br>
-</div>
+					<div class="btn-toolbar btn-group-sm" id="toolbar-group" role="toolbar" aria-label="Toolbar with filter buttons">
+
+				</div>
 				</div>
 				</div>
 				</div>
 				</div>
                 <div class="modal-body">
-					Von: <b>AERACURA e.V.</b>
+					Von: <b><a id="info-modal-organisation" class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOrganisationInfo" role="button" aria-expanded="false" aria-controls="collapseOrganisationInfo" class="advanced"><i class="fa fa-angle-down"></i></a></b>
+					<div class="collapse" id="collapseOrganisationInfo">
+  					<div class="card card-body">
+    					<div class="row">
+						<div class="col-3">
+						<img src="/lib/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-organisation-photo">
+						</div>
+						<div class="col-9">
+						
+						</div>
+						</div>
+  						</div>
+						</div>
 					<hr>
-					<div class="card" style="display: inline-block; margin-left: -4px;">
+					<div class="card mb-2" style="margin-left: -4px;">
 					<div class="card-body">
 					<b class="text-secondarys">Beschreibung</b>
-					<p>Hier werden später ganz viele interessante Infos über den Verein stehen.</p>
+					<p id="info-modal-text"></p>
+					</div>
+					</div>
+					<div class="card mb-0" style="margin-left: -4px;">
+					<div class="card-body">
+					<b class="text-secondarys">Hinweise</b>
+					<p id="info-modal-hints"></p>
 					</div>
 					</div>
 					<hr>
@@ -505,9 +517,9 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<div class="card-body">
 					<b class="text-secondarys">Kontaktdaten</b>
 					<p>
-					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.musterverein.de" target="_blank">www.musterverein.de</a><br>
-					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="mailto:info@musterverein.de">info@musterverein.de</a><br>
-					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="tel:01731999999">01731999999</a><br>
+					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-website" href="" target="_blank"></a><br>
+					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-email" href=""></a><br>
+					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-telephone" href=""></a><br>
 					</p>
 					</div>
 					</div>
@@ -516,8 +528,8 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<div class="card-body">
 					<b class="text-secondarys">Adresse & Karte</b>
 					<p>
-					<i class="fa fa-map-marker" aria-hidden="true"></i> Musterstraße 13, 04444 Musterhausen<br>
-					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.google.com/maps/dir/?api=1&destination=Verschenkekiste+e.V." target="_blank">Route</a>
+					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span id="info-modal-address"></span><br>
+					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-route" href="" target="_blank">Route</a>
 					</p>
 					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
 					</div>
@@ -533,7 +545,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 	<script>
 		console.log('. json_encode($settings).');
-		var markers, map, map2 = {}, former_div, single_marker;
+		var markers, map, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [];
 		document.addEventListener("DOMContentLoaded", function() {
 			var randomParent = document.getElementById("list_wrapper");
 			var markets = [
@@ -639,36 +651,37 @@ const list_container = document.getElementById("list_wrapper");
 
 function returnCards(markets) {
 	markets.forEach(function(market) {
-		switch(market.type){
+		if (market.description != null){
+			market.shortdescription = market.description.substring(0,80);
+		}
+		switch(market.service_type){
 			case "Initiative":
 				market.color = "#4169E1"; //blue
 				break;
-			case "Veranstaltung":
+			case "Filiale":
 				market.color = "#FFBF00"; //yellow
 				break;
-			case "Angebot":
+			case "Bildungsangebot":
 				market.color = "#D2042D"; //red
 				break;
 			}			
 		});
-	console.log(markets);
+
   return "<div id=\"list_results\" class=\"result-list list-group\">" + markets.map(markets => `
   <div class="card result_list list-group-item-action" id="${markets.id}_div" style="border-right: solid 7px ${markets.color}">
   <div class="card-body">
   <div class="row">
   <div class="col-9">
-  	<h5><a class="modal_link link-dark" data-bs-target="#infoModal" data-bs-toggle="modal" id="${markets.id}_link">${markets.title}</a></h5>
+  	<h5><a class="modal_link link-dark" id="${markets.id}_link">${markets.name}</a></h5>
   </div>
   <div class="col-3" align="right">
-  <p class="text-success"><small>${markets.category}</small></p>
+  <p class="text-success"><small>${markets.type}</small></p>
   </div>
   </div>
-  	<p class="card-text">${markets.content}</p>
+  	<p class="card-text">${markets.shortdescription}...</p>
     </div> 
   </div>`).join("") + "</div>";
 }
-
-list_container.innerHTML = returnCards(markets);
 
 
 
@@ -768,63 +781,20 @@ list_container.innerHTML = returnCards(markets);
 			var zoomHome = new L.Control.zoomHome();
 			zoomHome.addTo(map);
 			
+////insert add marker function here
 
-			if(markets.length > 0) {
-				//markers = L.markerClusterGroup();
-				markers = L.featureGroup();
+var container = document.getElementById(\'' . $id . '\');
+var observer = ResizeObserver && new ResizeObserver(function() {
+  map.invalidateSize(true);
+});
+observer && observer.observe(container);
 
-				markets.forEach(function(market) {
-					var ID = market.id;
-					switch(market.type){
-						case "Initiative":
-							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:blueIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
-							break;
-						case "Veranstaltung":
-							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:yellowIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
-							break;
-						case "Angebot":
-							market[ID] = new L.marker([market.latlng.lat, market.latlng.lng], {ID, icon:redIcon}).bindPopup("<b>"+market.title+"</b>").addTo(markers);
-							break;
-									
-					} 
-					market[ID].on("click", function(e){
-						map.panTo(this.getLatLng());
-						//var secondoffcanvas = document.getElementById("offcanvasExample");
-						//var bsOffcanvas2 = new bootstrap.Offcanvas(secondoffcanvas);
-  						//bsOffcanvas2.show();
-						//$("#infoModal").modal("show");
-						//document.getElementById("345_div").scrollIntoView();
-						let selected_div = document.getElementById(e.target.options.ID+"_div");
-						if(!former_div){
-							former_div = selected_div;
-						}else{
-							console.log(former_div);
-							former_div.style.backgroundColor="";
-							former_div = selected_div;
-						}
-						scrollParentToChild(list_wrapper, selected_div);
-						selected_div.style.backgroundColor="#D3D3D3";
-						console.log(e.target.options.ID);
-					});
-					market[ID].on("mouseover", function(e){
-						e.target.openPopup();
-					});
-				})
-
-				map.addLayer(markers);
-				map.fitBounds(markers.getBounds(), {padding: [50, 50]})
-			}
-
-      var container = document.getElementById(\'' . $id . '\');
-      var observer = ResizeObserver && new ResizeObserver(function() {
-        map.invalidateSize(true);
-      });
 	  var container2 = document.getElementById(\'' . $id2 . '\');
       var observer2 = ResizeObserver && new ResizeObserver(function() {
 		map2.invalidateSize(true);
       });
 
-      observer && observer.observe(container);
+      
 	  observer2 && observer2.observe(container2);
 
 	  /*$(".result_list").click(function() {
@@ -864,43 +834,6 @@ list_container.innerHTML = returnCards(markets);
 			  //}
 			
 			}
-			$(".modal_link").click(function(e){
-				var marker_id_long = e.target.id;
-				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
-				let selected_div = document.getElementById(marker_id+"_div");
-				if(!former_div){
-					former_div = selected_div;
-				}else{
-					former_div.style.backgroundColor="";
-					former_div = selected_div;
-				}
-				selected_div.style.backgroundColor="#D3D3D3";
-				var obj = markets.find(x => x.id === parseInt(marker_id));
-
-				$("#info-modal-title").text(obj.title);
-				$("#info-modal-type").text(obj.type);
-				switch(obj.type){
-					case "Initiative":
-						obj.color = "#4169E1"; //blue
-						break;
-					case "Veranstaltung":
-						obj.color = "#FFBF00"; //yellow
-						break;
-					case "Angebot":
-						obj.color = "#D2042D"; //red
-						break;
-					}	
-				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
-				
-				if (single_marker != undefined) {
-					map2.removeLayer(single_marker);
-			  	};
-				single_marker = L.marker([obj.latlng.lat, obj.latlng.lng]).addTo(map2)
-    			.bindPopup("<b>"+obj.title+"</b>");
-				map2.setView([obj.latlng.lat, obj.latlng.lng], 13);
-            	//document.getElementById("").value = "Hallo"; 
-
-        });
 
 		 $(".input-daterange").datepicker({
 			format: "dd.mm.yyyy",
@@ -976,7 +909,9 @@ list_container.innerHTML = returnCards(markets);
 
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json", function( data ) {
-				var items = [];
+
+				categories_array = data;
+
 				$.each( data, function(ind, elem) {
 
 					$("#kategorie_picker").append($("<option>", {
@@ -988,7 +923,6 @@ list_container.innerHTML = returnCards(markets);
 			});
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json", function( data ) {
-				var items = [];
 				$.each( data, function(ind, elem) {
 
 					$("#regions_picker").append($("<option>", {
@@ -997,6 +931,187 @@ list_container.innerHTML = returnCards(markets);
 					  }));
 				});
 				$("#regions_picker").selectpicker("refresh");
+			});
+
+			//$.when(
+			//$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106"),
+			//$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106")
+			//).done(function(result1, result2) {
+				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106").then(function(data){
+				marker_data = data;
+				//$.each( data, function(ind, elem) {	
+				//});
+				//data = $.merge(result1, result2)
+				/*if(markets.length > 0) {
+					//markers = L.markerClusterGroup();
+					markers = L.featureGroup();
+	
+					markets.forEach(function(market) {
+						var ID = market.id;
+						console.log(ID);
+						switch(market.service_type){
+							case "Initiative":
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:blueIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
+								break;
+							case "Veranstaltung":
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:yellowIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
+								break;
+							case "Angebot":
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:redIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
+								break;
+										
+						} 
+						market[ID].on("click", function(e){
+							map.panTo(this.getLatLng());
+							let selected_div = document.getElementById(e.target.options.ID+"_div");
+							if(!former_div){
+								former_div = selected_div;
+							}else{
+								console.log(former_div);
+								former_div.style.backgroundColor="";
+								former_div = selected_div;
+							}
+							scrollParentToChild(list_wrapper, selected_div);
+							selected_div.style.backgroundColor="#D3D3D3";
+							console.log(e.target.options.ID);
+						});
+						market[ID].on("mouseover", function(e){
+							e.target.openPopup();
+						});
+					})
+					console.log(markers);
+					map.addLayer(markers);
+					//map.fitBounds(markers.getBounds(), {padding: [50, 50]})
+				}*/
+
+				list_container.innerHTML = returnCards(data);
+
+				markers = L.featureGroup();
+				$.each( data, function(ind, elem) {
+					var ID = elem.id;
+					if(elem.latlng != null){
+						switch(elem.service_type){
+							case "Initiative":
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers);
+								break;
+							case "Beratungsangebote":
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers);
+								break;
+							case "Bildungsangebot":
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction).on("click", clickFunction);
+								break;
+										
+						} 
+					}
+					
+				});
+				map.addLayer(markers);
+				map.fitBounds(markers.getBounds(), {padding: [50, 50]});
+
+
+
+			});
+
+			function mouseFunction(e) {
+				this.openPopup();
+			}
+
+			function clickFunction(e) {
+				map.panTo(this.getLatLng());
+				let selected_div = document.getElementById(e.target.options.ID+"_div");
+				if(!former_div){
+					former_div = selected_div;
+				}else{
+					console.log(former_div);
+					former_div.style.backgroundColor="";
+					former_div = selected_div;
+				}
+				scrollParentToChild(list_wrapper, selected_div);
+				selected_div.style.backgroundColor="#D3D3D3";
+				console.log(e.target.options.ID);
+			}
+
+			$(document).on("click",".modal_link",function(e) { 
+				$("#infoModal").modal("show");
+				var marker_id_long = e.target.id;
+				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
+				console.log(marker_id);
+				let selected_div = document.getElementById(marker_id+"_div");
+				if(!former_div){
+					former_div = selected_div;
+				}else{
+					former_div.style.backgroundColor="";
+					former_div = selected_div;
+				}
+				selected_div.style.backgroundColor="#D3D3D3";
+				var obj = marker_data.find(x => x.id === parseInt(marker_id));
+				
+				$("#info-modal-organisation").text("");
+				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( data ) {
+					$("#info-modal-organisation").text(data.name);
+					$("#info-modal-email").text(data.email);
+					$("#info-modal-email").prop("href", "mailto:" + data.email);
+					$("#info-modal-telephone").text(data.phone_primary);
+					$("#info-modal-telephone").prop("href", "tel:"+data.phone_primary);
+				});
+
+				$("#info-modal-title").text(obj.name);
+				if(obj.image_url != null){
+					$("#info-modal-photo").attr("src", obj.image_url + "?width=200&height=200");
+				}else{
+					$("#info-modal-photo").attr("src", "/lib/organisation_default.png");
+				}
+				$("#info-modal-type").text(obj.service_type);
+				$("#info-modal-text").text(obj.description);
+				$("#info-modal-hints").text(obj.requirements);
+				$("#info-modal-website").prop("href", obj.info_url);
+				$("#info-modal-website").text(obj.info_url);
+				$("#info-modal-address").text(obj.full_address);
+				$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+obj.full_address);
+				switch(obj.service_type){
+					case "Initiative":
+						obj.color = "#4169E1"; //blue
+						break;
+					case "Veranstaltung":
+						obj.color = "#FFBF00"; //yellow
+						break;
+					case "Bildungsangebot":
+						obj.color = "#D2042D"; //red
+						break;
+					}	
+				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
+
+				//add toolbar-btn
+
+				const toolbar_group = document.getElementById("toolbar-group");
+
+				var toolbar_btn_html = "";
+
+				toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+				<label class="btn btn-outline-danger filter-btn-unterkategorie">${obj.region.name}</label><br>`;
+
+				$.each(obj.categories, function( key, value ) {
+					var category_obj = categories_array.find(x => x.id === parseInt(value));
+					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+					<label class="btn btn-outline-info filter-btn-unterkategorie">${category_obj.name}</label><br>`;
+				  });
+
+				  $.each(obj.goals, function( key, value ) {
+					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+					<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">${value}</label><br>`;
+				  });
+
+
+				  toolbar_group.innerHTML = toolbar_btn_html;
+
+
+				
+				if (single_marker != undefined) {
+					map2.removeLayer(single_marker);
+			  	};
+				single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map2)
+    			.bindPopup("<b>"+obj.name+"</b>");
+				map2.setView([obj.latlng[0], obj.latlng[1]], 13);
 			});
 
 
@@ -1101,7 +1216,7 @@ list_container.innerHTML = returnCards(markets);
 					<div class="card" style="display: inline-block; margin-left: -4px;">
 					<div class="card-body">
 					<b class="text-secondarys">Beschreibung</b>
-					<p>Hier werden später ganz viele interessante Infos über den Verein stehen.</p>
+					<p id="info-modal-text">Hier werden später ganz viele interessante Infos über den Verein stehen.</p>
 					</div>
 					</div>
 					<hr>
@@ -1109,7 +1224,7 @@ list_container.innerHTML = returnCards(markets);
 					<div class="card-body">
 					<b class="text-secondarys">Kontaktdaten</b>
 					<p>
-					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.musterverein.de" target="_blank">www.musterverein.de</a><br>
+					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="https://www.musterverein.de" target="_blank">Website</a><br>
 					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="mailto:info@musterverein.de">info@musterverein.de</a><br>
 					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" href="tel:01731999999">01731999999</a><br>
 					</p>
@@ -1310,6 +1425,7 @@ list_container.innerHTML = returnCards(markets);
 
 				$("#info-modal-title").text(singleEvent.name);
 				$("#info-modal-type").text(singleEvent.type);
+				$("#info-modal-text").text(singleEvent.description);
 				document.getElementById("info-modal-header").style.borderBottomColor = singleEvent.color;
 				console.log(singleEvent.date);
 				var date_var = "";
