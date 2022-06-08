@@ -6,7 +6,7 @@ list_wrapper {
   position: fixed;
   right: 0;
   margin: auto;
-  width: 550px;
+  width: 700px;
   height: 100%;
   -webkit-transform: translate3d(0%, 0, 0);
   -ms-transform: translate3d(0%, 0, 0);
@@ -17,14 +17,14 @@ list_wrapper {
 .modal.left .modal-content {
   height: 100%;
   overflow-y: auto;
-  width: 550px;
+  width: 700px;
 }
 
 /* ----- MODAL STYLE ----- */
 .modal-content {
   border-radius: 0;
   border: none;
-  width: 550px;
+  width: 700px;
 }
 
 .modal-header {
@@ -116,4 +116,33 @@ list_wrapper {
   object-fit: cover;
   width: 200px;
   height: 200px;
+}
+
+
+.accordion-preview .collapse:not(.show) {
+  display: block;
+}
+.accordion-preview .collapse:not(.show) .accordion-body {
+  max-height: 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.accordion-preview .collapse:not(.show) .accordion-body:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  content: "";
+  border-radius: 8px;
+  background: linear-gradient(to top,
+     #eeeeee 5%, 
+     rgba(255,255,255, 0) 60%
+  );
+  pointer-events: none; /* so the text is still selectable */
+}
+
+.type-text {
+  font-size: 16px;
 }

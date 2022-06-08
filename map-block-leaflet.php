@@ -340,6 +340,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
 	<style>
 	
 	</style>
@@ -476,29 +477,24 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<h3 id="info-modal-title">Beispieltext</h3>
 					</div>
 					<div style="display: block; margin-right: 4px;">
-					<p id="info-modal-type" class="text-secondary";>Beispiel-Kategorie</p>
+					<p id="info-modal-type" class="text-success";>Kategorie</p>
 					</div>
-					<div class="btn-toolbar btn-group-sm" id="toolbar-group" role="toolbar" aria-label="Toolbar with filter buttons">
+					<div class="accordion-preview" id="category_accordion">
+					  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+						<div class="btn-toolbar btn-group-sm flex" id="toolbar-group" role="toolbar" aria-label="Toolbar with filter buttons" aria-expanded="false">
+						</div>
+						</div>
+					  </div>
+					</div>
 
-				</div>
+					<a class="link-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Mehr anzeigen</a>		
 				</div>
 				</div>
 				</div>
 				</div>
                 <div class="modal-body">
-					Von: <b><a id="info-modal-organisation" class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOrganisationInfo" role="button" aria-expanded="false" aria-controls="collapseOrganisationInfo" class="advanced"><i class="fa fa-angle-down"></i></a></b>
-					<div class="collapse" id="collapseOrganisationInfo">
-  					<div class="card card-body">
-    					<div class="row">
-						<div class="col-3">
-						<img src="/lib/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-organisation-photo">
-						</div>
-						<div class="col-9">
-						
-						</div>
-						</div>
-  						</div>
-						</div>
+					Von: <b><a id="info-modal-organisation" data-link="" class="text-dark organisation_link"><i class="fa fa-angle-right"></i></a></b>
 					<hr>
 					<div class="card mb-2" style="margin-left: -4px;">
 					<div class="card-body">
@@ -545,7 +541,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 	<script>
 		console.log('. json_encode($settings).');
-		var markers, map, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [];
+		var markers, map, oms, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [];
 		document.addEventListener("DOMContentLoaded", function() {
 			var randomParent = document.getElementById("list_wrapper");
 			var markets = [
@@ -658,9 +654,10 @@ function returnCards(markets) {
 			case "Initiative":
 				market.color = "#4169E1"; //blue
 				break;
-			case "Filiale":
+			case "Veranstaltung":
 				market.color = "#FFBF00"; //yellow
 				break;
+			case "Beratungsangebot":
 			case "Bildungsangebot":
 				market.color = "#D2042D"; //red
 				break;
@@ -675,7 +672,7 @@ function returnCards(markets) {
   	<h5><a class="modal_link link-dark" id="${markets.id}_link">${markets.name}</a></h5>
   </div>
   <div class="col-3" align="right">
-  <p class="text-success"><small>${markets.type}</small></p>
+  <p class="text-success type-text"><small>${markets.service_type}</small></p>
   </div>
   </div>
   	<p class="card-text">${markets.shortdescription}...</p>
@@ -697,6 +694,7 @@ function returnCards(markets) {
 
 			map = L.map('. $id .', { center: center, layers: [layer]});
 			//map.scrollWheelZoom.disable();
+			//oms = new OverlappingMarkerSpiderfier(map);
 
 			map2 = L.map('. $id2 .', { center: center, layers: [layer2], zoom: 12});
 			map2.scrollWheelZoom.disable();
@@ -937,7 +935,24 @@ observer && observer.observe(container);
 			//$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106"),
 			//$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106")
 			//).done(function(result1, result2) {
-				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106").then(function(data){
+
+				var urls = [
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106", 
+				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106", 
+				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?upcoming=08-06-2022"
+				]
+				$.when.apply($, urls.map(function(url) {
+					return $.getJSON(url);
+				})).done(function() {
+					var data_helper = [];
+					// there will be one argument passed to this callback for each ajax call
+					// each argument is of this form [data, statusText, jqXHR]
+					for (var i = 0; i < arguments.length; i++) {
+						data_helper.push(arguments[i][0]);
+						var data = [].concat.apply([], data_helper); 
+					}
+					// all data is now in the results array in order
+					console.log(data);
 				marker_data = data;
 				//$.each( data, function(ind, elem) {	
 				//});
@@ -992,13 +1007,17 @@ observer && observer.observe(container);
 					if(elem.latlng != null){
 						switch(elem.service_type){
 							case "Initiative":
-								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers);
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction).on("click", clickFunction);
+								//oms.addMarker(marker);
 								break;
-							case "Beratungsangebote":
-								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers);
+							case "Veranstaltung":
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction).on("click", clickFunction);
+								//oms.addMarker(marker);
 								break;
+							case "Beratungsangebot":
 							case "Bildungsangebot":
 								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction).on("click", clickFunction);
+								//oms.addMarker(marker);
 								break;
 										
 						} 
@@ -1035,7 +1054,6 @@ observer && observer.observe(container);
 				$("#infoModal").modal("show");
 				var marker_id_long = e.target.id;
 				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
-				console.log(marker_id);
 				let selected_div = document.getElementById(marker_id+"_div");
 				if(!former_div){
 					former_div = selected_div;
@@ -1045,14 +1063,27 @@ observer && observer.observe(container);
 				}
 				selected_div.style.backgroundColor="#D3D3D3";
 				var obj = marker_data.find(x => x.id === parseInt(marker_id));
-				
+				map.panTo([obj.latlng[0], obj.latlng[1]]);
+				let marker_arr=markers.getLayers();
+				marker_arr.forEach(function(market) {
+					if(market.options.ID == marker_id){
+					  market.openPopup();
+					}
+				  });
 				$("#info-modal-organisation").text("");
-				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( data ) {
-					$("#info-modal-organisation").text(data.name);
-					$("#info-modal-email").text(data.email);
-					$("#info-modal-email").prop("href", "mailto:" + data.email);
-					$("#info-modal-telephone").text(data.phone_primary);
-					$("#info-modal-telephone").prop("href", "tel:"+data.phone_primary);
+				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
+					$("#info-modal-organisation").text(organisation_data.name);
+					$("#info-modal-organisation").attr("data-link", organisation_data.id);
+					$("#info-modal-email").text(organisation_data.email);
+					$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
+					$("#info-modal-email2").text(organisation_data.email);
+					$("#info-modal-email2").prop("href", "mailto:" + organisation_data.email);
+					$("#info-modal-telephone").text(organisation_data.phone_primary);
+					$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
+					$("#info-modal-telephone2").text(organisation_data.phone_primary);
+					$("#info-modal-telephone2").prop("href", "tel:"+organisation_data.phone_primary);
+					$("#info-modal-website2").prop("href", obj.info_url);
+					$("#info-modal-website2").text(obj.info_url);
 				});
 
 				$("#info-modal-title").text(obj.name);
@@ -1075,6 +1106,7 @@ observer && observer.observe(container);
 					case "Veranstaltung":
 						obj.color = "#FFBF00"; //yellow
 						break;
+					case "Beratungsangebot":
 					case "Bildungsangebot":
 						obj.color = "#D2042D"; //red
 						break;
@@ -1103,8 +1135,6 @@ observer && observer.observe(container);
 
 
 				  toolbar_group.innerHTML = toolbar_btn_html;
-
-
 				
 				if (single_marker != undefined) {
 					map2.removeLayer(single_marker);
@@ -1112,6 +1142,60 @@ observer && observer.observe(container);
 				single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map2)
     			.bindPopup("<b>"+obj.name+"</b>");
 				map2.setView([obj.latlng[0], obj.latlng[1]], 13);
+			});
+
+			//organisation info in modal
+
+			$(document).on("click",".organisation_link",function(e) { 
+				$("#infoModal").modal("show");
+				var org_id =  event.target.getAttribute("data-link");
+				console.log(org_id);
+				$("#info-modal-organisation").text("");
+				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + org_id + ".json", function( organisation_data ) {
+					$("#info-modal-title").text(organisation_data.name);
+					if(organisation_data.image_url != null){
+						$("#info-modal-photo").attr("src", organisation_data.image_url + "?width=200&height=200");
+					}else{
+						$("#info-modal-photo").attr("src", "/lib/organisation_default.png");
+					}
+					$("#info-modal-type").text("Organisation");
+					$("#info-modal-text").text(organisation_data.description);
+					$("#info-modal-hints").text("");
+					$("#info-modal-website").prop("href", organisation_data.info_url);
+					$("#info-modal-website").text(organisation_data.info_url);
+					$("#info-modal-address").text(organisation_data.full_address);
+					$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+organisation_data.full_address);
+					
+					$("#info-modal-email").text(organisation_data.email);
+					$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
+					$("#info-modal-email2").text(organisation_data.email);
+					$("#info-modal-email2").prop("href", "mailto:" + organisation_data.email);
+					$("#info-modal-telephone").text(organisation_data.phone_primary);
+					$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
+					$("#info-modal-telephone2").text(organisation_data.phone_primary);
+					$("#info-modal-telephone2").prop("href", "tel:"+organisation_data.phone_primary);
+					$("#info-modal-website2").prop("href", obj.info_url);
+					$("#info-modal-website2").text(obj.info_url);
+
+
+					if (single_marker != undefined) {
+						map2.removeLayer(single_marker);
+					  };
+					single_marker = L.marker([organisation_data.latlng[0], organisation_data.latlng[1]]).addTo(map2)
+					.bindPopup("<b>"+organisation_data.name+"</b>");
+					map2.setView([organisation_data.latlng[0], organisation_data.latlng[1]], 13);
+				});
+	
+				document.getElementById("info-modal-header").style.borderBottomColor = "#D2042D";
+
+				//add toolbar-btn
+
+				const toolbar_group = document.getElementById("toolbar-group");
+
+				var toolbar_btn_html = "";
+
+				  toolbar_group.innerHTML = toolbar_btn_html;
+				
 			});
 
 
