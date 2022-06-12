@@ -340,6 +340,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
 
 	<style>
 	
@@ -1117,17 +1118,21 @@ observer && observer.observe(container);
 
 				  if(!($.trim($("#startDate").val()) == "") && !($.trim($("#endDate").val()) == "")){
 					const listDate = [];
-					const startDate = $("#startDate").val();
-					const endDate = $("#endDate").val();
+					const startDate = Date.parse($("#startDate").val());
+					const endDate = Date.parse($("#endDate").val());
+					console.log(startDate);
+					console.log(endDate);
 					const dateMove = new Date(startDate);
+					let endDate2 = new Date(endDate);
 					let strDate = startDate;
 					
-					while (strDate < endDate) {
-					  strDate = dateMove.toLocaleDateString().slice(0, 10);
-					  console.log(strDate);
-					  listDate.push(strDate);
+					while (dateMove <= endDate2) {
+					  let formatDate = moment(dateMove).utc().format("DD-MM-YYYY")
+					  listDate.push(formatDate);
 					  dateMove.setDate(dateMove.getDate() + 1);
 					};
+
+					console.log(listDate);
 
 					$.each( urls, function( key, value ) {
 						if (~value.indexOf("upcoming")){
@@ -1136,7 +1141,9 @@ observer && observer.observe(container);
 					  });
 
 					  $.each( listDate, function( key, value ) {
-						var url_date = "https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&timestamp=";;
+						var url_date = "https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&timestamp=" + value;
+						console.log(url_date);
+						url_date = url_date.replace("#038;", "");
 						console.log(url_date);
 						urls.push(url_date);
 					  });
