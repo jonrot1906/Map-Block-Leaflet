@@ -1615,7 +1615,14 @@ observer && observer.observe(container);
 					<hr>
 					</div>
 					<div id="info-modal-date-card">
+					<div class="row">
+					<div class="col-8">
 					Wann?&nbsp;<b><a id="info-modal-date" data-link="" class="text-dark"></a></b>
+					</div>
+					<div class="col-4">
+					<button type="button" class="btn btn-outline-secondary btn-sm" id="calendarButton">Zum Kalender hinzufügen</button>
+					</div>
+					</div>
 					<hr>
 					</div>
 					<div class="card mb-2" style="margin-left: -4px;">
