@@ -146,3 +146,15 @@ list_wrapper {
 .type-text {
   font-size: 16px;
 }
+
+.event-container>.event-info>p.event-title>span {
+  margin-top: -30px;
+}
+
+.event-container{
+  margin-top: 20px;
+}
+
+.event-container>.event-info>p.event-title{
+  font-size: 18px;
+}
