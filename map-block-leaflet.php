@@ -331,10 +331,12 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/4.1.1/spin.min.css" integrity="sha512-ssYEuK9Epo/48VIlBWTFosf1izrgGZqEMELJP+L7Clh0nvaOSTg87dM+Z8L+KKjrPdMbMvKYOOnzBOkNMhWFsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/i18n/defaults-de_DE.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
@@ -342,6 +344,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<style>
 	
@@ -384,57 +387,55 @@ function map_block_leaflet_multi_marker_render($settings) {
 	  							<div class="col-md-6">
 								  <div class="d-flex flex-column">
 								  <label for="test">Region</label>
-								  <select class="selectpicker" multiple data-live-search="true" title="Alles ausgewählt" id="regions_picker" style="width:100%">
+								  <select class="selectpicker" multiple data-live-search="true" title="Regionen auswählen" id="regions_picker" data-actions-box="true" data-width="100%">
 								</select>
 								</div>
 								</div>
 
 						  		<div class="col-md-6">
 								  <div class="d-flex flex-column">
-								  <label for="test">Unterkategorie</label>
-								  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with filter buttons">
-								  <input type="checkbox" class="btn-check" id="btn-check-1-outlined" autocomplete="off">
-								  <label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">Alle</label><br>
-								  <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
-									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-2-outlined">Energie</label><br>
-									<input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off">
-									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-3-outlined">Mobilität</label><br>
-									<input type="checkbox" class="btn-check" id="btn-check-4-outlined" autocomplete="off">
-									<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-4-outlined">Sonstiges</label><br>
-								</div>
+								  <label for="test">Kategorie(n)</label>
+								  <select class="selectpicker" multiple data-live-search="true" title="Kategorien auswählen" id="kategorie_picker" data-actions-box="true" data-width="100%">
+								</select>
 								  </div>
 								</div>
                             </div>
 							<div class="row">
 						  <div class="col-md-6">
-						  <div class="d-flex flex-column">
-						  <label for="test">Kategorie</label>
-						  <select class="selectpicker" multiple data-live-search="true" title="Alles ausgewählt" id="kategorie_picker" style="width:100%">
-						</select>
+						  <div class="row g-1 mt-1">
+						  <div class="col-lg-6 col-sm-6">
+						  <label for="startDate">Start</label>
+						  <input id="startDate" class="form-control" type="date" />
+						  <span id="startDateSelected"></span>
 						  </div>
+					  <div class="col-lg-6 col-sm-6">
+						  <label for="endDate">Ende</label>
+						  <input id="endDate" class="form-control" type="date" />
+						  <span id="endDateSelected"></span>
+						  </div>
+					  </div>
+					  <div class="row g-1 mt-1">
+					  <div class="d-grid gap-2 d-md-block">
+  <button class="btn btn-outline-primary btn-sm" type="button" id="thisWeek">Diese Woche</button>
+  <button class="btn btn-outline-primary btn-sm" type="button" id="thisMonth">Dieser Monat</button>
+  <button class="btn btn-outline-primary btn-sm" type="button" id="clearThis">Leeren</button>
+  </div>
+  </div>
+						  
+						  
 						</div>
 						<div class="col-md-6">
-						<div class="row g-1 mt-1">
-						<div class="col-lg-6 col-sm-6">
-						<label for="startDate">Start</label>
-						<input id="startDate" class="form-control" type="date" />
-						<span id="startDateSelected"></span>
-						</div>
-					<div class="col-lg-6 col-sm-6">
-						<label for="endDate">Ende</label>
-						<input id="endDate" class="form-control" type="date" />
-						<span id="endDateSelected"></span>
-						</div>
-					</div>
-					<div class="row g-1 mt-1">
-					<div class="d-grid gap-2 d-md-block">
-<button class="btn btn-outline-primary btn-sm" type="button" id="thisWeek">Diese Woche</button>
-<button class="btn btn-outline-primary btn-sm" type="button" id="thisMonth">Dieser Monat</button>
-<button class="btn btn-outline-primary btn-sm" type="button" id="clearThis">Leeren</button>
+						<div class="row position-absolute bottom-0 end-0">
+						<div class="text-end">
+						<button type="button" class="btn btn-default" id="redoSwal">
+						<i class="fa fa-redo" aria-hidden="true"></i>
+		</button>
 </div>
+<div class="text-end">
+<button type="button" class="btn btn-default" id="extendedSwal">
+<i class="fa fa-question-circle" aria-hidden="true"></i>
+</button>
 </div>
-					  <br>
-						  <div id="calendar"></div>
 					  </div>
 					  </div>
                         </div>
@@ -451,9 +452,9 @@ function map_block_leaflet_multi_marker_render($settings) {
 	</div>
 	<div class="col-md-4">
 	<div class="d-grid gap-2 d-md-block card card-body" id="go-to-div" style="margin-left: -10px; margin-bottom: 10px; background-color: #e9e9e9;">
-	<button class="btn btn-outline-primary btn-sm" type="button" id="jump-projects"><i class="fa-solid fa-arrow-right"></i> Projekte</button>
-	<button class="btn btn-outline-danger btn-sm" type="button" id="jump-offers"><i class="fa-solid fa-arrow-right"></i> Angebote</button>
-	<button class="btn btn-outline-warning btn-sm" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
+	<button class="btn btn-outline-primary btn-sm mb-1" type="button" id="jump-projects"><i class="fa-solid fa-arrow-right"></i> Projekte</button>
+	<button class="btn btn-outline-danger btn-sm mb-1" type="button" id="jump-offers"><i class="fa-solid fa-arrow-right"></i> Angebote</button>
+	<button class="btn btn-outline-warning btn-sm mb-1" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
 	</div>
 	<div class="overflow-auto bg-light result_wrapper" id="list_wrapper" style="height: '. $settings['height'] . 'px">
 	</div>
@@ -478,7 +479,7 @@ function map_block_leaflet_multi_marker_render($settings) {
             <div class="modal-content" id="info-modal-content">
 				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
 				<div class="container">
-				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück zum Eintrag</a></b>
+				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück</a></b>
 				<div class="row">
 				<div class="col-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
@@ -543,7 +544,15 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span id="info-modal-address"></span><br>
 					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-route" href="" target="_blank">Route</a>
 					</p>
-					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
+					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:250px"></div>
+					</div>
+					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-header">
+					<b>Weitere Projekte/Angebote/Veranstaltungen der Organisation</b>
+					</div>
+					<div class="card-body" id="info-modal-organisation-data">
 					</div>
 					</div>
                 </div>
@@ -557,7 +566,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 	<script>
 		console.log('. json_encode($settings).');
-		var markers, map, oms, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [], first_project, first_offer, first_event, service_types, entry_tap;
+		var markers, map, oms, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [], first_project, first_offer, first_event, service_types, entry_tap = [], all_data;
 		document.addEventListener("DOMContentLoaded", function() {
 			var randomParent = document.getElementById("list_wrapper");
 			const height_jump_div = document.querySelector("#go-to-div").offsetHeight;
@@ -663,6 +672,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 ]
 
 const list_container = document.getElementById("list_wrapper");
+const org_data_container = document.getElementById("info-modal-organisation-data");
 
 function returnCards(markets) {
 	markets.forEach(function(market) {
@@ -698,6 +708,82 @@ function returnCards(markets) {
   	<p class="card-text">${markets.shortdescription}...</p>
     </div> 
   </div>`).join("") + "</div>";
+}
+
+function returnOrgActivities(data_arr) {
+	data_arr.forEach(function(market) {
+		if (market.description != null){
+			market.shortdescription = market.description.substring(0,150);
+		}
+		switch(market.service_type){
+			case "Projekt":
+			case "Filiale":
+				market.color = "#4169E1"; //blue
+				break;
+			case "Veranstaltung":
+				market.color = "#FFBF00"; //yellow
+				break;
+			case "Beratungsangebot":
+			case "Bildungsangebot":
+				market.color = "#D2042D"; //red
+				break;
+			}			
+		});
+
+		/*if($.inArray(market.service_type, ["Veranstaltung", "Beratungsangebot", "Bildungsangebot"])){
+			return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+			<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+			<div class="row">
+			<div class="col-9">
+				<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+			</div>
+			<div class="col-3" align="right">
+			<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+			</div>
+			<p>
+			<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+			<br>
+			<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+			</p>
+			</div>
+			</div>`).join("") + "</div>";
+		}else{
+			return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+			<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+			<div class="row">
+			<div class="col-9">
+				<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+			</div>
+			<div class="col-3" align="right">
+			<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+			</div>
+			<p>
+			<i class="fa fa-map-clock" aria-hidden="true"></i>&nbsp;<span>${data_single.start_at}</span>
+			<br>
+			<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+			<br>
+			<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+			</p>
+			</div>
+			</div>`).join("") + "</div>";
+		}*/
+
+		return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+		<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+		<div class="row">
+		<div class="col-9">
+			<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+		</div>
+		<div class="col-3" align="right">
+		<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+		</div>
+		<p>
+		<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+		<br>
+		<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+		</p>
+		</div>
+		</div>`).join("") + "</div>";
 }
 
 
@@ -915,7 +1001,7 @@ observer && observer.observe(container);
 				toast: true,
 				position: "top-end",
 				showConfirmButton: true,
-				timer: 10000
+				timer: 15000
 			  });
 
 			  $(".swalDefaultQuestion").click(function() {
@@ -924,6 +1010,16 @@ observer && observer.observe(container);
 				  title: "Um die Ergebnisse zu filtern, klickst du einfach auf die Kategorien Initiativen, Angebote und Veranstaltungen, gibst ein Stichwort in der Suche ein oder wählst einen Zeitraum für Veranstaltungen aus."
 				})
 			  });
+
+			  $("#extendedSwal").click(function() {
+				Toast.fire({
+				  icon: "question",
+				  title: "Hier kannst du die Ergebnisse noch feiner filtern. Regionen: Wähle hier deine Ziel-Region(en) aus. Kategorien: Hier wählst du aus, ob du lieber Initiativen zum Umweltschutz oder zum Thema Globale Verantwortung sehen möchtest. Start & Ende: Hier gibst du an, in welchem Zeitraum dir Veranstaltungen angezeigt werden sollen. Falls du nichts angibst, werden dir alle kommenden Veranstaltungen angezeigt."
+				})
+			  });
+
+
+
 			  $("#alle-btn").change(function() {
 				$( ".check-category-single" ).prop( "checked", false );
 			  });
@@ -960,6 +1056,34 @@ observer && observer.observe(container);
 				document.getElementById("endDate").value = "";
 			});
 
+			/*var availableTags = [
+				"ActionScript",
+				"AppleScript",
+				"Asp",
+				"BASIC",
+				"C",
+				"C++",
+				"Clojure",
+				"COBOL",
+				"ColdFusion",
+				"Erlang",
+				"Fortran",
+				"Groovy",
+				"Haskell",
+				"Java",
+				"JavaScript",
+				"Lisp",
+				"Perl",
+				"PHP",
+				"Python",
+				"Ruby",
+				"Scala",
+				"Scheme"
+			  ];
+			  $( "#search-button" ).autocomplete({
+				source: availableTags
+			  });*/
+
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json", function( data ) {
 
@@ -986,6 +1110,11 @@ observer && observer.observe(container);
 					  }));
 				});
 				$("#regions_picker").selectpicker("refresh");
+				$("#regions_picker").selectpicker("val", "106");
+			});
+
+			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json", function( activities_data ) {
+				all_data = activities_data;
 			});
 
 			//$.when(
@@ -1129,7 +1258,7 @@ observer && observer.observe(container);
 				}else{
 					$("#jump-projects").show();
 				}
-				if(jQuery.inArray("Bildungsangebot", service_types) == -1){
+				if(jQuery.inArray("Bildungsangebot", service_types) == -1 || jQuery.inArray("Beratungsangebot", service_types) == -1){
 					$("#jump-offers").hide();
 				}else{
 					$("#jump-offers").show();
@@ -1165,22 +1294,22 @@ observer && observer.observe(container);
 				urls = [];
 				
 				if($("#alle-btn").is(":checked")){
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming");
 				}
 				if($("#initiative-btn").is(":checked")){
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store");
 				}
 				if($("#angebote-btn").is(":checked")){
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106");
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling");
 				}
 				if($("#veranstaltungen-btn").is(":checked")){
-					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106");
+					urls.push("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming");
 				}
 				if(!($.trim($("#search_input").val()) == "")){
 					
@@ -1208,12 +1337,10 @@ observer && observer.observe(container);
 					let strDate = startDate;
 					
 					while (dateMove <= endDate2) {
-					  let formatDate = moment(dateMove).utc().format("DD-MM-YYYY");
+					  let formatDate = moment(dateMove).format("DD-MM-YYYY");
 					  listDate.push(formatDate);
 					  dateMove.setDate(dateMove.getDate() + 1);
 					};
-
-					console.log(listDate);
 
 					$.each( urls, function( key, value ) {
 						if (~value.indexOf("upcoming")){
@@ -1222,17 +1349,62 @@ observer && observer.observe(container);
 					  });
 
 					  $.each( listDate, function( key, value ) {
-						var url_date = "https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&region_id=106&timestamp=" + value;
-						console.log(url_date);
+						var url_date = "https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&timestamp=" + value;
 						url_date = url_date.replace(/#038;/g, "");
-						console.log(url_date);
 						urls.push(url_date);
 					  });
 			  	}
-				
-				console.log(urls);
+
+				  let region_arr = $("#regions_picker").val();
+				  let category_arr = $("#kategorie_picker").val();
+				  let ext_arr = [];
+				  //loop through each region
+				  if(region_arr.length > 0){
+					$.each( region_arr, function( region_key, region_val ) {
+						$.each( urls, function( url_key, url_value ) {
+							let int_url = url_value + "&region_id=" + region_val;
+							int_url = int_url.replace(/#038;/g, "");
+							ext_arr.push(int_url);
+						});
+					  });
+				  }
+				  //loop through each category
+				  let pre_length = ext_arr.length;
+				  if(category_arr.length > 0){
+					$.each( category_arr, function( cat_key, cat_val ) {
+						if(pre_length > 0){
+							$.each( ext_arr, function( url_key, url_value ) {
+								let int_url = url_value + "&category_id=" + cat_val;
+								int_url = int_url.replace(/#038;/g, "");
+								ext_arr.splice(url_key, 1);
+								ext_arr.push(int_url);
+							});
+						}else{
+							$.each( urls, function( url_key, url_value ) {
+								console.log(url_value);
+								let int_url = url_value + "&category_id=" + cat_val;
+								int_url = int_url.replace(/#038;/g, "");
+								ext_arr.push(int_url);
+							});
+						}
+
+					  });
+				  }
+
 				map.removeLayer(markers);
-				getAPIData(urls);
+
+				  if(region_arr.length > 0 || category_arr.length > 0){
+					getAPIData(ext_arr);
+				  }else{
+					getAPIData(urls);
+				  }
+
+
+				  console.log(ext_arr);
+
+
+				
+				
 				/*if($("#alle-btn").is(":checked")){
 					urls = [
 						"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106", 
@@ -1275,7 +1447,6 @@ observer && observer.observe(container);
 				
 				var marker_id_long = e.target.id;
 				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
-				entry_tap = marker_id;
 				let selected_div = document.getElementById(marker_id+"_div");
 				if(!former_div){
 					former_div = selected_div;
@@ -1302,8 +1473,19 @@ observer && observer.observe(container);
 					category_accord.style.display  = "block";
 					var organisation_info = document.getElementById("info-modal-organisation-card");
 				  organisation_info.style.display  = "block";
-				  $("#info-modal-back").hide();
+				  
+				  let entry_obj = {"type":0,"id":marker_id};
+				  entry_tap.push(entry_obj);
+				  console.log(entry_tap);
+				  
+				  if(entry_tap.length > 1){
+					$("#info-modal-back").show();
+				  }else{
+					$("#info-modal-back").hide();
+				  }
+				  
 				  $("#info-modal-date-card").hide();
+				  console.log(obj.user_id);
 				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
 					$("#info-modal-organisation").text(organisation_data.name);
 					$("#info-modal-organisation").attr("data-link", organisation_data.id);
@@ -1321,8 +1503,8 @@ observer && observer.observe(container);
 						$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
 						$("#info-modal-telephone").removeAttr("href");
 					}
+					$("#info-modal-content").LoadingOverlay("hide");
 				});
-				$("#info-modal-content").LoadingOverlay("hide");
 				$("#info-modal-title").text(obj.name);
 				$("#info-modal-type").text(obj.service_type);
 				if(obj.description != null){
@@ -1347,6 +1529,13 @@ observer && observer.observe(container);
 				}
 				$("#info-modal-address").text(obj.full_address);
 				$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+obj.full_address);
+				$("#info-modal-photo").LoadingOverlay("show",{
+					image       : "",
+					fontawesome : "fa fa-recycle fa-spin"
+				});
+				setTimeout(function(){
+					$("#info-modal-photo").LoadingOverlay("hide");
+				}, 500);
 				switch(obj.service_type){
 					case "Projekt":
 						obj.color = "#4169E1"; //blue
@@ -1361,16 +1550,16 @@ observer && observer.observe(container);
 						$("#info-modal-date-card").show();
 						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/event.png");
 						if(obj.start_at != null){
-							let start_date = moment(obj.start_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
+							let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
 							$("#info-modal-date").text("Start: " + start_date);
 						}
 						if(obj.end_at != null){
-							let end_date = moment(obj.end_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
+							let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
 							$("#info-modal-date").text("Ende: " + end_date);
 						}
 						if((obj.end_at != null) && (obj.end_at != null)){
-							let start_date = moment(obj.start_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
-							let end_date = moment(obj.end_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
+							let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+							let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
 							$("#info-modal-date").text(start_date + " - " + end_date);
 						}
 						break;
@@ -1415,6 +1604,7 @@ observer && observer.observe(container);
 
 
 				  toolbar_group.innerHTML = toolbar_btn_html;
+
 				
 				if (single_marker != undefined) {
 					map2.removeLayer(single_marker);
@@ -1432,6 +1622,14 @@ observer && observer.observe(container);
 					.bindPopup("<b>"+obj.name+"</b>");
 					map2.setView([obj.latlng[0], obj.latlng[1]], 13);
 				}
+
+				// fil div info-modal-organisation-data with all data
+				var org_data_arr = marker_data.filter(x => (x.user_id === parseInt(obj.user_id)) && (x.id != parseInt(obj.id)));
+				if(org_data_arr.length > 0){
+					org_data_container.innerHTML = returnOrgActivities(org_data_arr);
+				}else{
+					org_data_container.innerHTML = "<p>Leider keine weiteren Angebote/Veranstaltungen vorhanden!</p>"
+				}
 			});
 
 			//organisation info in modal
@@ -1443,8 +1641,12 @@ observer && observer.observe(container);
 					image       : "",
 					fontawesome : "fa fa-recycle fa-spin"
 				});
-				var org_id =  event.target.getAttribute("data-link");
-				console.log(org_id);
+				var org_id = $("#info-modal-organisation").attr("data-link");
+				
+				let entry_obj = {"type":1,"id":org_id};
+				entry_tap.push(entry_obj);
+				
+				console.log(entry_tap);
 				//hide unnecessary stuff
 				$("#info-modal-organisation").text("");
 				var hint_card = document.getElementById("info-modal-hint-card");
@@ -1455,8 +1657,16 @@ observer && observer.observe(container);
 				  organisation_info.style.display  = "none";
 				  $("#info-modal-back").show();
 				  $("#info-modal-date-card").hide();
+				  console.log(org_id);
 				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + org_id + ".json", function( organisation_data ) {
 					$("#info-modal-title").text(organisation_data.name);
+					$("#info-modal-photo").LoadingOverlay("show",{
+						image       : "",
+						fontawesome : "fa fa-recycle fa-spin"
+					});
+					setTimeout(function(){
+						$("#info-modal-photo").LoadingOverlay("hide");
+					}, 500);
 					if(organisation_data.image_url != null){
 						$("#info-modal-photo").attr("src", organisation_data.image_url + "?width=200&height=200");
 					}else{
@@ -1511,7 +1721,17 @@ observer && observer.observe(container);
 						.bindPopup("<b>"+organisation_data.name+"</b>");
 						map2.setView([organisation_data.latlng[0], organisation_data.latlng[1]], 13);
 					}
+					$("#info-modal-content").LoadingOverlay("hide");
 				});
+
+				// fil div info-modal-organisation-data with all data
+
+				var org_data_arr = marker_data.filter(x => x.user_id === parseInt(org_id));
+				if(org_data_arr.length > 0){
+					org_data_container.innerHTML = returnOrgActivities(org_data_arr);
+				}else{
+					org_data_container.innerHTML = "<p>Leider keine weiteren Angebote/Veranstaltungen vorhanden!</p>"
+				}
 	
 				document.getElementById("info-modal-header").style.borderBottomColor = "#008000";
 
@@ -1522,8 +1742,11 @@ observer && observer.observe(container);
 				var toolbar_btn_html = "";
 
 				  toolbar_group.innerHTML = toolbar_btn_html;
-				  $("#info-modal-content").LoadingOverlay("hide");
 			});
+
+			$("#infoModal").on("hidden.bs.modal", function () {
+				entry_tap = [];
+			  })
 
 
 		});//end
@@ -1534,7 +1757,23 @@ observer && observer.observe(container);
 
 		function goBackFunction(e) {
 			console.log(entry_tap);
-			$("#" + entry_tap + "_link").click();
+			console.log(entry_tap[entry_tap.length-1]);
+			entry_tap.pop();
+			let entry_tap_id = entry_tap[entry_tap.length-1].id;
+			console.log(entry_tap_id);
+			if(entry_tap[entry_tap.length-1].type === 1){
+				$(".organisation_link").click();
+				entry_tap.pop();
+			}else{
+				$("#" + entry_tap_id + "_link").click();
+				entry_tap.pop();
+				if(entry_tap.length > 1){
+					$("#info-modal-back").show();
+				  }else{
+					$("#info-modal-back").hide();
+				  }
+			}
+			console.log(entry_tap);
 		}
 
 
@@ -1584,7 +1823,7 @@ observer && observer.observe(container);
             <div class="modal-content" id="info-modal-content">
 				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
 				<div class="container">
-				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück zum Eintrag</a></b>
+				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück</a></b>
 				<div class="row">
 				<div class="col-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
@@ -1667,43 +1906,77 @@ observer && observer.observe(container);
         </div>
     </div>
 </div>
-	<div class="start-time">9:30am</div>
-<div class="end-time">10:30am</div>
-<div class="Location">California</div>
-<p><a href="#" class="test">Add to Calendar</a></p>
 </div>
 
 
 		<script>
 			console.log('. json_encode($settings).');
-			var single_marker, calendar_data, categories_array, entry_tap;
+			var single_marker, calendar_data, categories_array, entry_tap, map;
 			document.addEventListener("DOMContentLoaded", function() {
-				$(".calendarButton").click(function(event) {
+				$("#calendarButton").click(function(event) {
+					console.log("Click cal button");
+
+					let obj_cal_btn = calendar_data.find(x => x.id === entry_tap);
+
 					event.preventDefault();
+					let current_date = moment(Date.now()).utc().format("YYYYMMDD");
+					let current_time = moment(Date.now()).utc().format("HHmmss");
+					let event_start_date = moment(obj_cal_btn.start_at).utc().format("YYYYMMDD");
+					let event_start_time = moment(obj_cal_btn.start_at).utc().format("HHmmss");
+					let event_end_date = moment(obj_cal_btn.end_at).utc().format("YYYYMMDD");
+					let event_end_time = moment(obj_cal_btn.end_at).utc().format("HHmmss");
+					let description_data;
 					
-					// Format: https://docs.fileformat.com/email/ics/
-					//icsMSG += "DTSTART:" + $(".start-time").text() + "\r\n";
-					var icsMSG = "BEGIN:VCALENDAR\nVERSION:2.0\r\n";
-					icsMSG += "PRODID:-//Our Company//NONSGML v1.0//EN\r\n";
-					icsMSG += "BEGIN:VEVENT\r\n";
-					icsMSG += "UID:rotter.jonas@google.com\r\n"
-					icsMSG += "DTSTAMP:20220516T170000Z\r\n";
-					icsMSG += "ATTENDEE;CN=My Self;RSVP=TRUE:MAILTO:rotter.jonas@gmail.com\r\n";
-					icsMSG += "ORGANIZER;CN=Me:MAILTO::rotter.jonas@gmail.com\r\n";
-					icsMSG += "DTSTART:20220516T170000Z\r\n";
-					icsMSG += "DTEND:20220516T180000Z\r\n";
-					icsMSG += "LOCATION:" + $(".Location").text() + "\r\n";
-					icsMSG += "SUMMARY:Our Meeting Office\r\n";
-					icsMSG += "END:VEVENT\r\nEND:VCALENDAR";
-					var title = "newEvent.ics";
-					var uri = "data:text/calendar;charset=utf8," + escape(icsMSG);
-					var link = $("<a>", {
-					  href: uri,
-					  download: title,
-					  target: "_BLANK"
-					}).html("").appendTo("body");
-					link.get(0).click();
-					link.remove();
+					$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj_cal_btn.user_id + ".json", function( organisation_data ) {
+
+						description_data = "Von: " + organisation_data.name + " | ";
+												
+						if(organisation_data.website != null){
+							description_data += "Website: " + organisation_data.info_url + " | ";
+						}
+						if(obj_cal_btn.email != null){
+							description_data += "E-Mail: " + obj_cal_btn.email + " | ";
+						}else if (organisation_data.email != null){
+							description_data += "E-Mail: " + organisation_data.email + " | ";
+						}
+						if(organisation_data.telephone != null){
+							description_data += "Tel-Nr.: " + organisation_data.phone_primary + " | ";
+						}
+						if(obj_cal_btn.description != null){
+							description_data += "Beschreibung: " + obj_cal_btn.description + " | ";
+						}
+						if(obj_cal_btn.hints != null){
+							description_data += "Hinweise: " + obj_cal_btn.hints + " | ";
+						}
+						console.log(description_data);
+
+						// Format: https://docs.fileformat.com/email/ics/
+						//icsMSG += "DTSTART:" + $(".start-time").text() + "\r\n";
+						var icsMSG = "BEGIN:VCALENDAR\nVERSION:2.0\r\n";
+						icsMSG += "PRODID:-//Our Company//NONSGML v1.0//EN\r\n";
+						icsMSG += "BEGIN:VEVENT\r\n";
+						icsMSG += "UID:rotter.jonas@google.com\r\n"
+						//icsMSG += "DTSTAMP:20220516T170000Z\r\n";
+						icsMSG += "DTSTAMP:" + current_date + "T" + current_time + "Z\r\n";
+						//icsMSG += "ATTENDEE;CN=Ich;RSVP=TRUE:MAILTO:rotter.jonas@gmail.com\r\n";
+						//icsMSG += "ORGANIZER;CN=Me:MAILTO::rotter.jonas@gmail.com\r\n";
+						icsMSG += "DTSTART:" + event_start_date + "T" + event_start_time + "Z\r\n";
+						icsMSG += "DTEND:" + event_end_date + "T" + event_end_time + "Z\r\n";
+						icsMSG += "LOCATION:" + obj_cal_btn.full_address + "\r\n";
+						icsMSG += "SUMMARY:Veranstaltung - " + obj_cal_btn.name + "\r\n";
+						icsMSG += "DESCRIPTION:" + description_data + "\r\n";
+						icsMSG += "END:VEVENT\r\nEND:VCALENDAR";
+						var title = obj_cal_btn.name + ".ics";
+						var uri = "data:text/calendar;charset=utf8," + escape(icsMSG);
+						var link = $("<a>", {
+						  href: uri,
+						  download: title,
+						  target: "_BLANK"
+						}).html("").appendTo("body");
+						link.get(0).click();
+						link.remove();
+					});
+
 				  });
 
 				  var eventObj = [
@@ -1804,7 +2077,7 @@ observer && observer.observe(container);
 				attribution: \''. $settings['themeAttribution'] .'\'
 			})
 
-			var map = L.map('. $id2 .', { center: center, layers: [layer]});
+			map = L.map('. $id2 .', { center: center, layers: [layer]});
 			map.setView(center, 13);
 			//map.scrollWheelZoom.disable();
 
@@ -1870,10 +2143,12 @@ observer && observer.observe(container);
 				} 
 			}
 			if(elem.start_at != null && elem.end_at != null){
-				elem.start_datetime = moment(elem.start_at).utc().format("DD.MM.YYYY HH:mm");
-				elem.end_datetime = moment(elem.end_at).utc().format("DD.MM.YYYY HH:mm");
-				elem.start_date = moment(elem.start_at).utc().format("MM/DD/YYYY");
-				elem.end_date = moment(elem.end_at).utc().format("MM/DD/YYYY");
+				
+				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
+				console.log("Name: " + elem.name + " Start date: " + elem.start_at);
+				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
+				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
+				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
 				let date_arr;
 				if(elem.start_date != elem.end_date){
 					date_arr = [elem.start_date, elem.end_date];
@@ -1890,8 +2165,8 @@ observer && observer.observe(container);
 					description: elem.description.substring(0,120) + "..."
 				  }]);
 			}else if((elem.start_at == null) && (elem.end_at != null)){
-				elem.end_datetime = moment(elem.end_at).utc().format("DD.MM.YYYY HH:mm");
-				elem.end_date = moment(elem.end_at).utc().format("MM/DD/YYYY");
+				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
+				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
 					name: elem.name,
@@ -1902,8 +2177,8 @@ observer && observer.observe(container);
 					description: elem.description.substring(0,120) + "..."
 				  }]);
 			}else if((elem.start_at != null) && (elem.end_at == null)){
-				elem.start_datetime = moment(elem.start_at).utc().format("DD.MM.YYYY HH:mm");
-				elem.start_date = moment(elem.start_at).utc().format("MM/DD/YYYY");
+				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
+				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
 					name: elem.name,
@@ -1926,187 +2201,10 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 });
 		  
 		  $('. $id .').on("selectEvent", function(event, activeEvent) {
-			$(".modal-content").animate({ scrollTop: 0 });
-			$("#infoModal").modal("show");
-			$("#info-modal-content").LoadingOverlay("show",{
-				image       : "",
-				fontawesome : "fa fa-recycle fa-spin"
-			});
-			console.log(activeEvent);
-
-			var obj = calendar_data.find(x => x.id === activeEvent.id);
-
-			
-				/*var date_var = "";
-				var times_var = "";
-				if($.isArray(singleEvent.date)){
-					jQuery.each(singleEvent.date, function(index, item) {
-						var d = new Date(item);
-						var curr_date = d.getDate();
-						var curr_month = d.getMonth();
-						var curr_year = d.getFullYear();
-						var newDate = curr_date + "." + curr_month + "." + curr_year;
-						date_var += newDate;
-						if(index == 0){
-							date_var += " - ";
-						}
-					});
-					$("#event_dates").text(singleEvent.date);
-				}else{
-					var d = new Date(singleEvent.date);
-					var curr_date = d.getDate();
-					var curr_month = d.getMonth();
-					var curr_year = d.getFullYear();
-					var newDate = curr_date + "." + curr_month + "." + curr_year;
-					date_var = newDate;
-				}
-				$("#event_dates").text(date_var);
-
-				if($.isArray(singleEvent.times)){
-					jQuery.each(singleEvent.times, function(index, item) {
-						var d = new Time(item);
-						var curr_hour= d.getHours();
-						var curr_minute = d.getMinutes();
-						var newDate = curr_hour + ":" + curr_minute;
-						times_var += newDate;
-						if(index == 0){
-							times_var += " - ";
-						}
-					});
-				}else{
-					var d = new Date(singleEvent.times);
-					var curr_date = d.getDate();
-					var curr_month = d.getMonth();
-					var curr_year = d.getFullYear();
-					var newDate = curr_date + "." + curr_month + "." + curr_year;
-					times_var = newDate;
-				}
-
-				$("#event_times").text(times_var);*/
-
-				//add from map part
-
-				$("#info-modal-organisation").text("");
-				  var hint_card = document.getElementById("info-modal-hint-card");
-				  hint_card.style.display  = "block";
-					var category_accord = document.getElementById("category_accordion");
-					category_accord.style.display  = "block";
-					var organisation_info = document.getElementById("info-modal-organisation-card");
-				  organisation_info.style.display  = "block";
-				  $("#info-modal-back").hide();
-				  $("#info-modal-date-card").hide();
-				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
-					$("#info-modal-organisation").text(organisation_data.name);
-					$("#info-modal-organisation").attr("data-link", organisation_data.id);
-					if(organisation_data.email != null){
-						$("#info-modal-email").text(organisation_data.email);
-						$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
-					}else{
-						$("#info-modal-email").text("Keine Mail-Adresse vorhanden.");
-						$("#info-modal-email").removeAttr("href");
-					}
-					if(organisation_data.telephone != null){
-						$("#info-modal-telephone").text(organisation_data.phone_primary);
-						$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
-					}else{
-						$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
-						$("#info-modal-telephone").removeAttr("href");
-					}
-				});
-				$("#info-modal-content").LoadingOverlay("hide");
-				$("#info-modal-title").text(obj.name);
-				$("#info-modal-type").text(obj.service_type);
-				if(obj.description != null){
-					$("#info-modal-text").text(obj.description);
-				}else{
-					$("#info-modal-text").text("Keine Beschreibung hinterlegt.");
-				}
-				if(obj.requirements != null){
-					$("#info-modal-hints").text(obj.requirements);
-				}else{
-					$("#info-modal-hints").text("Keine Hinweise.");
-				}
-				if(obj.info_url!= null){
-					if(!obj.info_url.startsWith("https") || !obj.info_url.startsWith("http")){
-						obj.info_url = "https://" + obj.info_url;
-					}
-					$("#info-modal-website").prop("href", obj.info_url);
-					$("#info-modal-website").text(obj.info_url);
-				}else{
-					$("#info-modal-website").text("Keine Website vorhanden.");
-					$("#info-modal-website").removeAttr("href");
-				}
-				$("#info-modal-address").text(obj.full_address);
-				$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+obj.full_address);
-				switch(obj.service_type){
-					case "Veranstaltung":
-						$("#info-modal-date-card").show();
-						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/event.png");
-						if(obj.start_at != null){
-							let start_date = moment(obj.start_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
-							$("#info-modal-date").text("Start: " + start_date);
-						}
-						if(obj.end_at != null){
-							let end_date = moment(obj.end_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
-							$("#info-modal-date").text("Ende: " + end_date);
-						}
-						if((obj.end_at != null) && (obj.end_at != null)){
-							let start_date = moment(obj.start_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
-							let end_date = moment(obj.end_at).utc().format("DD.MM.YYYY, HH:mm") + " Uhr";
-							$("#info-modal-date").text(start_date + " - " + end_date);
-						}
-						break;
-					case "Beratungsangebot":
-						$("#info-modal-date-card").show();
-						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/offer.png");
-						break;
-					case "Bildungsangebot":
-						$("#info-modal-date-card").show();
-						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/education.png");
-						break;
-					}
-					if(obj.image_url != null){
-						$("#info-modal-photo").attr("src", obj.image_url + "?width=200&height=200");
-					}
-				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
-
-				//add toolbar-btn
-
-				const toolbar_group = document.getElementById("toolbar-group");
-
-				var toolbar_btn_html = "";
-
-				if(obj.region == null){
-					obj.region = [];
-					obj.region.name = obj.city;
-				}
-
-				toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-				<label class="btn btn-outline-danger filter-btn-unterkategorie">${obj.region.name}</label><br>`;
-
-				$.each(obj.categories, function( key, value ) {
-					var category_obj = categories_array.find(x => x.id === parseInt(value));
-					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-					<label class="btn btn-outline-info filter-btn-unterkategorie">${category_obj.name}</label><br>`;
-				  });
-
-				  $.each(obj.goals, function( key, value ) {
-					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-					<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">${value}</label><br>`;
-				  });
+			modalTrigger(activeEvent.id);
+		  });
 
 
-				  toolbar_group.innerHTML = toolbar_btn_html;
-
-
-				if (single_marker != undefined) {
-					map.removeLayer(single_marker);
-			  	};
-				  console.log(obj);
-				single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map)
-    			.bindPopup("<b>"+obj.name+"</b>");
-				map.setView([obj.latlng[0], obj.latlng[1]], 13);
-			});
 
 
 			$(document).on("click",".organisation_link",function(e) { 
@@ -2116,7 +2214,7 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					image       : "",
 					fontawesome : "fa fa-recycle fa-spin"
 				});
-				var org_id =  event.target.getAttribute("data-link");
+				var org_id = event.target.getAttribute("data-link");
 				console.log(org_id);
 				//hide unnecessary stuff
 				$("#info-modal-organisation").text("");
@@ -2199,9 +2297,194 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 			});
 
 			});
+			function modalTrigger(event_id){
+				$(".modal-content").animate({ scrollTop: 0 });
+				$("#infoModal").modal("show");
+				$("#info-modal-content").LoadingOverlay("show",{
+					image       : "",
+					fontawesome : "fa fa-recycle fa-spin"
+				});
+
+				entry_tap = event_id;
+	
+				var obj = calendar_data.find(x => x.id === event_id);
+	
+				
+					/*var date_var = "";
+					var times_var = "";
+					if($.isArray(singleEvent.date)){
+						jQuery.each(singleEvent.date, function(index, item) {
+							var d = new Date(item);
+							var curr_date = d.getDate();
+							var curr_month = d.getMonth();
+							var curr_year = d.getFullYear();
+							var newDate = curr_date + "." + curr_month + "." + curr_year;
+							date_var += newDate;
+							if(index == 0){
+								date_var += " - ";
+							}
+						});
+						$("#event_dates").text(singleEvent.date);
+					}else{
+						var d = new Date(singleEvent.date);
+						var curr_date = d.getDate();
+						var curr_month = d.getMonth();
+						var curr_year = d.getFullYear();
+						var newDate = curr_date + "." + curr_month + "." + curr_year;
+						date_var = newDate;
+					}
+					$("#event_dates").text(date_var);
+	
+					if($.isArray(singleEvent.times)){
+						jQuery.each(singleEvent.times, function(index, item) {
+							var d = new Time(item);
+							var curr_hour= d.getHours();
+							var curr_minute = d.getMinutes();
+							var newDate = curr_hour + ":" + curr_minute;
+							times_var += newDate;
+							if(index == 0){
+								times_var += " - ";
+							}
+						});
+					}else{
+						var d = new Date(singleEvent.times);
+						var curr_date = d.getDate();
+						var curr_month = d.getMonth();
+						var curr_year = d.getFullYear();
+						var newDate = curr_date + "." + curr_month + "." + curr_year;
+						times_var = newDate;
+					}
+	
+					$("#event_times").text(times_var);*/
+	
+					//add from map part
+	
+					$("#info-modal-organisation").text("");
+					  var hint_card = document.getElementById("info-modal-hint-card");
+					  hint_card.style.display  = "block";
+						var category_accord = document.getElementById("category_accordion");
+						category_accord.style.display  = "block";
+						var organisation_info = document.getElementById("info-modal-organisation-card");
+					  organisation_info.style.display  = "block";
+					  $("#info-modal-back").show();
+					  $("#info-modal-date-card").hide();
+					  console.log(obj);
+					$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
+						$("#info-modal-organisation").text(organisation_data.name);
+						$("#info-modal-organisation").attr("data-link", organisation_data.id);
+						if(organisation_data.email != null){
+							$("#info-modal-email").text(organisation_data.email);
+							$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
+						}else{
+							$("#info-modal-email").text("Keine Mail-Adresse vorhanden.");
+							$("#info-modal-email").removeAttr("href");
+						}
+						if(organisation_data.telephone != null){
+							$("#info-modal-telephone").text(organisation_data.phone_primary);
+							$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
+						}else{
+							$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
+							$("#info-modal-telephone").removeAttr("href");
+						}
+					});
+					$("#info-modal-content").LoadingOverlay("hide");
+					$("#info-modal-title").text(obj.name);
+					$("#info-modal-type").text(obj.service_type);
+					if(obj.description != null){
+						$("#info-modal-text").text(obj.description);
+					}else{
+						$("#info-modal-text").text("Keine Beschreibung hinterlegt.");
+					}
+					if(obj.requirements != null){
+						$("#info-modal-hints").text(obj.requirements);
+					}else{
+						$("#info-modal-hints").text("Keine Hinweise.");
+					}
+					if(obj.info_url!= null){
+						if(!obj.info_url.startsWith("https") || !obj.info_url.startsWith("http")){
+							obj.info_url = "https://" + obj.info_url;
+						}
+						$("#info-modal-website").prop("href", obj.info_url);
+						$("#info-modal-website").text(obj.info_url);
+					}else{
+						$("#info-modal-website").text("Keine Website vorhanden.");
+						$("#info-modal-website").removeAttr("href");
+					}
+					$("#info-modal-address").text(obj.full_address);
+					$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+obj.full_address);
+					switch(obj.service_type){
+						case "Veranstaltung":
+							$("#info-modal-date-card").show();
+							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/event.png");
+							if(obj.start_at != null){
+								let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+								$("#info-modal-date").text("Start: " + start_date);
+							}
+							if(obj.end_at != null){
+								let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+								$("#info-modal-date").text("Ende: " + end_date);
+							}
+							if((obj.end_at != null) && (obj.end_at != null)){
+								let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+								let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+								$("#info-modal-date").text(start_date + " - " + end_date);
+							}
+							break;
+						case "Beratungsangebot":
+							$("#info-modal-date-card").show();
+							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/offer.png");
+							break;
+						case "Bildungsangebot":
+							$("#info-modal-date-card").show();
+							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/education.png");
+							break;
+						}
+						if(obj.image_url != null){
+							$("#info-modal-photo").attr("src", obj.image_url + "?width=200&height=200");
+						}
+					document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
+	
+					//add toolbar-btn
+	
+					const toolbar_group = document.getElementById("toolbar-group");
+	
+					var toolbar_btn_html = "";
+	
+					if(obj.region == null){
+						obj.region = [];
+						obj.region.name = obj.city;
+					}
+	
+					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+					<label class="btn btn-outline-danger filter-btn-unterkategorie">${obj.region.name}</label><br>`;
+	
+					$.each(obj.categories, function( key, value ) {
+						var category_obj = categories_array.find(x => x.id === parseInt(value));
+						toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+						<label class="btn btn-outline-info filter-btn-unterkategorie">${category_obj.name}</label><br>`;
+					  });
+	
+					  $.each(obj.goals, function( key, value ) {
+						toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
+						<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">${value}</label><br>`;
+					  });
+	
+	
+					  toolbar_group.innerHTML = toolbar_btn_html;
+	
+	
+					if (single_marker != undefined) {
+						map.removeLayer(single_marker);
+					  };
+					  console.log(obj);
+					single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map)
+					.bindPopup("<b>"+obj.name+"</b>");
+					map.setView([obj.latlng[0], obj.latlng[1]], 13);
+				};
 
 			function goBackFunction(e) {
-				$("#" + entry_tap + "_link").click();
+				console.log(entry_tap);
+				modalTrigger(entry_tap);
 			}
 		</script>
 		';
