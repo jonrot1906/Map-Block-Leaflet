@@ -427,7 +427,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 						<div class="col-md-6">
 						<div class="row position-absolute bottom-0 end-0">
 						<div class="text-end">
-						<button type="button" class="btn btn-default" id="redoSwal">
+						<button type="button" class="btn btn-default" id="redoButton">
 						<i class="fa fa-redo" aria-hidden="true"></i>
 		</button>
 </div>
@@ -1001,7 +1001,8 @@ observer && observer.observe(container);
 				toast: true,
 				position: "top-end",
 				showConfirmButton: true,
-				timer: 15000
+				timer: 15000,
+				width: "600px"
 			  });
 
 			  $(".swalDefaultQuestion").click(function() {
@@ -1016,6 +1017,17 @@ observer && observer.observe(container);
 				  icon: "question",
 				  title: "Hier kannst du die Ergebnisse noch feiner filtern. Regionen: Wähle hier deine Ziel-Region(en) aus. Kategorien: Hier wählst du aus, ob du lieber Initiativen zum Umweltschutz oder zum Thema Globale Verantwortung sehen möchtest. Start & Ende: Hier gibst du an, in welchem Zeitraum dir Veranstaltungen angezeigt werden sollen. Falls du nichts angibst, werden dir alle kommenden Veranstaltungen angezeigt."
 				})
+			  });
+
+			  $("#redoButton").click(function() {
+				document.getElementById("startDate").value = "";
+				document.getElementById("endDate").value = "";
+				$("#regions_picker").selectpicker("deselectAll");
+				$("#kategorie_picker").selectpicker("deselectAll");
+
+				$("#regions_picker").selectpicker("val", "106");
+				$( ".check-category-single" ).prop( "checked", false );
+				$( "#alle-btn" ).prop( "checked", true );
 			  });
 
 
@@ -1898,6 +1910,14 @@ observer && observer.observe(container);
 					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
 					</div>
 					</div>
+					<hr>
+					<div class="card" style="margin-left: -4px;">
+					<div class="card-header">
+					<b>Weitere Projekte/Angebote/Veranstaltungen der Organisation</b>
+					</div>
+					<div class="card-body" id="info-modal-organisation-data">
+					</div>
+					</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
@@ -1911,8 +1931,85 @@ observer && observer.observe(container);
 
 		<script>
 			console.log('. json_encode($settings).');
-			var single_marker, calendar_data, categories_array, entry_tap, map;
+			var single_marker, calendar_data, categories_array, entry_tap = [], map;
+			function returnOrgActivities(data_arr) {
+				data_arr.forEach(function(market) {
+					if (market.description != null){
+						market.shortdescription = market.description.substring(0,150);
+					}
+					switch(market.service_type){
+						case "Projekt":
+						case "Filiale":
+							market.color = "#4169E1"; //blue
+							break;
+						case "Veranstaltung":
+							market.color = "#FFBF00"; //yellow
+							break;
+						case "Beratungsangebot":
+						case "Bildungsangebot":
+							market.color = "#D2042D"; //red
+							break;
+						}			
+					});
+			
+					/*if($.inArray(market.service_type, ["Veranstaltung", "Beratungsangebot", "Bildungsangebot"])){
+						return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+						<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+						<div class="row">
+						<div class="col-9">
+							<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+						</div>
+						<div class="col-3" align="right">
+						<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+						</div>
+						<p>
+						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+						<br>
+						<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+						</p>
+						</div>
+						</div>`).join("") + "</div>";
+					}else{
+						return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+						<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+						<div class="row">
+						<div class="col-9">
+							<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+						</div>
+						<div class="col-3" align="right">
+						<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+						</div>
+						<p>
+						<i class="fa fa-map-clock" aria-hidden="true"></i>&nbsp;<span>${data_single.start_at}</span>
+						<br>
+						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+						<br>
+						<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+						</p>
+						</div>
+						</div>`).join("") + "</div>";
+					}*/
+			
+					return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+					<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+					<div class="row">
+					<div class="col-9">
+						<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+					</div>
+					<div class="col-3" align="right">
+					<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+					</div>
+					<p>
+					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+					<br>
+					<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
+					</p>
+					</div>
+					</div>`).join("") + "</div>";
+			}
 			document.addEventListener("DOMContentLoaded", function() {
+
+						
 				$("#calendarButton").click(function(event) {
 					console.log("Click cal button");
 
@@ -1977,7 +2074,9 @@ observer && observer.observe(container);
 						link.remove();
 					});
 
-				  });
+				});
+
+				
 
 				  var eventObj = [
 					{
@@ -2155,6 +2254,9 @@ observer && observer.observe(container);
 				}else if(elem.start_date == elem.end_date){
 					date_arr = elem.start_date;
 				}
+				if (elem.description != null){
+					elem.shortdescription = elem.description.substring(0,120) + "...";
+				}
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
 					name: elem.name,
@@ -2162,7 +2264,7 @@ observer && observer.observe(container);
 					badge: elem.start_datetime + " - " + elem.end_datetime,
 					type: elem.service_type,
 					color: elem.color,
-					description: elem.description.substring(0,120) + "..."
+					description: elem.shortdescription
 				  }]);
 			}else if((elem.start_at == null) && (elem.end_at != null)){
 				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
@@ -2174,7 +2276,7 @@ observer && observer.observe(container);
 					badge: "Ende: " + elem.end_datetime,
 					type: elem.service_type,
 					color: elem.color,
-					description: elem.description.substring(0,120) + "..."
+					description: elem.shortdescription
 				  }]);
 			}else if((elem.start_at != null) && (elem.end_at == null)){
 				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
@@ -2186,7 +2288,7 @@ observer && observer.observe(container);
 					badge: "Start: " + elem.start_datetime,
 					type: elem.service_type,
 					color: elem.color,
-					description: elem.description.substring(0,120) + "..."
+					description: elem.shortdescription
 				  }]);
 			}
 		});
@@ -2204,7 +2306,11 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 			modalTrigger(activeEvent.id);
 		  });
 
-
+		  $(document).on("click",".modal_link",function(e) {
+			var marker_id_long = e.target.id;
+			var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
+			modalTrigger(parseInt(marker_id));
+			});
 
 
 			$(document).on("click",".organisation_link",function(e) { 
@@ -2304,11 +2410,10 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					image       : "",
 					fontawesome : "fa fa-recycle fa-spin"
 				});
-
-				entry_tap = event_id;
 	
 				var obj = calendar_data.find(x => x.id === event_id);
-	
+				console.log(event_id);
+				console.log(obj);
 				
 					/*var date_var = "";
 					var times_var = "";
@@ -2368,7 +2473,19 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					  organisation_info.style.display  = "block";
 					  $("#info-modal-back").show();
 					  $("#info-modal-date-card").hide();
-					  console.log(obj);
+					
+					  let entry_obj = {"type":0,"id":event_id};
+					  entry_tap.push(entry_obj);
+					  console.log(entry_tap);
+					  
+					  if(entry_tap.length > 1){
+						$("#info-modal-back").show();
+					  }else{
+						$("#info-modal-back").hide();
+					  }
+
+					 
+
 					$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
 						$("#info-modal-organisation").text(organisation_data.name);
 						$("#info-modal-organisation").attr("data-link", organisation_data.id);
@@ -2386,8 +2503,9 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 							$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
 							$("#info-modal-telephone").removeAttr("href");
 						}
+						$("#info-modal-content").LoadingOverlay("hide");
 					});
-					$("#info-modal-content").LoadingOverlay("hide");
+
 					$("#info-modal-title").text(obj.name);
 					$("#info-modal-type").text(obj.service_type);
 					if(obj.description != null){
@@ -2476,16 +2594,58 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					if (single_marker != undefined) {
 						map.removeLayer(single_marker);
 					  };
-					  console.log(obj);
-					single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map)
-					.bindPopup("<b>"+obj.name+"</b>");
-					map.setView([obj.latlng[0], obj.latlng[1]], 13);
+					  if(obj.latlng == null && obj.full_address != null){
+						$.getJSON("https://nominatim.openstreetmap.org/search?format=json&q=" + obj.full_address, function( obj_latlng_data ) {
+							if(obj_latlng_data.length != 0){
+								obj.latlng = [obj_latlng_data[0].lat, obj_latlng_data[0].lon];
+								single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map).bindPopup("<b>"+obj.name+"</b>");
+								map.setView([obj.latlng[0], obj.latlng[1]], 13);
+							}
+						});
+					}else if (obj.latlng != null ){
+						single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map)
+						.bindPopup("<b>"+obj.name+"</b>");
+						map.setView([obj.latlng[0], obj.latlng[1]], 13);
+					}
+
+					// fil div info-modal-organisation-data with all data
+					var org_data_container = document.getElementById("info-modal-organisation-data");
+
+					var org_data_arr = calendar_data.filter(x => (x.user_id === parseInt(obj.user_id)) && (x.id != parseInt(obj.id)));
+					if(org_data_arr.length > 0){
+						org_data_container.innerHTML = returnOrgActivities(org_data_arr);
+					}else{
+						org_data_container.innerHTML = "<p>Leider keine weiteren Angebote/Veranstaltungen vorhanden!</p>"
+					}
+
+					
 				};
 
-			function goBackFunction(e) {
+				function goBackFunction(e) {
+					console.log(entry_tap);
+					console.log(entry_tap[entry_tap.length-1]);
+					entry_tap.pop();
+					let entry_tap_id = entry_tap[entry_tap.length-1].id;
+					console.log(entry_tap_id);
+					if(entry_tap[entry_tap.length-1].type === 1){
+						$(".organisation_link").click();
+						entry_tap.pop();
+					}else{
+						$("#" + entry_tap_id + "_link").click();
+						entry_tap.pop();
+						if(entry_tap.length > 1){
+							$("#info-modal-back").show();
+						  }else{
+							$("#info-modal-back").hide();
+						  }
+					}
+					console.log(entry_tap);
+				}
+
+			/*function goBackFunction(e) {
 				console.log(entry_tap);
-				modalTrigger(entry_tap);
-			}
+				modalTrigger(parseInt(entry_tap));
+			}*/
 		</script>
 		';
 }
