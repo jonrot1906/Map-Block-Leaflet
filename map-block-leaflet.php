@@ -768,7 +768,7 @@ function returnOrgActivities(data_arr) {
 			</div>`).join("") + "</div>";
 		}*/
 
-		return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+		return "<div id=\"org_activities\">" + data_arr.map(data_single => { let act_card = `
 		<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
 		<div class="row">
 		<div class="col-9">
@@ -777,13 +777,35 @@ function returnOrgActivities(data_arr) {
 		<div class="col-3" align="right">
 		<p class="text-success type-text"><small>${data_single.service_type}</small></p>
 		</div>
-		<p>
-		<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+		<p>`;
+		let act_time;
+		if(data_single.start_at != null){
+			let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+			act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Start: ${start_date}</span>
+			<br>`;
+		}
+		if(data_single.end_at != null){
+			let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+			act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Ende: ${end_date}</span>
+			<br>`;
+		}
+		if((data_single.end_at != null) && (data_single.end_at != null)){
+			let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+			let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+			act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>${start_date} - ${end_date}</span>
+			<br>`;
+		}
+		if(act_time != null){
+			act_card += act_time;
+		}
+		act_card += `<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
 		<br>
 		<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
 		</p>
 		</div>
-		</div>`).join("") + "</div>";
+		</div>`;
+		return act_card;
+	}).join("") + "</div>";
 }
 
 
@@ -1951,9 +1973,7 @@ observer && observer.observe(container);
 							break;
 						}			
 					});
-			
-					/*if($.inArray(market.service_type, ["Veranstaltung", "Beratungsangebot", "Bildungsangebot"])){
-						return "<div id=\"org_activities\">" + data_arr.map(data_single => `
+					return "<div id=\"org_activities\">" + data_arr.map(data_single => { let act_card = `
 						<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
 						<div class="row">
 						<div class="col-9">
@@ -1962,50 +1982,35 @@ observer && observer.observe(container);
 						<div class="col-3" align="right">
 						<p class="text-success type-text"><small>${data_single.service_type}</small></p>
 						</div>
-						<p>
-						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
+						<p>`;
+						let act_time;
+						if(data_single.start_at != null){
+							let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Start: ${start_date}</span>
+							<br>`;
+						}
+						if(data_single.end_at != null){
+							let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Ende: ${end_date}</span>
+							<br>`;
+						}
+						if((data_single.end_at != null) && (data_single.end_at != null)){
+							let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+							let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>${start_date} - ${end_date}</span>
+							<br>`;
+						}
+						if(act_time != null){
+							act_card += act_time;
+						}
+						act_card += `<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
 						<br>
 						<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
 						</p>
 						</div>
-						</div>`).join("") + "</div>";
-					}else{
-						return "<div id=\"org_activities\">" + data_arr.map(data_single => `
-						<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
-						<div class="row">
-						<div class="col-9">
-							<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
-						</div>
-						<div class="col-3" align="right">
-						<p class="text-success type-text"><small>${data_single.service_type}</small></p>
-						</div>
-						<p>
-						<i class="fa fa-map-clock" aria-hidden="true"></i>&nbsp;<span>${data_single.start_at}</span>
-						<br>
-						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
-						<br>
-						<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
-						</p>
-						</div>
-						</div>`).join("") + "</div>";
-					}*/
-			
-					return "<div id=\"org_activities\">" + data_arr.map(data_single => `
-					<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
-					<div class="row">
-					<div class="col-9">
-						<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
-					</div>
-					<div class="col-3" align="right">
-					<p class="text-success type-text"><small>${data_single.service_type}</small></p>
-					</div>
-					<p>
-					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
-					<br>
-					<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
-					</p>
-					</div>
-					</div>`).join("") + "</div>";
+						</div>`;
+						return act_card;
+					}).join("") + "</div>";
 			}
 			document.addEventListener("DOMContentLoaded", function() {
 
