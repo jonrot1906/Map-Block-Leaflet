@@ -117,7 +117,7 @@ function map_block_leaflet_register() {
 		'editor_style' => 'css-editor-map-block-leaflet',
 		'render_callback' => 'map_block_leaflet_multi_marker_render',
 		'script' => 'lib-js-map-block-leaflet-cluster',
-		'style' => ['lib-css-map-block-leaflet-cluster', 'lib-css-bootstrap-blocks'],
+		'style' => 'lib-css-map-block-leaflet-cluster',
 		'attributes' => [
 			'markers' => [
 				'type' => 'array',
@@ -148,7 +148,7 @@ function map_block_leaflet_register() {
 		'editor_style' => 'css-editor-map-block-leaflet',
 		'render_callback' => 'map_block_leaflet_calendar_render',
 		'script' => 'lib-js-map-block-leaflet-cluster',
-		'style' => ['lib-css-map-block-leaflet-cluster', 'lib-css-bootstrap-blocks'],
+		'style' => 'lib-css-map-block-leaflet-cluster',
 		'attributes' => [
 			'themeUrl' => [
 				'type' => 'string',
@@ -702,7 +702,7 @@ function returnCards(markets) {
   	<h5><a class="modal_link link-dark" id="${markets.id}_link">${markets.name}</a></h5>
   </div>
   <div class="col-3" align="right">
-  <p class="text-success type-text"><small>${markets.service_type}</small></p>
+  <p class="text-success"><small>${markets.service_type}</small></p>
   </div>
   </div>
   	<p class="card-text">${markets.shortdescription}...</p>
@@ -1133,6 +1133,7 @@ observer && observer.observe(container);
 
 				});
 				$("#kategorie_picker").selectpicker("refresh");
+				$("#kategorie_picker").selectpicker("val", ["7","8","44"]);
 			});
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json", function( data ) {
@@ -1404,14 +1405,16 @@ observer && observer.observe(container);
 				  }
 				  //loop through each category
 				  let pre_length = ext_arr.length;
+				  let ext_arr_cat = [];
 				  if(category_arr.length > 0){
 					$.each( category_arr, function( cat_key, cat_val ) {
 						if(pre_length > 0){
-							$.each( ext_arr, function( url_key, url_value ) {
-								let int_url = url_value + "&category_id=" + cat_val;
-								int_url = int_url.replace(/#038;/g, "");
-								ext_arr.splice(url_key, 1);
-								ext_arr.push(int_url);
+							$.each(ext_arr, function( url_key, url_value ) {
+								console.log(url_value);
+								let int_cat_url = url_value + "&category_id=" + cat_val;
+								int_cat_url = int_cat_url.replace(/#038;/g, "");
+								//ext_arr.splice(url_key, 1);
+								ext_arr_cat.push(int_cat_url);
 							});
 						}else{
 							$.each( urls, function( url_key, url_value ) {
@@ -1421,8 +1424,10 @@ observer && observer.observe(container);
 								ext_arr.push(int_url);
 							});
 						}
-
-					  });
+					});
+					if(pre_length > 0){
+						ext_arr = ext_arr_cat;
+					}
 				  }
 
 				map.removeLayer(markers);
@@ -1606,8 +1611,8 @@ observer && observer.observe(container);
 						obj.color = "#D2042D"; //red
 						break;
 					}
-					if(obj.image_url != null){
-						$("#info-modal-photo").attr("src", obj.image_url + "?width=200&height=200");
+					if(obj.image_url_base != null){
+						$("#info-modal-photo").attr("src", obj.image_url_base + "?width=200&height=200");
 					}
 				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
 
@@ -1701,8 +1706,8 @@ observer && observer.observe(container);
 					setTimeout(function(){
 						$("#info-modal-photo").LoadingOverlay("hide");
 					}, 500);
-					if(organisation_data.image_url != null){
-						$("#info-modal-photo").attr("src", organisation_data.image_url + "?width=200&height=200");
+					if(organisation_data.organization_logo_url_base != null){
+						$("#info-modal-photo").attr("src", organisation_data.organization_logo_url_base + "?width=200&height=200");
 					}else{
 						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png");
 					}
@@ -2018,7 +2023,8 @@ observer && observer.observe(container);
 				$("#calendarButton").click(function(event) {
 					console.log("Click cal button");
 
-					let obj_cal_btn = calendar_data.find(x => x.id === entry_tap);
+					let obj_cal_btn = calendar_data.find(x => x.id === entry_tap[entry_tap.length-1].id);
+					console.log(entry_tap[entry_tap.length-1]);
 
 					event.preventDefault();
 					let current_date = moment(Date.now()).utc().format("YYYYMMDD");
@@ -2339,8 +2345,8 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 				  $("#info-modal-date-card").hide();
 				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + org_id + ".json", function( organisation_data ) {
 					$("#info-modal-title").text(organisation_data.name);
-					if(organisation_data.image_url != null){
-						$("#info-modal-photo").attr("src", organisation_data.image_url + "?width=200&height=200");
+					if(organisation_data.organization_logo_url_base != null){
+						$("#info-modal-photo").attr("src", organisation_data.organization_logo_url_base + "?width=200&height=200");
 					}else{
 						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png");
 					}
@@ -2562,8 +2568,8 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/education.png");
 							break;
 						}
-						if(obj.image_url != null){
-							$("#info-modal-photo").attr("src", obj.image_url + "?width=200&height=200");
+						if(obj.image_url_base != null){
+							$("#info-modal-photo").attr("src", obj.image_url_base + "?width=200&height=200");
 						}
 					document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
 	
@@ -2626,9 +2632,11 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					
 				};
 
+				$("#infoModal").on("hidden.bs.modal", function () {
+					entry_tap = [];
+				  })
+
 				function goBackFunction(e) {
-					console.log(entry_tap);
-					console.log(entry_tap[entry_tap.length-1]);
 					entry_tap.pop();
 					let entry_tap_id = entry_tap[entry_tap.length-1].id;
 					console.log(entry_tap_id);
@@ -2670,7 +2678,7 @@ function map_block_leaflet_dequeue_lib_script()
     wp_dequeue_style('css-editor-map-block-leaflet');
     wp_dequeue_style('lib-css-map-block-leaflet');
     wp_dequeue_style('lib-css-map-block-leaflet-cluster');
-	wp_dequeue_style('test');
+	wp_dequeue_style('lib-css-bootstrap-blocks');
   }
 }
 

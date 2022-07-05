@@ -19,8 +19,16 @@ const attributes = {
     },
     height: {
         type: 'number',
-        default: 220
+        default: 800
     },
+    regions: {
+        type: 'array',
+        default: []
+    },
+    categories: {
+        type: 'array',
+        default: []
+    }
 }
 
 export default attributes;

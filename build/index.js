@@ -32750,7 +32750,15 @@ var attributes = {
   },
   height: {
     type: 'number',
-    default: 220
+    default: 800
+  },
+  regions: {
+    type: 'array',
+    default: []
+  },
+  categories: {
+    type: 'array',
+    default: []
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (attributes);
@@ -32999,6 +33007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Inspector = function Inspector(props) {
   var attributes = props.attributes,
       setAttributes = props.setAttributes;
@@ -33019,9 +33028,36 @@ var Inspector = function Inspector(props) {
     }
   };
 
+  console.log(attributes.regions);
+  var fetch_regions = [];
+
+  function getRegionData() {
+    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json").then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      console.log(data);
+      data.map(function (region) {
+        fetch_regions.push({
+          label: region.name,
+          value: region.id
+        });
+      });
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  getRegionData();
+
   var addMarker = function addMarker(marker) {
     setAttributes({
       markers: attributes.markers.concat(marker)
+    });
+  };
+
+  var addRegion = function addRegion(region) {
+    setAttributes({
+      regions: region
     });
   };
 
@@ -33048,6 +33084,19 @@ var Inspector = function Inspector(props) {
     value: themeId,
     themes: _shared_themes__WEBPACK_IMPORTED_MODULE_4__["default"],
     onChange: setTheme
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Plugin-Optionen', 'map-block-leaflet'),
+    initialOpen: false
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
+    style: {
+      height: "auto"
+    },
+    multiple: true,
+    label: "Regionen",
+    value: attributes.regions,
+    options: fetch_regions,
+    onChange: addRegion,
+    __nextHasNoMarginBottom: true
   })));
 };
 

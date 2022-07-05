@@ -3,36 +3,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/calendar/components/Inspector.js:10
-msgid "Options"
+#: src/blocks/multi-marker/components/Inspector.js:62
+msgid "Markers"
 msgstr ""
 
-#: src/blocks/calendar/components/Inspector.js:12
-msgid "Calendar height"
+#: src/blocks/multi-marker/components/Inspector.js:66
+msgid "Theme"
 msgstr ""
 
-#: src/blocks/calendar/index.js:14
-msgid "Map Leaflet Calendar"
-msgstr ""
-
-#: src/blocks/calendar/index.js:15
-#: src/blocks/multi-marker/index.js:15
-msgid "Easy way to inside maps in your contents"
-msgstr ""
-
-#: src/blocks/calendar/index.js:18
-msgid "kalendar"
-msgstr ""
-
-#: src/blocks/calendar/index.js:19
-#: src/blocks/multi-marker/index.js:19
-msgid "leaflet"
-msgstr ""
-
-#: src/blocks/multi-marker/index.js:14
-msgid "Map Leaflet multimarker"
-msgstr ""
-
-#: src/blocks/multi-marker/index.js:18
-msgid "map"
+#: src/blocks/multi-marker/components/Inspector.js:73
+msgid "Plugin-Optionen"
 msgstr ""
