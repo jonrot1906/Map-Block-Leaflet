@@ -3,14 +3,46 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/multi-marker/components/Inspector.js:62
-msgid "Markers"
+#: src/blocks/leaflet-map-block/components/Inspector.js:100
+msgid "Disable scroll zoom"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:66
+#: src/blocks/leaflet-map-block/components/Inspector.js:38
+msgid "Content of tooltip"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:43
 msgid "Theme"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:73
-msgid "Plugin-Optionen"
+#: src/blocks/leaflet-map-block/components/Inspector.js:50
+msgid "XYZ Tiles"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:57
+msgid "Attribution"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:65
+msgid "Position"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:66
+msgid "Latitude"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:73
+msgid "Longitude"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:81
+msgid "Zoom"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:88
+msgid "Options"
+msgstr ""
+
+#: src/blocks/leaflet-map-block/components/Inspector.js:90
+msgid "Map height"
 msgstr ""
