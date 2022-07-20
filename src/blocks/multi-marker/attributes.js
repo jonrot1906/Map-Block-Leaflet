@@ -19,7 +19,7 @@ const attributes = {
     },
     height: {
         type: 'number',
-        default: 800
+        default: 1000
     },
     regions: {
         type: 'array',

@@ -354,137 +354,46 @@ function map_block_leaflet_multi_marker_render($settings) {
         <div class="col-md-12">
 		<h5>Filter dich zur Nachhaltigkeit!</h5>
 		
-            <div class="card p-2 py-3">
-			  <div class="row g-3">
-			  <div class="col-9">
-				<div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
-				<input type="checkbox" class="btn-check filter-btn" id="alle-btn" autocomplete="off" checked>
-				<label class="btn btn-outline-secondary filter-btn" for="alle-btn">Alle</label><br>
-				<input type="checkbox" class="btn-check filter-btn check-category-single" id="initiative-btn" autocomplete="off">
-				<label class="btn btn-outline-primary filter-btn" for="initiative-btn">Initiativen</label><br>
-				<input type="checkbox" class="btn-check filter-btn check-category-single" id="angebote-btn" autocomplete="off">
-				<label class="btn btn-outline-danger filter-btn" for="angebote-btn">Angebote</label><br>
-				<input type="checkbox" class="btn-check filter-btn check-category-single" id="veranstaltungen-btn" autocomplete="off">
-				<label class="btn btn-outline-warning filter-btn" for="veranstaltungen-btn">Veranstaltungen</label><br>
-				</div>
-				</div>
-				<div class="col-3 text-end">
-				<button type="button" class="btn btn-outline-dark border-white swalDefaultQuestion">
-				<i class="fa fa-question-circle" aria-hidden="true"></i>
-</button>
-				</div>
-                </div>
-				<div class="row g-3 mt-1">
-				<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Suche nach..." aria-label="Suche" aria-describedby="search-button" id="search_input">
-				<button class="btn btn-outline-dark" type="button" id="search-button"><i class="fa-solid fa-arrow-down"></i></button>
-				<button class="btn btn-outline-success btn-arrow" type="button" id="search-button"><span>Los!</span></button>
-			  </div>
-			  </div>
-			  </div>
-			  <div class="card p-2 py-3">
-                <div> 
-				<a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="advanced"> Erweiterte Suche  <i class="fa fa-angle-down"></i> </a>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body my-2">
-                            <div class="row">
-	  							<div class="col-md-6">
-								  <div class="d-flex flex-column">
-								  <label for="test">Region</label>
-								  <select class="selectpicker" multiple data-live-search="true" title="Regionen auswählen" id="regions_picker" data-actions-box="true" data-width="100%">
-								</select>
-								</div>
-								</div>
-
-						  		<div class="col-md-6">
-								  <div class="d-flex flex-column">
-								  <label for="test">Kategorie(n)</label>
-								  <select class="selectpicker" multiple data-live-search="true" title="Kategorien auswählen" id="kategorie_picker" data-actions-box="true" data-width="100%">
-								</select>
-								  </div>
-								</div>
-                            </div>
-							<div class="row">
-						  <div class="col-md-6">
-						  <div class="row g-1 mt-1">
-						  <div class="col-lg-6 col-sm-6">
-						  <label for="startDate">Start</label>
-						  <input id="startDate" class="form-control" type="date" />
-						  <span id="startDateSelected"></span>
-						  </div>
-					  <div class="col-lg-6 col-sm-6">
-						  <label for="endDate">Ende</label>
-						  <input id="endDate" class="form-control" type="date" />
-						  <span id="endDateSelected"></span>
-						  </div>
-					  </div>
-					  <div class="row g-1 mt-1">
-					  <div class="d-grid gap-2 d-md-block">
-  <button class="btn btn-outline-primary btn-sm" type="button" id="thisWeek">Diese Woche</button>
-  <button class="btn btn-outline-primary btn-sm" type="button" id="thisMonth">Dieser Monat</button>
-  <button class="btn btn-outline-primary btn-sm" type="button" id="clearThis">Leeren</button>
-  </div>
-  </div>
-						  
-						  
-						</div>
-						<div class="col-md-6">
-						<div class="row position-absolute bottom-0 end-0">
-						<div class="text-end">
-						<button type="button" class="btn btn-outline-dark border-white" id="redoButton">
-						<i class="fa fa-redo" aria-hidden="true"></i>
-		</button>
-</div>
-<div class="text-end">
-<button type="button" class="btn btn-outline-dark border-white" id="extendedSwal">
-<i class="fa fa-question-circle" aria-hidden="true"></i>
-</button>
-</div>
-					  </div>
-					  </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	<br>
-	<p class="text-secondary" id="info-result-number"></p>
 	<div class="row" id="loading_div">
-	<div class="col-md-8" id="map_wrapper">
+	<div class="col-md-8 mb-md-0 mb-5" id="map_wrapper">
 	<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>
 	</div>
-	<div class="col-md-4">
-	<div class="card card-body" style="margin-left: -10px; margin-bottom: 10px;">
-<div class="row g-3">
-<div class="col-9">
-  <div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
-  <input type="checkbox" class="btn-check filter-btn" id="alle-btn" autocomplete="off" checked>
-  <label class="btn btn-outline-secondary filter-btn" for="alle-btn">Alle</label><br>
-  <input type="checkbox" class="btn-check filter-btn check-category-single" id="initiative-btn" autocomplete="off">
-  <label class="btn btn-outline-primary filter-btn" for="initiative-btn">Initiativen</label><br>
-  <input type="checkbox" class="btn-check filter-btn check-category-single" id="angebote-btn" autocomplete="off">
-  <label class="btn btn-outline-danger filter-btn" for="angebote-btn">Angebote</label><br>
-  <input type="checkbox" class="btn-check filter-btn check-category-single" id="veranstaltungen-btn" autocomplete="off">
-  <label class="btn btn-outline-warning filter-btn" for="veranstaltungen-btn">Veranstaltungen</label><br>
-  </div>
-  </div>
-  <div class="col-3 text-end">
-  <button type="button" class="btn btn-outline-dark border-white swalDefaultQuestion">
-  <i class="fa fa-question-circle" aria-hidden="true"></i>
-</button>
-  </div>
-  </div>
+	<div class="col-md-4 mb-md-0 mb-5" style="height: '. $settings['height'] . 'px" id="results_filter_div">
+	<div class="card card-body" style="margin-left: -10px; margin-bottom: 15px;" id="search_div">
+	<span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary">
+    Suche
+  </span>
 
 		<div class="row g-3 mt-1">
 		<div class="input-group mb-3">
 		<input type="text" class="form-control" placeholder="Suche nach..." aria-label="Suche" aria-describedby="search-button" id="search_input">
-		<button class="btn btn-outline-dark" type="button" type="button" data-bs-toggle="collapse" data-bs-target="#extended_filters" aria-expanded="false" aria-controls="extended_filters"><i class="fa-solid fa-arrow-down"></i></button>
+		<button class="btn btn-outline-dark" type="button" type="button" data-bs-toggle="collapse" data-bs-target="#extended_filters" aria-expanded="false" aria-controls="extended_filters" id="filter-button"><i class="fa-solid fa-filter"></i></button>
 		<button class="btn btn-outline-success btn-arrow" type="button" id="search-button"><span>Los!</span></button>
 	  </div>
 	  </div>
 	  <div class="collapse" id="extended_filters">
-
+	  <div class="row g-3">
+	  <div class="col-9">
+		<div class="btn-toolbar btn-group-sm" role="toolbar" aria-label="Toolbar with filter buttons">
+		<input type="checkbox" class="btn-check filter-btn" id="alle-btn" autocomplete="off" checked>
+		<label class="btn btn-outline-secondary filter-btn" for="alle-btn">Alle</label><br>
+		<input type="checkbox" class="btn-check filter-btn check-category-single" id="initiative-btn" autocomplete="off">
+		<label class="btn btn-outline-primary filter-btn" for="initiative-btn">Initiativen</label><br>
+		<input type="checkbox" class="btn-check filter-btn check-category-single" id="angebote-btn" autocomplete="off">
+		<label class="btn btn-outline-danger filter-btn" for="angebote-btn">Angebote</label><br>
+		<input type="checkbox" class="btn-check filter-btn check-category-single" id="veranstaltungen-btn" autocomplete="off">
+		<label class="btn btn-outline-warning filter-btn" for="veranstaltungen-btn">Veranstaltungen</label><br>
+		</div>
+		</div>
+		<div class="col-3 text-end">
+		<button type="button" class="btn btn-outline-dark border-white swalDefaultQuestion">
+		<i class="fa fa-question-circle" aria-hidden="true"></i>
+	  </button>
+	  <button type="button" class="btn btn-outline-dark border-white" id="redoButton">
+	  <i class="fa fa-redo" aria-hidden="true"></i>
+	  </button>
+		</div>
+		</div>
 						  <label for="test">Region</label>
 						  <select class="selectpicker" multiple data-live-search="true" title="Regionen auswählen" id="regions_picker" data-actions-box="true" data-width="100%">
 						</select>
@@ -512,31 +421,33 @@ function map_block_leaflet_multi_marker_render($settings) {
 <button class="btn btn-outline-primary btn-sm" type="button" id="clearThis">Leeren</button>
 </div>
 </div>
-				  
-				  
-				</div>
-				<div class="col-md-6">
-				<div class="row position-absolute bottom-0 end-0">
-				<div class="text-end">
-				<button type="button" class="btn btn-outline-dark border-white" id="redoButton">
-				<i class="fa fa-redo" aria-hidden="true"></i>
-</button>
-</div>
+<div class="row g-1 mt-1">
 <div class="text-end">
 <button type="button" class="btn btn-outline-dark border-white" id="extendedSwal">
 <i class="fa fa-question-circle" aria-hidden="true"></i>
 </button>
 </div>
-		</div>
+</div>
+				  
+				
 	</div>
 </div>
 <div class="content">
-  <div class="d-grid gap-2 d-md-block card card-body" id="go-to-div" style="margin-left: -10px; margin-bottom: 10px; background-color: #e9e9e9;">
+  <div class="d-grid gap-2 d-md-block card card-body" id="go-to-div" style="margin-left: -10px; margin-bottom: 15px; background-color: #e9e9e9;">
+  <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary">
+  Ergebnisse
+</span>
+<div class="d-grid gap-2 d-md-block">
+Springe zu:
   <button class="btn btn-outline-primary btn-sm mb-1" type="button" id="jump-projects"><i class="fa-solid fa-arrow-right"></i> Projekte</button>
   <button class="btn btn-outline-danger btn-sm mb-1" type="button" id="jump-offers"><i class="fa-solid fa-arrow-right"></i> Angebote</button>
   <button class="btn btn-outline-warning btn-sm mb-1" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
+  </div> 
+  <div class="row">
+  <small class="text-secondary text-end" id="info-result-number" style="margin-bottom: -10px;"></small>
   </div>
-  <div class="overflow-auto bg-light result_wrapper" id="list_wrapper" style="height: '. $settings['height'] . 'px">
+  </div>
+  <div class="overflow-auto bg-light result_wrapper" id="list_wrapper" style="height: inherit;">
   </div>
   </div>
 	</div>
@@ -647,10 +558,12 @@ function map_block_leaflet_multi_marker_render($settings) {
 		console.log('. json_encode($settings).');
 		var markers, map, oms, map2 = {}, former_div, single_marker, marker_data = [], categories_array = [], first_project, first_offer, first_event, service_types, entry_tap = [], all_data;
 		document.addEventListener("DOMContentLoaded", function() {
-			var randomParent = document.getElementById("list_wrapper");
-			const height_jump_div = document.querySelector("#go-to-div").offsetHeight;
-			const height_card_div = document.querySelector("#list_wrapper").offsetHeight;
-			document.getElementById("list_wrapper").style.height = height_card_div - height_jump_div + "px";
+
+			var container3 = document.getElementById("list_wrapper");
+var observer3 = ResizeObserver && new ResizeObserver(function() {
+	adjust_result_div_height();
+});
+observer3 && observer3.observe(container3);
 			var markets = [
     {
         "latlng": {
@@ -1404,6 +1317,21 @@ observer && observer.observe(container);
 
 		getAPIData(urls);
 
+		$("#filter-button").click(function() {
+			setTimeout(function () {
+				adjust_result_div_height();
+			}, 50);
+			
+		});
+
+		$("#search_input").keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == "13"){
+				$("#search-button").click();
+			}
+		  });
+
+
 			$( "#search-button" ).click(function() {
 				urls = [];
 				
@@ -1872,6 +1800,13 @@ observer && observer.observe(container);
 		function getLoc(zoomLevel) {
 			map.setView([51.3406, 12.3747], zoomLevel); // ([lat, lng], zoom)
 		};
+
+		function adjust_result_div_height(){
+			var height_parent_div = document.querySelector("#results_filter_div").offsetHeight;
+			var height_search_div = document.querySelector("#search_div").offsetHeight;
+			var height_jump_div = document.querySelector("#go-to-div").offsetHeight;
+			document.getElementById("list_wrapper").style.height = height_parent_div - height_search_div - height_jump_div - 50 + "px";
+		}
 
 		function goBackFunction(e) {
 			console.log(entry_tap);
