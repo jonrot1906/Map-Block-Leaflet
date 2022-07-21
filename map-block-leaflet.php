@@ -438,7 +438,7 @@ function map_block_leaflet_multi_marker_render($settings) {
   Ergebnisse
 </span>
 <div class="d-grid gap-2 d-md-block">
-Springe zu:
+<small>Springe zu:</small>
   <button class="btn btn-outline-primary btn-sm mb-1" type="button" id="jump-projects"><i class="fa-solid fa-arrow-right"></i> Projekte</button>
   <button class="btn btn-outline-danger btn-sm mb-1" type="button" id="jump-offers"><i class="fa-solid fa-arrow-right"></i> Angebote</button>
   <button class="btn btn-outline-warning btn-sm mb-1" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
@@ -468,18 +468,18 @@ Springe zu:
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content" id="info-modal-content">
 				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
-				<div class="container">
+				<div class="container" style="margin-left:-30px;">
 				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück</a></b>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 				<div class="col-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
 				</div>
 				<div class="col-9">
 					<div style="display: block; margin-right: 4px;">
-					<h3 id="info-modal-title">Beispieltext</h3>
+					<h3 id="info-modal-title"></h3>
 					</div>
 					<div style="display: block; margin-right: 4px;">
-					<p id="info-modal-type" class="text-success";>Kategorie</p>
+					<p id="info-modal-type" class="text-success";></p>
 					</div>
 					<div class="accordion-preview" id="category_accordion">
 					  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -494,7 +494,7 @@ Springe zu:
 				</div>
 				</div>
 				</div>
-                <div class="modal-body">
+                <div class="modal-body small-text">
 				<div id="info-modal-organisation-card">
 					Von:&nbsp;<i class="fa fa-angle-right"></i>&nbsp;<b><a id="info-modal-organisation" data-link="" class="text-dark organisation_link"></a></b>
 					<hr>
@@ -564,104 +564,7 @@ var observer3 = ResizeObserver && new ResizeObserver(function() {
 	adjust_result_div_height();
 });
 observer3 && observer3.observe(container3);
-			var markets = [
-    {
-        "latlng": {
-            "lat": 51.31648569225387,
-            "lng": 12.367877059020055
-        },
-        "label": "Chemnitz, Sachsen, Deutschland",
-        "title": "Verschenkekiste e.V.",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 345,
-		"category":"Umwelt",
-		"type":"Veranstaltung"
-    },
-    {
-        "latlng": {
-            "lat": 51.28487224227432,
-            "lng": 12.335614519666239
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "Aeracura",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 346,
-		"category":"Umwelt",
-		"type":"Initiative"
-    },
-	{
-        "latlng": {
-            "lat": 51.32007910798171,
-            "lng": 12.33572431023343
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "Pavillon der Hoffnung",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 347,
-		"category":"Umwelt",
-		"type":"Initiative"
-    },
-	{
-        "latlng": {
-            "lat": 51.34378920033103,
-            "lng": 12.35939433799315
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "FISCHER Druck",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 348,
-		"category":"Umwelt",
-		"type":"Initiative"
-    },
-	{
-        "latlng": {
-            "lat": 51.32649031397098,
-            "lng": 12.357616793279819
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "OpenGeoSys",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 356,
-		"category":"Umwelt",
-		"type":"Veranstaltung"
-    },
-	{
-        "latlng": {
-            "lat": 51.348623393260205,
-            "lng": 12.390429014367959
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "INSPIRATA",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 349,
-		"category":"Umwelt",
-		"type":"Angebot"
-    },
-	{
-        "latlng": {
-            "lat": 51.33572595619215,
-            "lng": 12.39104431830719
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "#engmaschig",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 350,
-		"category":"Energie",
-		"type":"Veranstaltung"
-    },
-	{
-        "latlng": {
-            "lat": 51.344688692548985,
-            "lng": 12.40929480960208
-        },
-        "label": "Leipzig, Sachsen, Deutschland",
-        "title": "ZAQUENSIS",
-		"content": "Hier werden später ganz viele interessante Infos über den Verein stehen.",
-		"id": 351,
-		"category":"Umwelt",
-		"type":"Angebot"
-    }
-]
+
 
 const list_container = document.getElementById("list_wrapper");
 const org_data_container = document.getElementById("info-modal-organisation-data");
@@ -669,7 +572,7 @@ const org_data_container = document.getElementById("info-modal-organisation-data
 function returnCards(markets) {
 	markets.forEach(function(market) {
 		if (market.description != null){
-			market.shortdescription = market.description.substring(0,80);
+			market.shortdescription = market.description.substring(0,150);
 		}
 		switch(market.service_type){
 			case "Projekt":
@@ -689,15 +592,11 @@ function returnCards(markets) {
   return "<div id=\"list_results\" class=\"result-list list-group\">" + markets.map(markets => `
   <div class="card result_list list-group-item-action" id="${markets.id}_div" style="border-right: solid 7px ${markets.color}">
   <div class="card-body">
-  <div class="row">
-  <div class="col-9">
-  	<h5><a class="modal_link link-dark" id="${markets.id}_link">${markets.name}</a></h5>
+  <p class="text-success" style="font-size:16px;margin-bottom: 3px;"><small>${markets.service_type}</small></p>
+  <div class="row" style="margin-bottom: 5px;">
+  	<h5><a class="modal_link link-dark" id="${markets.id}_link" style="font-size:18px;">${markets.name}</a></h5>
   </div>
-  <div class="col-3" align="right">
-  <p class="text-success"><small>${markets.service_type}</small></p>
-  </div>
-  </div>
-  	<p class="card-text">${markets.shortdescription}...</p>
+  	<p class="card-text" style="font-size:14px;">${markets.shortdescription}...</p>
     </div> 
   </div>`).join("") + "</div>";
 }
@@ -855,6 +754,27 @@ function returnOrgActivities(data_arr) {
 			map2.scrollWheelZoom.disable();
 
 			var yellowIcon = new L.Icon({
+				iconUrl: "https://cdn.mapmarker.io/api/v1/pin?icon=fa-calendar&size=100&background=ffbb33&hoffset=0&voffset=-1",
+				iconSize: [40, 40],
+				iconAnchor: [20, 34],
+				popupAnchor: [0, -28]
+			  });
+
+			  var redIcon = new L.Icon({
+				iconUrl: "https://cdn.mapmarker.io/api/v1/pin?icon=fa-users&size=100&background=ff4444&hoffset=0&voffset=-1",
+				iconSize: [40, 40],
+				iconAnchor: [20, 34],
+				popupAnchor: [0, -28]
+			  });
+
+			  var blueIcon = new L.Icon({
+				iconUrl: "https://cdn.mapmarker.io/api/v1/pin?icon=fa-sitemap&size=100&background=4285F4&hoffset=0&voffset=-1",
+				iconSize: [40, 40],
+				iconAnchor: [20, 34],
+				popupAnchor: [0, -28]
+			  });
+
+			/*var yellowIcon = new L.Icon({
 				iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png",
 				shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 				iconSize: [25, 41],
@@ -880,7 +800,7 @@ function returnOrgActivities(data_arr) {
 				popupAnchor: [1, -34],
 				shadowSize: [41, 41]
 			  });
-			
+			*/
 
 			L.Control.zoomHome = L.Control.extend({
 				options: {
@@ -1150,11 +1070,21 @@ observer && observer.observe(container);
 			//).done(function(result1, result2) {
 
 				var urls = [
-					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106",
-					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106",
-					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106", 
-				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106", 
-				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106"
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106&category_id=7",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106&category_id=7",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106&category_id=7",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106&category_id=7",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106&category_id=7",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106&category_id=8",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106&category_id=8",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106&category_id=8",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106&category_id=8",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106&category_id=8",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=project&region_id=106&category_id=44",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=store&region_id=106&category_id=44",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106&category_id=44",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106&category_id=44",
+					"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106&category_id=44"
 				]
 
 				function getAPIData(web_addresses){
@@ -1568,7 +1498,7 @@ observer && observer.observe(container);
 						obj.info_url = "https://" + obj.info_url;
 					}
 					$("#info-modal-website").prop("href", obj.info_url);
-					$("#info-modal-website").text(obj.info_url);
+					$("#info-modal-website").text("Website");
 				}else{
 					$("#info-modal-website").text("Keine Website vorhanden.");
 					$("#info-modal-website").removeAttr("href");
@@ -1730,7 +1660,7 @@ observer && observer.observe(container);
 					
 					/*if(organisation_data.website != null){
 						$("#info-modal-website").prop("href", organisation_data.info_url);
-						$("#info-modal-website").text(organisation_data.info_url);
+						$("#info-modal-website").text("Website");
 					}else{
 						$("#info-modal-website").text("Keine Website vorhanden.");
 						$("#info-modal-website").removeAttr("href");
@@ -1876,7 +1806,7 @@ observer && observer.observe(container);
             <div class="modal-content" id="info-modal-content">
 				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
 				<div class="container">
-				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()"><i class="fa fa-arrow-left"></i> Zurück</a></b>
+				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()" style="margin-bottom:10px;"><i class="fa fa-arrow-left"></i> Zurück</a></b>
 				<div class="row">
 				<div class="col-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
@@ -2376,7 +2306,7 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 					
 					/*if(organisation_data.website != null){
 						$("#info-modal-website").prop("href", organisation_data.info_url);
-						$("#info-modal-website").text(organisation_data.info_url);
+						$("#info-modal-website").text("Website");
 					}else{
 						$("#info-modal-website").text("Keine Website vorhanden.");
 						$("#info-modal-website").removeAttr("href");
@@ -2548,7 +2478,7 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 							obj.info_url = "https://" + obj.info_url;
 						}
 						$("#info-modal-website").prop("href", obj.info_url);
-						$("#info-modal-website").text(obj.info_url);
+						$("#info-modal-website").text("Website");
 					}else{
 						$("#info-modal-website").text("Keine Website vorhanden.");
 						$("#info-modal-website").removeAttr("href");

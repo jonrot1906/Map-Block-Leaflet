@@ -229,3 +229,7 @@ list_wrapper {
   .event-container>.event-info>p.event-title{
 	font-size: 18px;
   }
+
+  .small-text{
+	font-size: 15px;
+  }
