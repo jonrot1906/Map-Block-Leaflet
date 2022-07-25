@@ -327,7 +327,6 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/4.1.1/spin.min.css" integrity="sha512-ssYEuK9Epo/48VIlBWTFosf1izrgGZqEMELJP+L7Clh0nvaOSTg87dM+Z8L+KKjrPdMbMvKYOOnzBOkNMhWFsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -340,16 +339,16 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js" integrity="sha512-o0rWIsZigOfRAgBxl4puyd0t6YKzeAw9em/29Ag7lhCQfaaua/mDwnpE2PVzwqJ08N7/wqrgdjc2E0mwdSY2Tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
 
 	<style>
 	
 	</style>
-	<div class="container mt-5">
+	<div class="container mt-5 mb-5">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12">
 		<h5>Filter dich zur Nachhaltigkeit!</h5>
@@ -367,8 +366,8 @@ function map_block_leaflet_multi_marker_render($settings) {
 		<div class="row g-3 mt-1">
 		<div class="input-group mb-3">
 		<input type="text" class="form-control" placeholder="Suche nach..." aria-label="Suche" aria-describedby="search-button" id="search_input">
-		<button class="btn btn-outline-dark" type="button" type="button" data-bs-toggle="collapse" data-bs-target="#extended_filters" aria-expanded="false" aria-controls="extended_filters" id="filter-button"><i class="fa-solid fa-filter"></i></button>
-		<button class="btn btn-outline-success btn-arrow" type="button" id="search-button"><span>Los!</span></button>
+		<button class="btn btn-outline-dark filter-button" type="button" type="button" data-bs-toggle="collapse" data-bs-target="#extended_filters" aria-expanded="false" aria-controls="extended_filters"><i class="fa-solid fa-filter"></i></button>
+		<button class="btn btn-outline-success btn-arrow search-button" type="button"><span>Los!</span></button>
 	  </div>
 	  </div>
 	  <div class="collapse" id="extended_filters">
@@ -428,26 +427,47 @@ function map_block_leaflet_multi_marker_render($settings) {
 </button>
 </div>
 </div>
-				  
+<div class="btn-group d-flex" role="group" aria-label="Control filter box group">
+<button type="button" class="btn btn-outline-secondary filter-button" data-bs-toggle="collapse" data-bs-target="#extended_filters" aria-expanded="false" aria-controls="extended_filters"><i class="fa-solid fa-angles-up"></i> Einklappen</button>
+<button type="button" class="btn btn-outline-success search-button"><i class="fa-solid fa-magnifying-glass"></i> Suchen</button>
+</div> 
 				
 	</div>
 </div>
-<div class="content">
+<div class="content" id="another_wrap">
   <div class="d-grid gap-2 d-md-block card card-body" id="go-to-div" style="margin-left: -10px; margin-bottom: 15px; background-color: #e9e9e9;">
   <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary">
   Ergebnisse
 </span>
 <div class="d-grid gap-2 d-md-block">
-<small>Springe zu:</small>
+<small style="font-size:12px;">Springe zu:</small><br>
   <button class="btn btn-outline-primary btn-sm mb-1" type="button" id="jump-projects"><i class="fa-solid fa-arrow-right"></i> Projekte</button>
   <button class="btn btn-outline-danger btn-sm mb-1" type="button" id="jump-offers"><i class="fa-solid fa-arrow-right"></i> Angebote</button>
   <button class="btn btn-outline-warning btn-sm mb-1" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
+  </div>
+  <div class="row mt-2">
+  <div class="col-9">
+  <input type="text" class="form-control search bg-white" placeholder="Angebot gesucht?" aria-label="Suche">
+  </div>
+  <div class="col-3">
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-sort"></i>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+  <li><a class="dropdown-item sort" data-sort="card_type" href="#"><i class="fa-solid fa-sort"></i> Angebots-Typ</a></li>
+  <li><a class="dropdown-item sort" data-sort="card_title" href="#"><i class="fa-solid fa-sort"></i> Titel</a></li>
+</ul>
+</div>
   </div> 
+  </div>
   <div class="row">
   <small class="text-secondary text-end" id="info-result-number" style="margin-bottom: -10px;"></small>
   </div>
   </div>
+
   <div class="overflow-auto bg-light result_wrapper" id="list_wrapper" style="height: inherit;">
+  </div>
   </div>
   </div>
 	</div>
@@ -479,7 +499,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<h3 id="info-modal-title"></h3>
 					</div>
 					<div style="display: block; margin-right: 4px;">
-					<p id="info-modal-type" class="text-success";></p>
+					<p id="info-modal-type"></p>
 					</div>
 					<div class="accordion-preview" id="category_accordion">
 					  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -589,16 +609,42 @@ function returnCards(markets) {
 			}			
 		});
 
-  return "<div id=\"list_results\" class=\"result-list list-group\">" + markets.map(markets => `
+  return "<div id=\"list_results\" class=\"result-list list-group list\">" + markets.map(markets => { let result_card = `
   <div class="card result_list list-group-item-action" id="${markets.id}_div" style="border-right: solid 7px ${markets.color}">
   <div class="card-body">
-  <p class="text-success" style="font-size:16px;margin-bottom: 3px;"><small>${markets.service_type}</small></p>
+  <p class="card_type" style="font-size:16px;margin-bottom: 3px;color:${markets.color}"><small>${markets.service_type}</small></p>
   <div class="row" style="margin-bottom: 5px;">
-  	<h5><a class="modal_link link-dark" id="${markets.id}_link" style="font-size:18px;">${markets.name}</a></h5>
+  	<h5><a class="modal_link link-dark stretched-link card_title" id="${markets.id}_link" style="font-size:18px;">${markets.name}</a></h5>
   </div>
-  	<p class="card-text" style="font-size:14px;">${markets.shortdescription}...</p>
-    </div> 
-  </div>`).join("") + "</div>";
+  <p>`;
+  let act_time;
+  if(markets.start_at != null){
+	  let start_date = moment(markets.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+	  act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Start: ${start_date}</span>
+	  <br>`;
+  }
+  if(markets.end_at != null){
+	  let end_date = moment(markets.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+	  act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Ende: ${end_date}</span>
+	  <br>`;
+  }
+  if((markets.end_at != null) && (markets.end_at != null)){
+	  let start_date = moment(markets.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+	  let end_date = moment(markets.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
+	  act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>${start_date} - ${end_date}</span>
+	  <br>`;
+  }
+  if(act_time != null){
+	result_card += act_time;
+  }
+  result_card += `<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${markets.full_address}</span>
+  <br>
+  <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${markets.shortdescription}...</span>
+  </p>
+  </div>
+  </div>`;
+	return result_card;
+}).join("") + "</div>";
 }
 
 function returnOrgActivities(data_arr) {
@@ -623,13 +669,13 @@ function returnOrgActivities(data_arr) {
 
 		/*if($.inArray(market.service_type, ["Veranstaltung", "Beratungsangebot", "Bildungsangebot"])){
 			return "<div id=\"org_activities\">" + data_arr.map(data_single => `
-			<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+			<div class="card card-body mb-2 list-group-item-action" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
 			<div class="row">
 			<div class="col-9">
 				<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
 			</div>
 			<div class="col-3" align="right">
-			<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+			<p class="type-text" style="color:${data_single.color}"><small>${data_single.service_type}</small></p>
 			</div>
 			<p>
 			<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
@@ -659,14 +705,14 @@ function returnOrgActivities(data_arr) {
 			</div>`).join("") + "</div>";
 		}*/
 
-		return "<div id=\"org_activities\">" + data_arr.map(data_single => { let act_card = `
-		<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+		return "<div id=\"org_activities\" class=\"list-group list\">" + data_arr.map(data_single => { let act_card = `
+		<div class="card card-body mb-2 " id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
 		<div class="row">
 		<div class="col-9">
-			<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+			<h5><a class="modal_link link-dark stretched-link" id="${data_single.id}_link">${data_single.name}</a></h5>
 		</div>
 		<div class="col-3" align="right">
-		<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+		<p class="type-text" style="color:${data_single.color}"><small>${data_single.service_type}</small></p>
 		</div>
 		<p>`;
 		let act_time;
@@ -720,7 +766,7 @@ function returnOrgActivities(data_arr) {
 				cache: true
 			}).done(function(data){
 				console.log("Done");
-				oms = new OverlappingMarkerSpiderfier(map);
+				oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied:true});
 
 				var popup = new L.Popup();
 				/*oms.addListener("click", function(marker) {
@@ -728,7 +774,8 @@ function returnOrgActivities(data_arr) {
 				});*/
 
 				oms.addListener("click", function(marker) {
-					map.panTo(marker.getLatLng());
+					//map.panTo(marker.getLatLng());
+					marker.openPopup();
 					let selected_div = document.getElementById(marker.options.ID+"_div");
 					if(!former_div){
 						former_div = selected_div;
@@ -1045,7 +1092,10 @@ observer && observer.observe(container);
 
 				});
 				$("#kategorie_picker").selectpicker("refresh");
-				$("#kategorie_picker").selectpicker("val", ["7","8","44"]);
+				let default_categories = '. json_encode($settings['categories']) .';
+				$("#kategorie_picker").selectpicker("val", default_categories);
+
+				$(".search-button").click();
 			});
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json", function( data ) {
@@ -1057,7 +1107,8 @@ observer && observer.observe(container);
 					  }));
 				});
 				$("#regions_picker").selectpicker("refresh");
-				$("#regions_picker").selectpicker("val", "106");
+				let default_regions = '. json_encode($settings['regions']) .';
+				$("#regions_picker").selectpicker("val", default_regions);
 			});
 
 			$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json", function( activities_data ) {
@@ -1118,18 +1169,16 @@ observer && observer.observe(container);
 					markers = L.featureGroup();
 					markets.forEach(function(market) {
 						var ID = market.id;
-						console.log(ID);
 						switch(market.service_type){
 							case "Initiative":
-								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:blueIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:blueIcon}).bindPopup("<b>"+market.name+"</b><br><button id=`" + ID + "_marker`>Kurzinfo</button><a id=`" + ID + "_link`>Detailliert</a>").addTo(markers);
 								break;
 							case "Veranstaltung":
-								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:yellowIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:yellowIcon}).bindPopup("<b>"+market.name+"</b><br><button id=`" + ID + "_marker`>Kurzinfo</button><a id=`" + ID + "_link`>Detailliert</a>").addTo(markers);
 								break;
 							case "Angebot":
-								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:redIcon}).bindPopup("<b>"+market.name+"</b>").addTo(markers);
-								break;
-										
+								market[ID] = new L.marker([market.latlng[0], market.latlng[0]], {ID, icon:redIcon}).bindPopup("<b>"+market.name+"</b><br><button id=`" + ID + "_marker`>Kurzinfo</button><a id=`" + ID + "_link`>Detailliert</a>").addTo(markers);
+								break;			
 						} 
 						market[ID].on("click", function(e){
 							map.panTo(this.getLatLng());
@@ -1155,6 +1204,17 @@ observer && observer.observe(container);
 				}*/
 
 				list_container.innerHTML = returnCards(data);
+				var options = {
+					valueNames: ["card_type", "card_title", "card_description"]
+				};
+				setTimeout(function () {
+					var hackerList = new List("another_wrap", options);
+					console.log(hackerList);
+				}, 2500);
+
+
+				
+
 				$("#info-result-number").text(data.length + " Ergebnisse");
 				markers = L.featureGroup();
 				
@@ -1171,16 +1231,16 @@ observer && observer.observe(container);
 								switch(elem.service_type){
 									case "Projekt":
 									case "Filiale":
-										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<span style=color:#4285F4;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 										oms.addMarker(marker);
 										break;
 									case "Veranstaltung":
-										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<span style=color:#ffbb33;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 										oms.addMarker(marker);
 										break;
 									case "Beratungsangebot":
 									case "Bildungsangebot":
-										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+										var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<span style=color:#ff4444;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 										oms.addMarker(marker);
 										break;			
 								} 
@@ -1190,16 +1250,16 @@ observer && observer.observe(container);
 						switch(elem.service_type){
 							case "Projekt":
 							case "Filiale":
-								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:blueIcon}).bindPopup("<span style=color:#4285F4;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 								oms.addMarker(marker);
 								break;
 							case "Veranstaltung":
-								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:yellowIcon}).bindPopup("<span style=color:#ffbb33;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 								oms.addMarker(marker);
 								break;
 							case "Beratungsangebot":
 							case "Bildungsangebot":
-								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<b>"+elem.name+"</b>").addTo(markers).on("mouseover", mouseFunction);
+								var marker = new L.marker([elem.latlng[0], elem.latlng[1]], {ID, icon:redIcon}).bindPopup("<span style=color:#ff4444;>"+elem.service_type+"</span><br><b>"+elem.name+"</b><br><button class=marker_click id=" + ID + "_marker>Kurzinfo</button> | <button class=modal_link id=" + ID + "_link>Detailliert</button>").addTo(markers).on("mouseover", mouseFunction);
 								oms.addMarker(marker);
 								break;
 										
@@ -1245,9 +1305,9 @@ observer && observer.observe(container);
 			scrollParentToChild(list_wrapper, selected_div);
 		});
 
-		getAPIData(urls);
+		//getAPIData(urls);
 
-		$("#filter-button").click(function() {
+		$(".filter-button").click(function() {
 			setTimeout(function () {
 				adjust_result_div_height();
 			}, 50);
@@ -1257,12 +1317,12 @@ observer && observer.observe(container);
 		$("#search_input").keypress(function(event){
 			var keycode = (event.keyCode ? event.keyCode : event.which);
 			if(keycode == "13"){
-				$("#search-button").click();
+				$(".search-button").click();
 			}
 		  });
 
 
-			$( "#search-button" ).click(function() {
+			$( ".search-button" ).click(function() {
 				urls = [];
 				
 				if($("#alle-btn").is(":checked")){
@@ -1293,8 +1353,6 @@ observer && observer.observe(container);
 					$.each( urls, function( key, value ) {
 						if (~value.indexOf("upcoming")){
 							urls[key] = value.replace("upcoming","upcoming=" + $("#startDate").val());
-						}else{
-							urls[key] = value + "&upcoming=" + $("#startDate").val();
 						}
 						console.log(urls[key]);
 					  });
@@ -1366,8 +1424,10 @@ observer && observer.observe(container);
 						ext_arr = ext_arr_cat;
 					}
 				  }
-
-				map.removeLayer(markers);
+				  console.log(markers);
+				if( typeof markers != "undefined" ){
+					map.removeLayer(markers);
+				}
 
 				  if(region_arr.length > 0 || category_arr.length > 0){
 					getAPIData(ext_arr);
@@ -1390,6 +1450,11 @@ observer && observer.observe(container);
 				}else if(){
 
 				}*/
+				$("#extended_filters").collapse("hide");
+
+				setTimeout(function () {
+					adjust_result_div_height();
+				}, 50);
 
 			  });
 
@@ -1399,7 +1464,7 @@ observer && observer.observe(container);
 			}
 
 			function clickFunction(e) {
-				map.panTo(this.getLatLng());
+				//map.panTo(this.getLatLng());
 				let selected_div = document.getElementById(e.target.options.ID+"_div");
 				if(!former_div){
 					former_div = selected_div;
@@ -1412,6 +1477,27 @@ observer && observer.observe(container);
 				selected_div.style.backgroundColor="#D3D3D3";
 				console.log(e.target.options.ID);
 			}
+
+			$(document).on("click",".marker_click",function(e) {
+				var marker_id_long = e.target.id;
+				var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
+				let selected_div = document.getElementById(marker_id+"_div");
+				if(!former_div){
+					former_div = selected_div;
+				}else{
+					console.log(former_div);
+					former_div.style.backgroundColor="";
+					former_div = selected_div;
+				}
+				scrollParentToChild(list_wrapper, selected_div);
+				selected_div.style.backgroundColor="#D3D3D3";
+				if ($(window).width() < 700) {
+					$(selected_div)[0].scrollIntoView({
+						behavior: "smooth", // or "auto" or "instant"
+						block: "start" // or "end"
+					});
+				}
+			});
 
 			$(document).on("click",".modal_link",function(e) {
 				$(".modal-content").animate({ scrollTop: 0 });
@@ -1552,6 +1638,8 @@ observer && observer.observe(container);
 						$("#info-modal-photo").attr("src", obj.image_url_base + "?width=200&height=200");
 					}
 				document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
+				$("#info-modal-type").css("color", obj.color);
+				console.log(obj.color);
 
 				//add toolbar-btn
 
@@ -1589,13 +1677,36 @@ observer && observer.observe(container);
 					$.getJSON("https://nominatim.openstreetmap.org/search?format=json&q=" + obj.full_address, function( obj_latlng_data ) {
 						if(obj_latlng_data.length != 0){
 							obj.latlng = [obj_latlng_data[0].lat, obj_latlng_data[0].lon];
-							single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+							switch(obj.service_type){
+								case "Projekt":
+								case "Filiale":
+									single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:blueIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+									break;
+								case "Veranstaltung":
+									single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+									break;
+								case "Beratungsangebot":
+								case "Bildungsangebot":
+									single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:redIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+									break;			
+							}
 							map2.setView([obj.latlng[0], obj.latlng[1]], 13);
 						}
 					});
 				}else if (obj.latlng != null ){
-					single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map2)
-					.bindPopup("<b>"+obj.name+"</b>");
+					switch(obj.service_type){
+						case "Projekt":
+						case "Filiale":
+							single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:blueIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+							break;
+						case "Veranstaltung":
+							single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+							break;
+						case "Beratungsangebot":
+						case "Bildungsangebot":
+							single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:redIcon}).addTo(map2).bindPopup("<b>"+obj.name+"</b>");
+							break;			
+					}
 					map2.setView([obj.latlng[0], obj.latlng[1]], 13);
 				}
 
@@ -1784,9 +1895,10 @@ observer && observer.observe(container);
 		return '
 		<!-- Add the evo-calendar.css for styling -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.royal-navy.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.royal-navy.css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
 		<!-- Add jQuery library (required) -->
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -1807,16 +1919,16 @@ observer && observer.observe(container);
 				<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px">
 				<div class="container">
 				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()" style="margin-bottom:10px;"><i class="fa fa-arrow-left"></i> Zurück</a></b>
-				<div class="row">
+				<div class="row" style="margin-top:10px;">
 				<div class="col-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
 				</div>
 				<div class="col-9">
 					<div style="display: block; margin-right: 4px;">
-					<h3 id="info-modal-title">Beispieltext</h3>
+					<h3 id="info-modal-title"></h3>
 					</div>
 					<div style="display: block; margin-right: 4px;">
-					<p id="info-modal-type" class="text-success";>Kategorie</p>
+					<p id="info-modal-type"></p>
 					</div>
 					<div class="accordion-preview" id="category_accordion">
 					  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -1902,7 +2014,7 @@ observer && observer.observe(container);
 
 		<script>
 			console.log('. json_encode($settings).');
-			var single_marker, calendar_data, categories_array, entry_tap = [], map;
+			var single_marker, calendar_data, categories_array, entry_tap = [], map, yellowIcon;
 			function returnOrgActivities(data_arr) {
 				data_arr.forEach(function(market) {
 					if (market.description != null){
@@ -1922,14 +2034,14 @@ observer && observer.observe(container);
 							break;
 						}			
 					});
-					return "<div id=\"org_activities\">" + data_arr.map(data_single => { let act_card = `
-						<div class="card card-body mb-2" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
+					return "<div id=\"org_activities\" class=\"list-group list\">" + data_arr.map(data_single => { let act_card = `
+						<div class="card card-body mb-2 list-group-item-action" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
 						<div class="row">
 						<div class="col-9">
-							<h5><a class="modal_link link-dark" id="${data_single.id}_link">${data_single.name}</a></h5>
+							<h5><a class="modal_link link-dark stretched-link" id="${data_single.id}_link">${data_single.name}</a></h5>
 						</div>
 						<div class="col-3" align="right">
-						<p class="text-success type-text"><small>${data_single.service_type}</small></p>
+						<p class="type-text" style="color:${data_single.color}"><small>${data_single.service_type}</small></p>
 						</div>
 						<p>`;
 						let act_time;
@@ -2134,6 +2246,13 @@ observer && observer.observe(container);
 			map = L.map('. $id2 .', { center: center, layers: [layer]});
 			map.setView(center, 13);
 			//map.scrollWheelZoom.disable();
+			
+			yellowIcon = new L.Icon({
+				iconUrl: "https://cdn.mapmarker.io/api/v1/pin?icon=fa-calendar&size=100&background=ffbb33&hoffset=0&voffset=-1",
+				iconSize: [40, 40],
+				iconAnchor: [20, 34],
+				popupAnchor: [0, -28]
+			  });
 
 		var container = document.getElementById("' . $id2 . '");
 		
@@ -2143,9 +2262,15 @@ observer && observer.observe(container);
 		observer && observer.observe(container);
 
 		var urls = [
-			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106", 
-		"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106", 
-		"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106"
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106&category_id=8",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106&category_id=8",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106&category_id=8",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education&region_id=106&category_id=44",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling&region_id=106&category_id=44",
+			"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming&region_id=106&category_id=44"
 		]
 
 		function getAPIData(web_addresses){
@@ -2196,10 +2321,17 @@ observer && observer.observe(container);
 								
 				} 
 			}
+			if (elem.description != null){
+				elem.shortdescription = elem.description.substring(0,120) + "...";
+			}
+			if(elem.name.length > 17){
+				elem.shortname = elem.name.substring(0,15) + "...";
+			}else{
+				elem.shortname = elem.name;
+			}
 			if(elem.start_at != null && elem.end_at != null){
 				
 				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
-				console.log("Name: " + elem.name + " Start date: " + elem.start_at);
 				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
 				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
 				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
@@ -2209,12 +2341,10 @@ observer && observer.observe(container);
 				}else if(elem.start_date == elem.end_date){
 					date_arr = elem.start_date;
 				}
-				if (elem.description != null){
-					elem.shortdescription = elem.description.substring(0,120) + "...";
-				}
+				
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
-					name: elem.name,
+					name: elem.shortname,
 					date: date_arr,
 					badge: elem.start_datetime + " - " + elem.end_datetime,
 					type: elem.service_type,
@@ -2226,7 +2356,7 @@ observer && observer.observe(container);
 				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
-					name: elem.name,
+					name: elem.shortname,
 					date: elem.end_date,
 					badge: "Ende: " + elem.end_datetime,
 					type: elem.service_type,
@@ -2238,7 +2368,7 @@ observer && observer.observe(container);
 				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
 				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
 					id: elem.id,
-					name: elem.name,
+					name: elem.shortname,
 					date: elem.start_date,
 					badge: "Start: " + elem.start_datetime,
 					type: elem.service_type,
@@ -2516,6 +2646,7 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 							$("#info-modal-photo").attr("src", obj.image_url_base + "?width=200&height=200");
 						}
 					document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
+					$("#info-modal-type").css("color", obj.color);
 	
 					//add toolbar-btn
 	
@@ -2553,12 +2684,12 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 						$.getJSON("https://nominatim.openstreetmap.org/search?format=json&q=" + obj.full_address, function( obj_latlng_data ) {
 							if(obj_latlng_data.length != 0){
 								obj.latlng = [obj_latlng_data[0].lat, obj_latlng_data[0].lon];
-								single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map).bindPopup("<b>"+obj.name+"</b>");
+								single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map).bindPopup("<b>"+obj.name+"</b>");
 								map.setView([obj.latlng[0], obj.latlng[1]], 13);
 							}
 						});
 					}else if (obj.latlng != null ){
-						single_marker = L.marker([obj.latlng[0], obj.latlng[1]]).addTo(map)
+						single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map)
 						.bindPopup("<b>"+obj.name+"</b>");
 						map.setView([obj.latlng[0], obj.latlng[1]], 13);
 					}
@@ -2581,7 +2712,9 @@ $.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltig
 				  })
 
 				function goBackFunction(e) {
+					console.log(entry_tap);
 					entry_tap.pop();
+					console.log(entry_tap);
 					let entry_tap_id = entry_tap[entry_tap.length-1].id;
 					console.log(entry_tap_id);
 					if(entry_tap[entry_tap.length-1].type === 1){

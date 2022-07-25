@@ -102,6 +102,32 @@ list_wrapper {
 	border: none;
 	width: 700px;
   }
+  @media (max-width:700px) {
+	.modal.left .modal-dialog {
+		position: fixed;
+		right: 0;
+		margin: auto;
+		width: 100%;
+		height: 100%;
+		-webkit-transform: translate3d(0%, 0, 0);
+		-ms-transform: translate3d(0%, 0, 0);
+		-o-transform: translate3d(0%, 0, 0);
+		transform: translate3d(0%, 0, 0);
+	  }
+	  
+	  .modal.left .modal-content {
+		height: 100%;
+		overflow-y: auto;
+		width: 100%;
+	  }
+	  
+	  /* ----- MODAL STYLE ----- */
+	  .modal-content {
+		border-radius: 0;
+		border: none;
+		width: 100%;
+	  }
+}
   
   .modal-header {
 	padding: 50px 30px 50px;
@@ -152,10 +178,10 @@ list_wrapper {
   }
   
   .btn-arrow:after {
-	content: "»";
+	content: " »";
 	position: absolute;
 	opacity: 0;
-	top: 11px;
+	top: 7px;
 	right: -30px;
 	transition: 0.5s;
   }
@@ -233,3 +259,32 @@ list_wrapper {
   .small-text{
 	font-size: 15px;
   }
+  html {
+	font-size: 0.85rem;
+  }
+  ::-webkit-input-placeholder {
+	font-size: 0.85rem!important;
+ }
+ 
+ :-moz-placeholder { /* Firefox 18- */
+	   font-size: 0.85rem!important;
+ }
+ ::-moz-placeholder {  /* Firefox 19+ */
+	   font-size: 0.85rem!important;
+ }
+
+ .event-container>.event-info {
+    padding-right: 0px;
+}
+
+body {
+    font-family: 'Open Sans'
+}
+
+.royal-navy .calendar-sidebar > span#sidebarToggler {
+    padding-top: 4px;
+}
+
+.leaflet-container {
+    z-index: 2;
+}

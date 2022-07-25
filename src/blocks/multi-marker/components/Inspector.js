@@ -1,13 +1,49 @@
 import { __ } from "@wordpress/i18n";
 import { InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, SelectControl } from "@wordpress/components";
-import { useState } from '@wordpress/element';
 
 import themes from '../../../shared/themes';
 import providers from '../../../shared/providers';
 import ThemePicker from '../../../components/ThemePicker';
-import AddMarker from "./AddMarker";
-import ListMarkers from "./ListMarkers";
+
+var fetch_categories = [];
+var fetch_regions = [];
+
+function getRegionData(){
+    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        data.map((region) => {
+            fetch_regions.push({label: "- " + region.name, value: region.id})
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+}
+
+function getCategoryData(){
+    console.log("Fetch again");
+    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        data.map((category) => {
+            if(category.depth == 0){
+                fetch_categories.push({label: "- " + category.name, value: category.id})
+            }
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+}
+
+getRegionData();
+getCategoryData();
 
 const Inspector = ( props ) => {
     const { attributes, setAttributes } = props;
@@ -23,46 +59,16 @@ const Inspector = ( props ) => {
             })
         }
     }
-    console.log(attributes.regions);
-
-    var fetch_regions = [];
-    
-    function getRegionData(){
-        fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json")
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            console.log(data);
-            data.map((region) => {
-                fetch_regions.push({label: region.name, value: region.id})
-            })
-          })
-          .catch(error => {
-            console.log(error);
-          });
-    }
-
-    getRegionData();
-
-    const addMarker = (marker) => {
-        setAttributes( { markers : attributes.markers.concat(marker) });
-    }
 
     const addRegion = (region) => {
         setAttributes( { regions : region });
     }
-
-    const handleChangeMarkers = (markers) => {
-        setAttributes({ markers });
+    const addCategory = (category) => {
+        setAttributes( { categories : category });
     }
 
     return (
         <InspectorControls>
-                    <PanelBody title={__('Markers', 'map-block-leaflet')} initialOpen>
-            <AddMarker themeUrl={attributes.themeUrl} onCreate={addMarker} />
-            <ListMarkers themeUrl={attributes.themeUrl} onChange={handleChangeMarkers} markers={attributes.markers} />
-        </PanelBody>
         <PanelBody title={__('Theme', 'map-block-leaflet')} initialOpen={false}>
             <ThemePicker
                 value={ themeId }
@@ -70,7 +76,7 @@ const Inspector = ( props ) => {
                 onChange={ setTheme }
             />
         </PanelBody>
-        <PanelBody title={__('Plugin-Optionen', 'map-block-leaflet')} initialOpen={false}>
+        <PanelBody title={__('Regionen voreinstellen', 'map-block-leaflet')} initialOpen={false}>
 
 <SelectControl style={{height: "auto"}}
     multiple={true}
@@ -80,6 +86,19 @@ const Inspector = ( props ) => {
     onChange={addRegion}
     __nextHasNoMarginBottom
 />
+
+</PanelBody>
+<PanelBody title={__('Kategorien voreinstellen', 'map-block-leaflet')} initialOpen={false}>
+
+<SelectControl style={{height: "auto"}}
+    multiple={true}
+    label="Kategorien"
+    value={attributes.categories}
+    options={fetch_categories}
+    onChange={addCategory}
+    __nextHasNoMarginBottom
+/>
+
 
 </PanelBody>
     </InspectorControls>

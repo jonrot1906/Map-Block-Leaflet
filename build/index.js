@@ -86,59 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray(arr);
-}
-
-module.exports = _arrayWithoutHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
@@ -165,224 +112,6 @@ module.exports = _defineProperty, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/extends.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/extends.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _extends() {
-  module.exports = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/iterableToArray.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/iterableToArray.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-module.exports = _iterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableSpread, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var objectWithoutPropertiesLoose = __webpack_require__(/*! ./objectWithoutPropertiesLoose.js */ "./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js");
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = objectWithoutPropertiesLoose(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-module.exports = _objectWithoutProperties, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
-
-var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit.js */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
-
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
-
-var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/toConsumableArray.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles.js */ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
-
-var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ "./node_modules/@babel/runtime/helpers/iterableToArray.js");
-
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
-
-var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread.js */ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/typeof.js":
 /*!*******************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
@@ -401,28 +130,6 @@ function _typeof(obj) {
 }
 
 module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -32132,7 +31839,15 @@ __webpack_require__.r(__webpack_exports__);
 var attributes = {
   height: {
     type: 'number',
-    default: 400
+    default: 700
+  },
+  regions: {
+    type: 'array',
+    default: []
+  },
+  categories: {
+    type: 'array',
+    default: []
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (attributes);
@@ -32160,11 +31875,62 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var fetch_categories = [];
+var fetch_regions = [];
+
+function getRegionData() {
+  fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json").then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    data.map(function (region) {
+      fetch_regions.push({
+        label: "- " + region.name,
+        value: region.id
+      });
+    });
+  }).catch(function (error) {
+    console.log(error);
+  });
+}
+
+function getCategoryData() {
+  console.log("Fetch again");
+  fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json").then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    data.map(function (category) {
+      if (category.depth == 0) {
+        fetch_categories.push({
+          label: "- " + category.name,
+          value: category.id
+        });
+      }
+    });
+  }).catch(function (error) {
+    console.log(error);
+  });
+}
+
+getRegionData();
+getCategoryData();
 
 var Inspector = function Inspector(props) {
   var attributes = props.attributes,
       setAttributes = props.setAttributes;
   var height = attributes.height;
+
+  var addRegion = function addRegion(region) {
+    setAttributes({
+      regions: region
+    });
+  };
+
+  var addCategory = function addCategory(category) {
+    setAttributes({
+      categories: category
+    });
+  };
+
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
     title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Options', 'map-block-leaflet'),
     initialOpen: false
@@ -32181,6 +31947,32 @@ var Inspector = function Inspector(props) {
     type: "number",
     step: "10",
     value: height
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Regionen voreinstellen', 'map-block-leaflet'),
+    initialOpen: false
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
+    style: {
+      height: "auto"
+    },
+    multiple: true,
+    label: "Regionen",
+    value: attributes.regions,
+    options: fetch_regions,
+    onChange: addRegion,
+    __nextHasNoMarginBottom: true
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Kategorien voreinstellen', 'map-block-leaflet'),
+    initialOpen: false
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
+    style: {
+      height: "auto"
+    },
+    multiple: true,
+    label: "Kategorien",
+    value: attributes.categories,
+    options: fetch_categories,
+    onChange: addCategory,
+    __nextHasNoMarginBottom: true
   })));
 };
 
@@ -32765,216 +32557,6 @@ var attributes = {
 
 /***/ }),
 
-/***/ "./src/blocks/multi-marker/components/AddMarker.js":
-/*!*********************************************************!*\
-  !*** ./src/blocks/multi-marker/components/AddMarker.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _EditorMarkers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditorMarkers */ "./src/blocks/multi-marker/components/EditorMarkers.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
-
-
-
-
-
-
-
-var cleanMarker = {
-  label: "",
-  content: "",
-  latlng: [51.505, -0.09]
-};
-
-var AddMarker = function AddMarker(_ref) {
-  var onCreate = _ref.onCreate,
-      themeUrl = _ref.themeUrl;
-
-  var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["useState"])(false),
-      _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState, 2),
-      isOpen = _useState2[0],
-      setOpen = _useState2[1];
-
-  var _useState3 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["useState"])(cleanMarker),
-      _useState4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState3, 2),
-      currentMarker = _useState4[0],
-      setCurrentMarker = _useState4[1];
-
-  var clearEditor = function clearEditor() {
-    setOpen(false);
-    setCurrentMarker(cleanMarker);
-  };
-
-  var handleSave = function handleSave(newMarker) {
-    onCreate(newMarker);
-    clearEditor();
-  };
-
-  var handleClick = function handleClick() {
-    return setOpen(true);
-  };
-
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("div", {
-    style: {
-      marginBottom: "1rem"
-    }
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-    isPrimary: true,
-    onClick: handleClick
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Add marker', 'map-block-leaflet'))), isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_EditorMarkers__WEBPACK_IMPORTED_MODULE_4__["default"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Add new marker', 'map-block-leaflet'),
-    onSave: handleSave,
-    onClose: clearEditor,
-    themeUrl: themeUrl
-  }, currentMarker)));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (AddMarker);
-
-/***/ }),
-
-/***/ "./src/blocks/multi-marker/components/EditorMarkers.js":
-/*!*************************************************************!*\
-  !*** ./src/blocks/multi-marker/components/EditorMarkers.js ***!
-  \*************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_algolia_places__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-algolia-places */ "./node_modules/react-algolia-places/build/index.js");
-/* harmony import */ var react_algolia_places__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_algolia_places__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_Map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/Map */ "./src/components/Map/index.js");
-
-
-
-
-
-
-
-
-var Content = function Content(_ref) {
-  var initialContent = _ref.text,
-      onChange = _ref.onChange;
-
-  var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(initialContent),
-      _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState, 2),
-      content = _useState2[0],
-      setContent = _useState2[1];
-
-  var handleBlur = function handleBlur() {
-    return onChange(content);
-  };
-
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["TextareaControl"], {
-    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Content', 'map-block-leaflet'),
-    value: content,
-    onChange: setContent,
-    onBlur: handleBlur,
-    help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('You can use html tags', 'map-block-leaflet')
-  });
-};
-
-var EditorMarker = function EditorMarker(props) {
-  var _useState3 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(props.label),
-      _useState4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState3, 2),
-      label = _useState4[0],
-      setLabel = _useState4[1];
-
-  var _useState5 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(props.content),
-      _useState6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState5, 2),
-      content = _useState6[0],
-      setContent = _useState6[1];
-
-  var _useState7 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(props.latlng),
-      _useState8 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState7, 2),
-      latlng = _useState8[0],
-      setLatlng = _useState8[1];
-
-  var createMarker = function createMarker() {
-    var response = {
-      latlng: latlng,
-      label: label,
-      content: content
-    };
-
-    if (props.id !== undefined) {
-      response.id = props.id;
-    }
-
-    props.onSave(response);
-  };
-
-  var handleChange = function handleChange() {
-    var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        suggestion = _ref2.suggestion;
-
-    if (suggestion) {
-      setLabel(suggestion.value);
-      setLatlng(suggestion.latlng);
-    }
-  };
-
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
-    title: props.title,
-    onRequestClose: props.onClose
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
-    style: {
-      width: 680,
-      maxWidth: "100%"
-    }
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(react_algolia_places__WEBPACK_IMPORTED_MODULE_4___default.a, {
-    onChange: handleChange
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
-    style: {
-      marginBottom: 16,
-      height: 350
-    }
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Map__WEBPACK_IMPORTED_MODULE_5__["Map"], {
-    position: latlng,
-    zoom: 13,
-    themeUrl: props.themeUrl,
-    height: 350
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Map__WEBPACK_IMPORTED_MODULE_5__["Marker"], {
-    position: latlng
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  })))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Content, {
-    text: content,
-    onChange: setContent
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-    disabled: !label,
-    isPrimary: true,
-    onClick: createMarker
-  }, " ", Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Accept', 'map-block-leaflet'), " "))));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (EditorMarker);
-
-/***/ }),
-
 /***/ "./src/blocks/multi-marker/components/Inspector.js":
 /*!*********************************************************!*\
   !*** ./src/blocks/multi-marker/components/Inspector.js ***!
@@ -32995,8 +32577,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_themes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../shared/themes */ "./src/shared/themes.js");
 /* harmony import */ var _shared_providers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/providers */ "./src/shared/providers.js");
 /* harmony import */ var _components_ThemePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/ThemePicker */ "./src/components/ThemePicker.js");
-/* harmony import */ var _AddMarker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AddMarker */ "./src/blocks/multi-marker/components/AddMarker.js");
-/* harmony import */ var _ListMarkers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ListMarkers */ "./src/blocks/multi-marker/components/ListMarkers.js");
 
 
 
@@ -33004,9 +32584,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var fetch_categories = [];
+var fetch_regions = [];
 
+function getRegionData() {
+  fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json").then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    data.map(function (region) {
+      fetch_regions.push({
+        label: "- " + region.name,
+        value: region.id
+      });
+    });
+  }).catch(function (error) {
+    console.log(error);
+  });
+}
 
+function getCategoryData() {
+  console.log("Fetch again");
+  fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json").then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    data.map(function (category) {
+      if (category.depth == 0) {
+        fetch_categories.push({
+          label: "- " + category.name,
+          value: category.id
+        });
+      }
+    });
+  }).catch(function (error) {
+    console.log(error);
+  });
+}
 
+getRegionData();
+getCategoryData();
 
 var Inspector = function Inspector(props) {
   var attributes = props.attributes,
@@ -33028,56 +32643,19 @@ var Inspector = function Inspector(props) {
     }
   };
 
-  console.log(attributes.regions);
-  var fetch_regions = [];
-
-  function getRegionData() {
-    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json").then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      console.log(data);
-      data.map(function (region) {
-        fetch_regions.push({
-          label: region.name,
-          value: region.id
-        });
-      });
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  getRegionData();
-
-  var addMarker = function addMarker(marker) {
-    setAttributes({
-      markers: attributes.markers.concat(marker)
-    });
-  };
-
   var addRegion = function addRegion(region) {
     setAttributes({
       regions: region
     });
   };
 
-  var handleChangeMarkers = function handleChangeMarkers(markers) {
+  var addCategory = function addCategory(category) {
     setAttributes({
-      markers: markers
+      categories: category
     });
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Markers', 'map-block-leaflet'),
-    initialOpen: true
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_AddMarker__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    themeUrl: attributes.themeUrl,
-    onCreate: addMarker
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_ListMarkers__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    themeUrl: attributes.themeUrl,
-    onChange: handleChangeMarkers,
-    markers: attributes.markers
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
     title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Theme', 'map-block-leaflet'),
     initialOpen: false
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ThemePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -33085,7 +32663,7 @@ var Inspector = function Inspector(props) {
     themes: _shared_themes__WEBPACK_IMPORTED_MODULE_4__["default"],
     onChange: setTheme
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Plugin-Optionen', 'map-block-leaflet'),
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Regionen voreinstellen', 'map-block-leaflet'),
     initialOpen: false
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
     style: {
@@ -33097,161 +32675,23 @@ var Inspector = function Inspector(props) {
     options: fetch_regions,
     onChange: addRegion,
     __nextHasNoMarginBottom: true
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Kategorien voreinstellen', 'map-block-leaflet'),
+    initialOpen: false
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
+    style: {
+      height: "auto"
+    },
+    multiple: true,
+    label: "Kategorien",
+    value: attributes.categories,
+    options: fetch_categories,
+    onChange: addCategory,
+    __nextHasNoMarginBottom: true
   })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Inspector);
-
-/***/ }),
-
-/***/ "./src/blocks/multi-marker/components/ListMarkers.js":
-/*!***********************************************************!*\
-  !*** ./src/blocks/multi-marker/components/ListMarkers.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js");
-/* harmony import */ var _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _EditorMarkers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EditorMarkers */ "./src/blocks/multi-marker/components/EditorMarkers.js");
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-
-
-
-
-
-var initialMarkesToState = function initialMarkesToState(markers) {
-  return markers.reverse().map(function (props, id) {
-    return _objectSpread({
-      id: id
-    }, props);
-  });
-};
-
-var exportStateToMarkers = function exportStateToMarkers(markers) {
-  return _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3___default()(markers.reverse().map(function (_ref) {
-    var id = _ref.id,
-        props = _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2___default()(_ref, ["id"]);
-
-    return props;
-  }));
-};
-
-var ListMarkers = function ListMarkers(_ref2) {
-  var initialMarkes = _ref2.markers,
-      onChange = _ref2.onChange,
-      themeUrl = _ref2.themeUrl;
-
-  var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["useState"])([]),
-      _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState, 2),
-      markers = _useState2[0],
-      setMarkers = _useState2[1];
-
-  var _useState3 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["useState"])(false),
-      _useState4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState3, 2),
-      isOpen = _useState4[0],
-      setOpen = _useState4[1];
-
-  var _useState5 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["useState"])({}),
-      _useState6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState5, 2),
-      currentMarker = _useState6[0],
-      setCurrentMarker = _useState6[1];
-
-  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["useEffect"])(function () {
-    setMarkers(initialMarkesToState(initialMarkes));
-  }, [initialMarkes]);
-
-  var handleEdit = function handleEdit(id) {
-    var marker = markers.find(function (marker) {
-      return marker.id === id;
-    });
-    setCurrentMarker(marker);
-    setOpen(true);
-  };
-
-  var handleDelete = function handleDelete(id) {
-    var markersFiltered = markers.filter(function (attrs) {
-      return attrs.id !== id;
-    });
-    onChange(exportStateToMarkers(markersFiltered));
-  };
-
-  var handleSave = function handleSave(newMarker) {
-    var markersEdited = markers.map(function (marker) {
-      return marker.id === newMarker.id ? newMarker : marker;
-    });
-    setMarkers(markersEdited);
-    onChange(exportStateToMarkers(markersEdited));
-    setOpen(false);
-  };
-
-  var handleClose = function handleClose() {
-    setOpen(false);
-    setCurrentMarker({});
-  };
-
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["Fragment"], null, isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_EditorMarkers__WEBPACK_IMPORTED_MODULE_8__["default"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Edit marker', 'map-block-leaflet'),
-    onSave: handleSave,
-    onClose: handleClose,
-    themeUrl: themeUrl
-  }, currentMarker)), markers.map(function (attrs) {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-      className: "map-block-leaflet-list-item",
-      key: attrs.id
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "20",
-      height: "20",
-      viewBox: "0 0 14 20",
-      fill: "#cfcfcf"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("path", {
-      d: "M7 0C3.13 0 0 3.13 0 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C5.62 9.5 4.5 8.38 4.5 7S5.62 4.5 7 4.5 9.5 5.62 9.5 7 8.38 9.5 7 9.5z"
-    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", null, attrs.label), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-      className: "map-block-leaflet-list-item-action"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
-      isLink: true,
-      isSecondary: true,
-      onClick: function onClick() {
-        return handleEdit(attrs.id);
-      }
-    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Edit', 'map-block-leaflet')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
-      isLink: true,
-      isDestructive: true,
-      onClick: function onClick() {
-        return handleDelete(attrs.id);
-      }
-    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Delete', 'map-block-leaflet')))));
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (ListMarkers);
 
 /***/ }),
 
