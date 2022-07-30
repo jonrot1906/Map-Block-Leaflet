@@ -39,14 +39,11 @@ function map_block_leaflet_register() {
 	$lib_style_path = '/lib/leaflet.css';
 	$lib_version = '1.7.1';
 
-	//wp_register_style( 'bootstrap-css', plugins_url('/lib/bootstrap.min.css', __FILE__), array(), '4.6.1');
-	//wp_register_script( 'bootstrap-js', plugins_url('/lib/bootstrap.min.js', __FILE__), array(), '4.6.1', false );
 	wp_register_style( 'lib-css-map-block-leaflet', plugins_url($lib_style_path, __FILE__), array(), $lib_version );
 	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array(), $lib_version, false );
-	wp_register_style( 'lib-css-map-block-leaflet-cluster', plugins_url("/lib/MarkerCluster.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
-	wp_register_script( 'lib-js-map-block-leaflet-cluster', plugins_url("/lib/plugin_code.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
-
-	wp_register_style( 'lib-css-bootstrap-blocks', plugins_url('/lib/bootstrap-blocks.css', __FILE__) );
+	wp_register_style( 'lib-css-map-block-leaflet-sustainability', plugins_url("/lib/MarkerCluster.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
+	wp_register_script( 'lib-js-map-block-leaflet-sustainability', plugins_url("/lib/sustainability_map.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
+	wp_register_script( 'lib-js-calendar-block-leaflet-sustainability', plugins_url("/lib/sustainability_calendar.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
 
 	// Enqueue the bundled block JS file
 	wp_register_script(
@@ -64,60 +61,13 @@ function map_block_leaflet_register() {
 		$asset_file['version']
 	);
 
-	// Register map-block-leaflet
-    register_block_type( 'map-block-leaflet/map-block-leaflet', array(
-		'editor_script' => 'js-editor-map-block-leaflet',
-		'editor_style' => 'css-editor-map-block-leaflet',
-		'render_callback' => 'map_block_leaflet_render',
-		'script' => 'lib-js-map-block-leaflet',
-		'style' => 'lib-css-map-block-leaflet',
-		'attributes' => [
-			'lat' => [
-				'type' => 'number',
-				'default' => 40.416775
-			],
-			'lng'  => [
-				'type'  => 'number',
-				'default' => -3.703790
-			],
-			'themeUrl' => [
-				'type' => 'string',
-				'default' =>  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
-			],
-			'themeAttribution' => [
-				'type' => 'string',
-				'default' => '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-			],
-			'height' => [
-				'type' => 'number',
-				'default' => 600
-			],
-			'disableScrollZoom'=> [
-				'type' => 'boolean',
-				'default' => true
-			],
-			'zoom' => [
-				'type' => 'number',
-				'default' => 13
-			],
-			'themeId' => [
-				'type' => 'number',
-				'default' => 1
-			],
-			'content' => [
-				'type' => 'string',
-				'default' => ''
-			]
-		]
-	 ) );
-
 	// Register map-block-leaflet-multimarker
     register_block_type( 'map-block-leaflet/map-block-leaflet-multimarker', array(
 		'editor_script' => 'js-editor-map-block-leaflet',
 		'editor_style' => 'css-editor-map-block-leaflet',
 		'render_callback' => 'map_block_leaflet_multi_marker_render',
-		'script' => 'lib-js-map-block-leaflet-cluster',
-		'style' => 'lib-css-map-block-leaflet-cluster',
+		'script' => 'lib-js-map-block-leaflet-sustainability',
+		'style' => 'lib-css-map-block-leaflet-sustainability',
 		'attributes' => [
 			'markers' => [
 				'type' => 'array',
@@ -147,8 +97,8 @@ function map_block_leaflet_register() {
 		'editor_script' => 'js-editor-map-block-leaflet',
 		'editor_style' => 'css-editor-map-block-leaflet',
 		'render_callback' => 'map_block_leaflet_calendar_render',
-		'script' => 'lib-js-map-block-leaflet-cluster',
-		'style' => 'lib-css-map-block-leaflet-cluster',
+		'script' => 'lib-js-calendar-block-leaflet-sustainability',
+		'style' => 'lib-css-map-block-leaflet-sustainability',
 		'attributes' => [
 			'themeUrl' => [
 				'type' => 'string',
@@ -172,139 +122,6 @@ function map_block_leaflet_register() {
 add_action('init', 'map_block_leaflet_register');
 
 
-
-/**
- * Render in frontend leaflet map
- */
-function map_block_leaflet_render($settings) {
-	$content = trim(preg_replace('/\s\s+/', ' ', $settings['content']));
-
-	$classes = 'map_block_leaflet';
-	if(array_key_exists('align', $settings)) {
-		switch ($settings['align']) {
-			case 'wide':
-			$classes .= ' alignwide';
-			break;
-			case 'full':
-			$classes .= ' alignfull';
-			break;
-		}
-	}
-
-	$id = uniqid('lmb_');
-	$output = '<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>';
-	$output .= '
-		<script>
-		( function(){
-
-		var map = L.map(\''. $id .'\').setView([' . $settings['lat'] . ', '. $settings['lng'] .'], \''. $settings['zoom'] .'\');
-
-			L.tileLayer(\''. $settings['themeUrl'] . '\', {
-				attribution: \''. $settings['themeAttribution'] .'\'
-			}).addTo(map);
-
-	';
-	if($settings['disableScrollZoom']) {
-		$output .= 'map.scrollWheelZoom.disable();';
-	}
-	if ( !empty( $content ) ){
-		$output .= '
-			var content = \''. esc_js($content) .'\';
-			L.marker([' . $settings['lat'] . ', '. $settings['lng'] .']).addTo(map)
-				.bindPopup( content.replace(/\r?\n/g, "<br />") )';
-	} else {
-		$output .= 'L.marker([' . $settings['lat'] . ', '. $settings['lng'] .']).addTo(map)';
-	}
-
-	$output .= '
-		function is_loading() {
-			return document.body.classList.contains("loading");
-		}
-		var timer = 100;
-		function checkRender() {
-			if( is_loading()) {
-				setTimeout(function(){
-					checkRender();
-				}, timer);
-			} else {
-				map.invalidateSize(true);
-			}
-		}
-		if( is_loading()) {
-			checkRender();
-		} else {
-			document.addEventListener("DOMContentLoaded", function() {
-				map.invalidateSize(true);
-			});
-		}
-
-    var container = document.getElementById(\'' . $id . '\');
-    var observer = ResizeObserver && new ResizeObserver(function() {
-      map.invalidateSize(true);
-    });
-
-    observer && observer.observe(container);
-	';
-	$output .= '})();</script>';
-
-	return $output;
-}
-
-/**
- * Render in frontend leaflet map multimarker
- */
-/*function map_block_leaflet_multi_marker_render2($settings) {
-
-	$classes = 'map_block_leaflet';
-	if(array_key_exists('align', $settings)) {
-		switch ($settings['align']) {
-			case 'wide':
-			$classes .= ' alignwide';
-			break;
-			case 'full':
-			$classes .= ' alignfull';
-			break;
-		}
-	}
-
-	$id = uniqid('lmb_');
-
-	return '
-	<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>
-	<script>
-		console.log('. json_encode($settings).');
-		document.addEventListener("DOMContentLoaded", function() {
-			var markets = '. json_encode($settings['markers']).';
-			var center = [51.505, -0.09];
-
-			var layer = L.tileLayer(\''. $settings['themeUrl'] . '\', {
-				attribution: \''. $settings['themeAttribution'] .'\'
-			})
-
-			var map = L.map('. $id .', { center: center, layers: [layer]});
-			map.scrollWheelZoom.disable();
-
-			if(markets.length > 0) {
-				var markers = L.markerClusterGroup();
-
-				markets.forEach( function(market) {
-					L.marker([market.latlng.lat, market.latlng.lng]).bindPopup(market.content).addTo(markers)
-				})
-
-				map.addLayer(markers);
-				map.fitBounds(markers.getBounds(), {padding: [50, 50]})
-			}
-
-      var container = document.getElementById(\'' . $id . '\');
-      var observer = ResizeObserver && new ResizeObserver(function() {
-        map.invalidateSize(true);
-      });
-
-      observer && observer.observe(container);
-		});
-	</script>
-	';
-}*/
 function map_block_leaflet_multi_marker_render($settings) {
 
 	$classes = 'map_block_leaflet';
@@ -319,9 +136,6 @@ function map_block_leaflet_multi_marker_render($settings) {
 		}
 	}
 
-	$id = uniqid('lmb_');
-	$id2 = uniqid('lmb_');
-
 	return '
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -331,6 +145,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/4.1.1/spin.min.css" integrity="sha512-ssYEuK9Epo/48VIlBWTFosf1izrgGZqEMELJP+L7Clh0nvaOSTg87dM+Z8L+KKjrPdMbMvKYOOnzBOkNMhWFsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -343,7 +158,6 @@ function map_block_leaflet_multi_marker_render($settings) {
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
-	<script type="text/javascript" src="../lib/plugin_code.js"></script>
 
 	<div class="container mt-5 mb-5" id="all_container">
 	   <div class="row d-flex justify-content-center">
@@ -463,7 +277,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 				</div>
 			 </div>
 		  </div>
-		  <hr/>
+		  <hr>
 		  <div class="row">
 			 <div class="col-10">
 				<a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
@@ -619,7 +433,15 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 		</style>
 		<div class="container mt-5" id="all_container">
-		<div id=\''. $id .'\' style="height: '. $settings['height'] . 'px; zoom:90%;"></div>
+		<div id="calendar_container" style="height: '. $settings['height'] . 'px; zoom:90%;"></div>
+		<hr>
+		<div class="row py-1">
+		<div class="col-10">
+		   <a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
+		</div>
+		<div class="col-2">
+		</div>
+	 </div>
 		</div>
 
 		<div class="modal left fade" id="infoModal" tabindex="" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
@@ -635,6 +457,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 				<button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Schließen</button>
 				</div>
 				</div>
+				<hr>
 				<div class="row" style="margin-top:10px;">
 				<div class="col-4 col-md-3 col-lg-3">
 				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
@@ -706,7 +529,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span id="info-modal-address"></span><br>
 					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-route" href="" target="_blank">Route</a>
 					</p>
-					<div id=\''. $id2 .'\' class="'.$classes .'" style="height:400px"></div>
+					<div id="leaflet_map_small" class="'.$classes .'" style="height:400px"></div>
 					</div>
 					</div>
 					<hr>
@@ -730,781 +553,11 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 		<script>
 			console.log('. json_encode($settings).');
-			var single_marker, calendar_data, categories_array, entry_tap = [], map, yellowIcon;
 			var default_categories = '. json_encode($settings['categories']) .';
 			var default_regions = '. json_encode($settings['regions']) .';
-
-			function returnOrgActivities(data_arr) {
-				data_arr.forEach(function(market) {
-					if (market.description != null){
-						market.shortdescription = market.description.substring(0,150);
-					}
-					switch(market.service_type){
-						case "Projekt":
-						case "Filiale":
-							market.color = "#4169E1"; //blue
-							break;
-						case "Veranstaltung":
-							market.color = "#FFBF00"; //yellow
-							break;
-						case "Beratungsangebot":
-						case "Bildungsangebot":
-							market.color = "#D2042D"; //red
-							break;
-						}			
-					});
-					return "<div id=\"org_activities\" class=\"list-group list\">" + data_arr.map(data_single => { let act_card = `
-						<div class="card card-body mb-2 list-group-item-action" id="${data_single.id}_orgdiv" style="border-right: solid 7px ${data_single.color}">
-						<div class="row">
-						<div class="col-9">
-							<h5><a class="modal_link link-dark stretched-link" id="${data_single.id}_link">${data_single.name}</a></h5>
-						</div>
-						<div class="col-3" align="right">
-						<p class="type-text" style="color:${data_single.color}"><small>${data_single.service_type}</small></p>
-						</div>
-						<p>`;
-						let act_time;
-						if(data_single.start_at != null){
-							let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Start: ${start_date}</span>
-							<br>`;
-						}
-						if(data_single.end_at != null){
-							let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>Ende: ${end_date}</span>
-							<br>`;
-						}
-						if((data_single.end_at != null) && (data_single.end_at != null)){
-							let start_date = moment(data_single.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-							let end_date = moment(data_single.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-							act_time = `<i class="fa fa-clock" aria-hidden="true"></i>&nbsp;<span>${start_date} - ${end_date}</span>
-							<br>`;
-						}
-						if(act_time != null){
-							act_card += act_time;
-						}
-						act_card += `<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span>${data_single.full_address}</span>
-						<br>
-						<i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<span>${data_single.shortdescription}...</span>
-						</p>
-						</div>
-						</div>`;
-						return act_card;
-					}).join("") + "</div>";
-			}
-			document.addEventListener("DOMContentLoaded", function() {
-
-						
-				$("#calendarButton").click(function(event) {
-					console.log("Click cal button");
-
-					let obj_cal_btn = calendar_data.find(x => x.id === entry_tap[entry_tap.length-1].id);
-					console.log(entry_tap[entry_tap.length-1]);
-
-					event.preventDefault();
-					let current_date = moment(Date.now()).utc().format("YYYYMMDD");
-					let current_time = moment(Date.now()).utc().format("HHmmss");
-					let event_start_date = moment(obj_cal_btn.start_at).utc().format("YYYYMMDD");
-					let event_start_time = moment(obj_cal_btn.start_at).utc().format("HHmmss");
-					let event_end_date = moment(obj_cal_btn.end_at).utc().format("YYYYMMDD");
-					let event_end_time = moment(obj_cal_btn.end_at).utc().format("HHmmss");
-					let description_data;
-					
-					$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj_cal_btn.user_id + ".json", function( organisation_data ) {
-
-						description_data = "Von: " + organisation_data.name + " | ";
-												
-						if(organisation_data.website != null){
-							description_data += "Website: " + organisation_data.info_url + " | ";
-						}
-						if(obj_cal_btn.email != null){
-							description_data += "E-Mail: " + obj_cal_btn.email + " | ";
-						}else if (organisation_data.email != null){
-							description_data += "E-Mail: " + organisation_data.email + " | ";
-						}
-						if(organisation_data.telephone != null){
-							description_data += "Tel-Nr.: " + organisation_data.phone_primary + " | ";
-						}
-						if(obj_cal_btn.description != null){
-							description_data += "Beschreibung: " + obj_cal_btn.description + " | ";
-						}
-						if(obj_cal_btn.hints != null){
-							description_data += "Hinweise: " + obj_cal_btn.hints + " | ";
-						}
-						console.log(description_data);
-
-						// Format: https://docs.fileformat.com/email/ics/
-						//icsMSG += "DTSTART:" + $(".start-time").text() + "\r\n";
-						var icsMSG = "BEGIN:VCALENDAR\nVERSION:2.0\r\n";
-						icsMSG += "PRODID:-//Our Company//NONSGML v1.0//EN\r\n";
-						icsMSG += "BEGIN:VEVENT\r\n";
-						icsMSG += "UID:rotter.jonas@google.com\r\n"
-						//icsMSG += "DTSTAMP:20220516T170000Z\r\n";
-						icsMSG += "DTSTAMP:" + current_date + "T" + current_time + "Z\r\n";
-						//icsMSG += "ATTENDEE;CN=Ich;RSVP=TRUE:MAILTO:rotter.jonas@gmail.com\r\n";
-						//icsMSG += "ORGANIZER;CN=Me:MAILTO::rotter.jonas@gmail.com\r\n";
-						icsMSG += "DTSTART:" + event_start_date + "T" + event_start_time + "Z\r\n";
-						icsMSG += "DTEND:" + event_end_date + "T" + event_end_time + "Z\r\n";
-						icsMSG += "LOCATION:" + obj_cal_btn.full_address + "\r\n";
-						icsMSG += "SUMMARY:Veranstaltung - " + obj_cal_btn.name + "\r\n";
-						icsMSG += "DESCRIPTION:" + description_data + "\r\n";
-						icsMSG += "END:VEVENT\r\nEND:VCALENDAR";
-						var title = obj_cal_btn.name + ".ics";
-						var uri = "data:text/calendar;charset=utf8," + escape(icsMSG);
-						var link = $("<a>", {
-						  href: uri,
-						  download: title,
-						  target: "_BLANK"
-						}).html("").appendTo("body");
-						link.get(0).click();
-						link.remove();
-					});
-
-				});
-
-				
-
-				  var eventObj = [
-					{
-					  id: "bHay68s", // Event"s ID (required)
-					  name: "Tauschmarkt", // Event name (required)
-					  badge: "10:00 - 16:00 Uhr",
-					  date: "04/30/2022", // Event date (required)
-					  type: "offer", // Event type (required)
-					  color: "#7743f0" ,
-					  "latlng": {
-						"lat": 51.344688692548985,
-						"lng": 12.40929480960208
-					},
-					"times": ["14:00", "18:00"]
-					},
-					{
-						id: "bHay68t", // Event"s ID (required)
-						name: "Sammelfest", // Event name (required)
-						badge: "08:00 - 18:00 Uhr",
-						date: "04/02/2022", // Event date (required)
-						type: "offer", // Event type (required)
-						color: "#ddb713",
-						"latlng": {
-							"lat": 51.344688692548985,
-							"lng": 12.40929480960208
-						},
-						"times": ["14:00", "18:00"]
-					  },
-					  {
-						id: "bHay68u", // Event"s ID (required)
-						name: "Cleanup 1", // Event name (required)
-						badge: "16:00 - 18:00 Uhr",
-						date: "04/03/2022", // Event date (required)
-						type: "angebot", // Event type (required)
-						color: "#4bfa30",
-						"latlng": {
-							"lat": 51.344688692548985,
-							"lng": 12.40929480960208
-						},
-						"times": ["14:00", "18:00"]
-					  },
-					  {
-						id: "bHay68v", // Event"s ID (required)
-						name: "Cleanup 2", // Event name (required)
-						badge: "16:00 - 18:00 Uhr",
-						date: "04/13/2022", // Event date (required)
-						type: "fest", // Event type (required)
-						color: "#1decaf",
-						"latlng": {
-							"lat": 51.344688692548985,
-							"lng": 12.40929480960208
-						},
-						"times": ["14:00", "18:00"]
-					  },
-					  {
-						id: "bHay68w", // Event"s ID (required)
-						name: "Workshop", // Event name (required)
-						badge: "13:00 - 14:00 Uhr",
-						date: "04/17/2022", // Event date (required)
-						type: "angebot", // Event type (required)
-						description: "Der Workshop dient zur Auseinandersetzung mit der persönlichen Abfallvermeidung.",
-						color: "#ddb713",
-						"latlng": {
-							"lat": 51.344688692548985,
-							"lng": 12.40929480960208
-						},
-						"times": ["14:00", "18:00"]
-					  },
-					{
-					  id: "sdf222",
-					  name: "Tauschfest",
-					  badge: "13. April - 16. April", // Event badge (optional)
-					  date: ["04/13/2022", "04/16/2022"], // Date range
-					  description: "Event über 3 Tage", // Event description (optional)
-					  type: "event",
-					  color: "#63d867", // Event custom color (optional),
-					  "latlng": {
-						"lat": 51.344688692548985,
-						"lng": 12.40929480960208
-					},
-					"times": ["14:00", "18:00"]
-					}
-				];
-				var calendar = $('. $id .').evoCalendar({
-					theme: "Royal Navy",
-					language: "de",
-					format: "dd. MM yyyy",
-					eventHeaderFormat: "dd. MM yyyy",
-					titleFormat: "MM",
-					firstDayofWeek: 1,
-					todayHighlight: true
-				});
-
-			var center = [51.340199,12.360103]; //51.340199,12.360103
-
-			var layer = L.tileLayer(\''. $settings['themeUrl'] . '\', {
-				attribution: \''. $settings['themeAttribution'] .'\'
-			})
-
-			map = L.map('. $id2 .', { center: center, layers: [layer]});
-			map.setView(center, 13);
-			//map.scrollWheelZoom.disable();
-			
-			yellowIcon = new L.Icon({
-				iconUrl: "https://cdn.mapmarker.io/api/v1/pin?icon=fa-calendar&size=100&background=ffbb33&hoffset=0&voffset=-1",
-				iconSize: [40, 40],
-				iconAnchor: [20, 34],
-				popupAnchor: [0, -28]
-			  });
-
-		var container = document.getElementById("' . $id2 . '");
-		
-		var observer = ResizeObserver && new ResizeObserver(function() {
-		  map.invalidateSize(true);
-		});
-		observer && observer.observe(container);
-
-
-
-		function getDataPoints(){
-			let urls = [
-				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=education",
-				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=counseling",
-				"https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/activities.json?type=event&upcoming",
-			]
-
-			var region_arr = default_regions;
-			var category_arr =  default_categories;
-			let ext_arr = [];
-				  //loop through each region
-				  if(region_arr.length > 0){
-					$.each( region_arr, function( region_key, region_val ) {
-						$.each( urls, function( url_key, url_value ) {
-							let int_url = url_value + "&region_id=" + region_val;
-							int_url = int_url.replace(/#038;/g, "");
-							ext_arr.push(int_url);
-						});
-					  });
-				  }
-				  //loop through each category
-				  let pre_length = ext_arr.length;
-				  let ext_arr_cat = [];
-				  if(category_arr.length > 0){
-					$.each( category_arr, function( cat_key, cat_val ) {
-						if(pre_length > 0){
-							$.each(ext_arr, function( url_key, url_value ) {
-								console.log(url_value);
-								let int_cat_url = url_value + "&category_id=" + cat_val;
-								int_cat_url = int_cat_url.replace(/#038;/g, "");
-								//ext_arr.splice(url_key, 1);
-								ext_arr_cat.push(int_cat_url);
-							});
-						}else{
-							$.each( urls, function( url_key, url_value ) {
-								console.log(url_value);
-								let int_url = url_value + "&category_id=" + cat_val;
-								int_url = int_url.replace(/#038;/g, "");
-								ext_arr.push(int_url);
-							});
-						}
-					});
-					if(pre_length > 0){
-						ext_arr = ext_arr_cat;
-					}
-				  }
-
-				  if(region_arr.length > 0 || category_arr.length > 0){
-					getAPIData(ext_arr);
-				  }else{
-					getAPIData(urls);
-				  }
-		}
-
-		function getAPIData(web_addresses){
-			$("#all_container").LoadingOverlay("show",{
-				image       : "",
-				fontawesome : "fa fa-recycle fa-spin",
-				zIndex: 2
-			});
-		$.when.apply($, web_addresses.map(function(url) {
-			return $.getJSON(url);
-		})).done(function() {
-			$("#all_container").LoadingOverlay("hide");
-			var data_helper = [];
-			console.log(arguments);
-			if(web_addresses.length > 1){
-				data_helper.push(arguments[0][0]);
-				data_helper.push(arguments[1][0]);
-				data_helper.push(arguments[2][0]);
-				var data = [].concat.apply([], data_helper);
-
-			}else{
-				var data = arguments[0];
-			}
-			// all data is now in the results array in order
-			console.log(data);
-			//make data global
-
-			calendar_data = data;
-
-		//$("#info-result-number").text(data.length + " Ergebnisse");
-		
-		service_types=[];
-		
-		$.each( data, function(ind, elem) {
-			service_types.push(elem.service_type);
-			elem.color = "#FFBF00";
-			switch(elem.service_type){
-				case "Projekt":
-				case "Filiale":
-					elem.color = "#4169E1";
-					break;
-				case "Veranstaltung":
-					elem.color = "#FFBF00";
-					break;
-				case "Beratungsangebot":	
-				case "Bildungsangebot":
-					elem.color = "#D2042D";
-					break;
-			}
-			if (elem.description != null){
-				elem.shortdescription = elem.description.substring(0,120) + "...";
-			}
-			if(elem.name.length > 17){
-				elem.shortname = elem.name.substring(0,15) + "...";
-			}else{
-				elem.shortname = elem.name;
-			}
-			if(elem.start_at != null && elem.end_at != null){
-				
-				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
-				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
-				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
-				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
-				let date_arr;
-				if(elem.start_date != elem.end_date){
-					date_arr = [elem.start_date, elem.end_date];
-				}else if(elem.start_date == elem.end_date){
-					date_arr = elem.start_date;
-				}
-				
-				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
-					id: elem.id,
-					name: elem.shortname,
-					date: date_arr,
-					badge: elem.start_datetime + " - " + elem.end_datetime,
-					type: elem.service_type,
-					color: elem.color,
-					description: elem.shortdescription
-				  }]);
-			}else if((elem.start_at == null) && (elem.end_at != null)){
-				elem.end_datetime = moment(elem.end_at).format("DD.MM.YYYY HH:mm");
-				elem.end_date = moment(elem.end_at).format("MM/DD/YYYY");
-				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
-					id: elem.id,
-					name: elem.shortname,
-					date: elem.end_date,
-					badge: "Ende: " + elem.end_datetime,
-					type: elem.service_type,
-					color: elem.color,
-					description: elem.shortdescription
-				  }]);
-			}else if((elem.start_at != null) && (elem.end_at == null)){
-				elem.start_datetime = moment(elem.start_at).format("DD.MM.YYYY HH:mm");
-				elem.start_date = moment(elem.start_at).format("MM/DD/YYYY");
-				$("#'. $id .'").evoCalendar("addCalendarEvent", [{
-					id: elem.id,
-					name: elem.shortname,
-					date: elem.start_date,
-					badge: "Start: " + elem.start_datetime,
-					type: elem.service_type,
-					color: elem.color,
-					description: elem.shortdescription
-				  }]);
-			}
-		});
-	});
-}
-
-getDataPoints();
-
-$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json", function( data ) {
-
-	categories_array = data;
-});
-		  
-		  $('. $id .').on("selectEvent", function(event, activeEvent) {
-			modalTrigger(activeEvent.id);
-		  });
-
-		  $(document).on("click",".modal_link",function(e) {
-			var marker_id_long = e.target.id;
-			var marker_id = marker_id_long.substr(0, marker_id_long.indexOf("_"));
-			modalTrigger(parseInt(marker_id));
-			});
-
-
-			$(document).on("click",".organisation_link",function(e) { 
-				$(".modal-content").animate({ scrollTop: 0 });
-				$("#infoModal").modal("show");
-				$("#info-modal-content").LoadingOverlay("show",{
-					image       : "",
-					fontawesome : "fa fa-recycle fa-spin",
-					zindex: 2
-				});
-				var org_id = event.target.getAttribute("data-link");
-				var org_id = $("#info-modal-organisation").attr("data-link");
-				
-				let entry_obj = {"type":1,"id":org_id};
-				entry_tap.push(entry_obj);
-				//hide unnecessary stuff
-				$("#info-modal-organisation").text("");
-				var hint_card = document.getElementById("info-modal-hint-card");
-				hint_card.style.display  = "none";
-				  var category_accord = document.getElementById("category_accordion");
-				  category_accord.style.display  = "none";
-				  var organisation_info = document.getElementById("info-modal-organisation-card");
-				  organisation_info.style.display  = "none";
-				  $("#info-modal-back").show();
-				  $("#info-modal-date-card").hide();
-				$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + org_id + ".json", function( organisation_data ) {
-					$("#info-modal-title").text(organisation_data.name);
-					if(organisation_data.organization_logo_url_base != null){
-						$("#info-modal-photo").attr("src", organisation_data.organization_logo_url_base + "?width=200&height=200");
-					}else{
-						$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png");
-					}
-					$("#info-modal-type").text("Organisation");
-					if(organisation_data.description != null){
-						$("#info-modal-text").text(organisation_data.description);
-					}else{
-						$("#info-modal-text").text("-");
-					}
-					$("#info-modal-hints").text("");
-					$("#info-modal-address").text(organisation_data.full_address);
-					$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+organisation_data.full_address);
-					
-					/*if(organisation_data.website != null){
-						$("#info-modal-website").prop("href", organisation_data.info_url);
-						$("#info-modal-website").text("Website");
-					}else{
-						$("#info-modal-website").text("Keine Website vorhanden.");
-						$("#info-modal-website").removeAttr("href");
-					}*/
-					if(organisation_data.email != null){
-						$("#info-modal-email").text(organisation_data.email);
-						$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
-					}else{
-						$("#info-modal-email").text("Keine Mail-Adresse vorhanden.");
-						$("#info-modal-email").removeAttr("href");
-					}
-					if(organisation_data.telephone != null){
-						$("#info-modal-telephone").text(organisation_data.phone_primary);
-						$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
-					}else{
-						$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
-						$("#info-modal-telephone").removeAttr("href");
-					}
-
-
-					if (single_marker != undefined) {
-						map.removeLayer(single_marker);
-					  };
-
-					if(organisation_data.latlng == null){
-						$.getJSON("https://nominatim.openstreetmap.org/search?format=json&q=" + organisation_data.full_address, function( organisation_latlng_data ) {
-							organisation_data.latlng = [organisation_latlng_data[0].lat, organisation_latlng_data[0].lon];
-							single_marker = L.marker([organisation_data.latlng[0], organisation_data.latlng[1]]).addTo(map)
-							.bindPopup("<b>"+organisation_data.name+"</b>");
-							map.setView([organisation_data.latlng[0], organisation_data.latlng[1]], 13);
-						});
-					}else{
-						single_marker = L.marker([organisation_data.latlng[0], organisation_data.latlng[1]]).addTo(map)
-						.bindPopup("<b>"+organisation_data.name+"</b>");
-						map.setView([organisation_data.latlng[0], organisation_data.latlng[1]], 13);
-					}
-				});
-	
-				document.getElementById("info-modal-header").style.borderBottomColor = "#008000";
-
-				//add toolbar-btn
-
-				const toolbar_group = document.getElementById("toolbar-group");
-
-				var toolbar_btn_html = "";
-
-				  toolbar_group.innerHTML = toolbar_btn_html;
-				  $("#info-modal-content").LoadingOverlay("hide");
-			});
-
-			});
-			function modalTrigger(event_id){
-				$(".modal-content").animate({ scrollTop: 0 });
-				$("#infoModal").modal("show");
-				$("#info-modal-content").LoadingOverlay("show",{
-					image       : "",
-					fontawesome : "fa fa-recycle fa-spin",
-					zindex: 2
-				});
-	
-				var obj = calendar_data.find(x => x.id === event_id);
-				console.log(event_id);
-				console.log(obj);
-				
-					/*var date_var = "";
-					var times_var = "";
-					if($.isArray(singleEvent.date)){
-						jQuery.each(singleEvent.date, function(index, item) {
-							var d = new Date(item);
-							var curr_date = d.getDate();
-							var curr_month = d.getMonth();
-							var curr_year = d.getFullYear();
-							var newDate = curr_date + "." + curr_month + "." + curr_year;
-							date_var += newDate;
-							if(index == 0){
-								date_var += " - ";
-							}
-						});
-						$("#event_dates").text(singleEvent.date);
-					}else{
-						var d = new Date(singleEvent.date);
-						var curr_date = d.getDate();
-						var curr_month = d.getMonth();
-						var curr_year = d.getFullYear();
-						var newDate = curr_date + "." + curr_month + "." + curr_year;
-						date_var = newDate;
-					}
-					$("#event_dates").text(date_var);
-	
-					if($.isArray(singleEvent.times)){
-						jQuery.each(singleEvent.times, function(index, item) {
-							var d = new Time(item);
-							var curr_hour= d.getHours();
-							var curr_minute = d.getMinutes();
-							var newDate = curr_hour + ":" + curr_minute;
-							times_var += newDate;
-							if(index == 0){
-								times_var += " - ";
-							}
-						});
-					}else{
-						var d = new Date(singleEvent.times);
-						var curr_date = d.getDate();
-						var curr_month = d.getMonth();
-						var curr_year = d.getFullYear();
-						var newDate = curr_date + "." + curr_month + "." + curr_year;
-						times_var = newDate;
-					}
-	
-					$("#event_times").text(times_var);*/
-	
-					//add from map part
-	
-					$("#info-modal-organisation").text("");
-					  var hint_card = document.getElementById("info-modal-hint-card");
-					  hint_card.style.display  = "block";
-						var category_accord = document.getElementById("category_accordion");
-						category_accord.style.display  = "block";
-						var organisation_info = document.getElementById("info-modal-organisation-card");
-					  organisation_info.style.display  = "block";
-					  $("#info-modal-back").show();
-					  $("#info-modal-date-card").hide();
-					
-					  let entry_obj = {"type":0,"id":event_id};
-					  entry_tap.push(entry_obj);
-					  console.log(entry_tap);
-
-					  
-					  if(entry_tap.length > 1){
-						$("#info-modal-back").show();
-					  }else{
-						$("#info-modal-back").hide();
-					  }
-
-					 
-
-					$.getJSON("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/users/" + obj.user_id + ".json", function( organisation_data ) {
-						$("#info-modal-organisation").text(organisation_data.name);
-						$("#info-modal-organisation").attr("data-link", organisation_data.id);
-						if(organisation_data.email != null){
-							$("#info-modal-email").text(organisation_data.email);
-							$("#info-modal-email").prop("href", "mailto:" + organisation_data.email);
-						}else{
-							$("#info-modal-email").text("Keine Mail-Adresse vorhanden.");
-							$("#info-modal-email").removeAttr("href");
-						}
-						if(organisation_data.telephone != null){
-							$("#info-modal-telephone").text(organisation_data.phone_primary);
-							$("#info-modal-telephone").prop("href", "tel:"+organisation_data.phone_primary);
-						}else{
-							$("#info-modal-telephone").text("Keine Telefon-Nr. vorhanden.");
-							$("#info-modal-telephone").removeAttr("href");
-						}
-						$("#info-modal-content").LoadingOverlay("hide");
-					});
-
-					$("#info-modal-title").text(obj.name);
-					$("#info-modal-type").text(obj.service_type);
-					if(obj.description != null){
-						$("#info-modal-text").text(obj.description);
-					}else{
-						$("#info-modal-text").text("Keine Beschreibung hinterlegt.");
-					}
-					if(obj.requirements != null){
-						$("#info-modal-hints").text(obj.requirements);
-					}else{
-						$("#info-modal-hints").text("Keine Hinweise.");
-					}
-					if(obj.info_url!= null){
-						if(!obj.info_url.startsWith("https") || !obj.info_url.startsWith("http")){
-							obj.info_url = "https://" + obj.info_url;
-						}
-						$("#info-modal-website").prop("href", obj.info_url);
-						$("#info-modal-website").text("Website");
-					}else{
-						$("#info-modal-website").text("Keine Website vorhanden.");
-						$("#info-modal-website").removeAttr("href");
-					}
-					$("#info-modal-address").text(obj.full_address);
-					$("#info-modal-route").prop("href", "https://www.google.com/maps/dir/?api=1&destination="+obj.full_address);
-					switch(obj.service_type){
-						case "Veranstaltung":
-							$("#info-modal-date-card").show();
-							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/event.png");
-							if(obj.start_at != null){
-								let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-								$("#info-modal-date").text("Start: " + start_date);
-							}
-							if(obj.end_at != null){
-								let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-								$("#info-modal-date").text("Ende: " + end_date);
-							}
-							if((obj.end_at != null) && (obj.end_at != null)){
-								let start_date = moment(obj.start_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-								let end_date = moment(obj.end_at).format("DD.MM.YYYY, HH:mm") + " Uhr";
-								$("#info-modal-date").text(start_date + " - " + end_date);
-							}
-							break;
-						case "Beratungsangebot":
-							$("#info-modal-date-card").show();
-							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/offer.png");
-							break;
-						case "Bildungsangebot":
-							$("#info-modal-date-card").show();
-							$("#info-modal-photo").attr("src", "https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/education.png");
-							break;
-						}
-						if(obj.image_url_base != null){
-							$("#info-modal-photo").attr("src", obj.image_url_base + "?width=200&height=200");
-						}
-					document.getElementById("info-modal-header").style.borderBottomColor = obj.color;
-					$("#info-modal-type").css("color", obj.color);
-	
-					//add toolbar-btn
-	
-					const toolbar_group = document.getElementById("toolbar-group");
-	
-					var toolbar_btn_html = "";
-	
-					if(obj.region == null){
-						obj.region = [];
-						obj.region.name = obj.city;
-					}
-	
-					toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-					<label class="btn btn-outline-danger filter-btn-unterkategorie">${obj.region.name}</label><br>`;
-	
-					$.each(obj.categories, function( key, value ) {
-						var category_obj = categories_array.find(x => x.id === parseInt(value));
-						toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-						<label class="btn btn-outline-info filter-btn-unterkategorie">${category_obj.name}</label><br>`;
-					  });
-	
-					  $.each(obj.goals, function( key, value ) {
-						toolbar_btn_html += `<input type="checkbox" class="btn-check" autocomplete="off">
-						<label class="btn btn-outline-secondary filter-btn-unterkategorie" for="btn-check-1-outlined">${value}</label><br>`;
-					  });
-	
-	
-					  toolbar_group.innerHTML = toolbar_btn_html;
-	
-	
-					if (single_marker != undefined) {
-						map.removeLayer(single_marker);
-					  };
-					  if(obj.latlng == null && obj.full_address != null){
-						$.getJSON("https://nominatim.openstreetmap.org/search?format=json&q=" + obj.full_address, function( obj_latlng_data ) {
-							if(obj_latlng_data.length != 0){
-								obj.latlng = [obj_latlng_data[0].lat, obj_latlng_data[0].lon];
-								single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map).bindPopup("<b>"+obj.name+"</b>");
-								map.setView([obj.latlng[0], obj.latlng[1]], 13);
-							}
-						});
-					}else if (obj.latlng != null ){
-						single_marker = L.marker([obj.latlng[0], obj.latlng[1]], {icon:yellowIcon}).addTo(map)
-						.bindPopup("<b>"+obj.name+"</b>");
-						map.setView([obj.latlng[0], obj.latlng[1]], 13);
-					}
-
-					// fil div info-modal-organisation-data with all data
-					var org_data_container = document.getElementById("info-modal-organisation-data");
-
-					var org_data_arr = calendar_data.filter(x => (x.user_id === parseInt(obj.user_id)) && (x.id != parseInt(obj.id)));
-					if(org_data_arr.length > 0){
-						org_data_container.innerHTML = returnOrgActivities(org_data_arr);
-					}else{
-						org_data_container.innerHTML = "<p>Leider keine weiteren Angebote/Veranstaltungen vorhanden!</p>"
-					}
-
-					
-				};
-
-				$("#infoModal").on("hidden.bs.modal", function () {
-					entry_tap = [];
-					console.log("hidden!");
-				  })
-
-				function goBackFunction(e) {
-					console.log(entry_tap);
-					entry_tap.pop();
-					console.log(entry_tap[entry_tap.length-1]);
-					let entry_tap_id = entry_tap[entry_tap.length-1].id;
-					console.log(entry_tap_id);
-					if(entry_tap[entry_tap.length-1].type === 1){
-						$(".organisation_link").click();
-						entry_tap.pop();
-					}else{
-						modalTrigger(parseInt(entry_tap_id));
-						entry_tap.pop();
-						if(entry_tap.length > 1){
-							$("#info-modal-back").show();
-						  }else{
-							$("#info-modal-back").hide();
-						  }
-					}
-					console.log(entry_tap);
-				}
-
-			/*function goBackFunction(e) {
-				console.log(entry_tap);
-				modalTrigger(parseInt(entry_tap));
-			}*/
+			var themeUrl = '.json_encode($settings['themeUrl']).';
+			var themeAttribution = '.json_encode($settings['themeAttribution']).';
+			var single_marker, calendar_data, categories_array, entry_tap = [], map, yellowIcon;
 		</script>
 		';
 }
@@ -1518,12 +571,13 @@ function map_block_leaflet_dequeue_lib_script()
   $id = get_the_ID();
   if (!has_block('map-block-leaflet/map-block-leaflet', $id)) {
     wp_dequeue_script('lib-js-map-block-leaflet');
-    wp_dequeue_script('lib-js-map-block-leaflet-cluster');
+    wp_dequeue_script('lib-js-map-block-leaflet-sustainability');
+	wp_dequeue_script('lib-js-calendar-block-leaflet-sustainability');
     wp_dequeue_script('js-editor-map-block-leaflet');
 
     wp_dequeue_style('css-editor-map-block-leaflet');
     wp_dequeue_style('lib-css-map-block-leaflet');
-    wp_dequeue_style('lib-css-map-block-leaflet-cluster');
+    wp_dequeue_style('lib-css-map-block-leaflet-sustainability');
 	wp_dequeue_style('lib-css-bootstrap-blocks');
   }
 }
