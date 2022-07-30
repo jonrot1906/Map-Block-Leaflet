@@ -244,10 +244,15 @@ list_wrapper {
 	pointer-events: none; /* so the text is still selectable */
   }
   
-  .event-container>.event-info>p.event-title>span {
-	margin-top: -30px;
+.event-container>.event-info>p.event-title>span {
+	margin-top: -25px;
+}
+
+  @media (max-width:700px) {
+  	.event-container>.event-info>p.event-title>span {
+		margin-top: -45px;
+  	}
   }
-  
   .event-container{
 	margin-top: 20px;
   }
@@ -285,6 +290,50 @@ body {
     padding-top: 4px;
 }
 
-.leaflet-container {
-    z-index: 2;
+#all_container {
+    z-index: 3;
 }
+
+.sort {
+	border:none;
+	display:inline-block;
+	color:rgb(0, 0, 0);
+	text-decoration: none;
+	height:30px;
+  }
+  .sort:focus {
+	outline:none;
+  }
+  .sort:after {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	content:"";
+	position: relative;
+	top:-10px;
+	right:-5px;
+  }
+  .sort.asc:after {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid rgb(0, 0, 0);
+	content:"";
+	position: relative;
+	top:13px;
+	right:-5px;
+  }
+  .sort.desc:after {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid rgb(0, 0, 0);
+	content:"";
+	position: relative;
+	top:-10px;
+	right:-5px;
+  }
