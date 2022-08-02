@@ -5,11 +5,10 @@
  * @license     GPL2+
  *
  * @wordpress-plugin
- * Plugin Name: Map Block Leaflet
- * Description: Map Block Leaflet -- Allows embed maps in your contents, good alternative to Google Maps without the need for api key
- * Version:     2.2.1
+ * Plugin Name: Nachhaltigkeitskarte
+ * Description: Die Nachhaltigskeitskarte vom Leipziger Bündnis Abfallvermeidung. Unter Nutzung der APIv1 des Datenbank des LVNS (https://daten.nachhaltiges-sachsen.de) können sachsenweit je nach Filterkriterien nachhaltige Orte, Initiativen, Angebote und Veranstaltungen angezeigt werden.
+ * Version:     1.1.0
  * Author:      Jonas Rotter
- * Author URI:  https://goiblas.com
  * Text Domain: map-block-leaflet
  * Domain Path: /languages
  * License:     GPL2+
@@ -39,9 +38,40 @@ function map_block_leaflet_register() {
 	$lib_style_path = '/lib/leaflet.css';
 	$lib_version = '1.7.1';
 
+
+	wp_register_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+	wp_enqueue_style('bootstrap-css');
+	wp_register_style('bootstrap-select-css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css');
+	wp_register_style('font-awesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
+	wp_enqueue_style('font-awesome-css');
+	wp_register_style('fonts-css', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i');
+	wp_enqueue_style('fonts-css');
+	wp_register_style('easy-button-css', 'https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css');
+	wp_register_style('evo-calendar-css', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css');
+	wp_register_style('evo-calendar-navy-css', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.royal-navy.css');
+	
+	wp_register_script( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
+	wp_enqueue_script('bootstrap-js');
+	wp_register_script('bootstrap-select-js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js', array('jquery'), null, true);
+	wp_register_script('bootstrap-select-german-js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/i18n/defaults-de_DE.min.js', array('jquery'), null, true);
+	wp_register_script('font-awesome-js', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js', array('jquery'), null, true);
+	wp_enqueue_script('font-awesome-js');
+	wp_register_script('loading-overlay-js', 'https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js', array('jquery'), null, true);
+	wp_enqueue_script('loading-overlay-js');
+	wp_register_script('moment-js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js', array('jquery'), null, true);
+	wp_enqueue_script('moment-js');
+	wp_register_script('oms-js', 'https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js', array('jquery', 'lib-js-map-block-leaflet'), null, true);
+	wp_register_script('easy-button-js', 'https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js', array('jquery', 'lib-js-map-block-leaflet'), null, true);
+	wp_register_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11', array('jquery'), null, true);
+	wp_enqueue_script('sweetalert-js');
+	wp_register_script('jquery-ui-js', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', array('jquery'), null, true);
+	wp_register_script('list-js', 'https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js', array('jquery'), null, true);
+	wp_register_script('evo-calendar-js', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/js/evo-calendar.min.js', array('jquery'), null, true);
+	
+
 	wp_register_style( 'lib-css-map-block-leaflet', plugins_url($lib_style_path, __FILE__), array(), $lib_version );
-	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array(), $lib_version, false );
-	wp_register_style( 'lib-css-map-block-leaflet-sustainability', plugins_url("/lib/MarkerCluster.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
+	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array("jquery"), $lib_version, false );
+	wp_register_style( 'lib-css-map-block-leaflet-sustainability', plugins_url("/lib/Map_Calendar_Design.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
 	wp_register_script( 'lib-js-map-block-leaflet-sustainability', plugins_url("/lib/sustainability_map.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
 	wp_register_script( 'lib-js-calendar-block-leaflet-sustainability', plugins_url("/lib/sustainability_calendar.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
 
@@ -124,42 +154,29 @@ add_action('init', 'map_block_leaflet_register');
 
 function map_block_leaflet_multi_marker_render($settings) {
 
+	wp_enqueue_style('bootstrap-select-css');
+	wp_enqueue_style('easy-button-css');
+	wp_enqueue_script('bootstrap-select-js');
+	wp_enqueue_script('bootstrap-select-german-js');
+	wp_enqueue_script('oms-js');
+	wp_enqueue_script('easy-button-js');
+	wp_enqueue_script('jquery-ui-js');
+	wp_enqueue_script('list-js');
+
 	$classes = 'map_block_leaflet';
 	if(array_key_exists('align', $settings)) {
 		switch ($settings['align']) {
 			case 'wide':
-			$classes .= ' alignwide';
+			$classes_all = ' alignwide';
 			break;
 			case 'full':
-			$classes .= ' alignfull';
+			$classes_all = ' alignfull';
 			break;
 		}
 	}
 
 	return '
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/4.1.1/spin.min.css" integrity="sha512-ssYEuK9Epo/48VIlBWTFosf1izrgGZqEMELJP+L7Clh0nvaOSTg87dM+Z8L+KKjrPdMbMvKYOOnzBOkNMhWFsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/i18n/defaults-de_DE.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
-
-	<div class="container mt-5 mb-5" id="all_container">
+	<div class="container mt-5 mb-5 '.$classes_all .'" id="all_container">
 	   <div class="row d-flex justify-content-center">
 		  <div class="col-md-12">
 			 <h5>Filter dich zur Nachhaltigkeit!</h5>
@@ -253,10 +270,10 @@ function map_block_leaflet_multi_marker_render($settings) {
 						 <button class="btn btn-outline-warning btn-sm mb-1" type="button" id="jump-events"><i class="fa-solid fa-arrow-right"></i> Veranstaltungen</button>
 					  </div>
 					  <div class="row mt-2">
-						 <div class="col-8">
+						 <div class="col-12 col-sm-8 py-1">
 							<input type="text" class="form-control search bg-white" placeholder="Angebot gesucht?" aria-label="Suche">
 						 </div>
-						 <div class="d-grid gap-2 col-4 mx-auto">
+						 <div class="col-12 col-sm-4 py-1">
 							<div class="dropdown">
 							   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 							   <span style="font-size:10px;"><i class="fa-solid fa-sort"></i>  Sortieren</span>
@@ -400,14 +417,18 @@ function map_block_leaflet_multi_marker_render($settings) {
 
 	function map_block_leaflet_calendar_render($settings) {
 
+		wp_enqueue_style('evo-calendar-css');
+		wp_enqueue_style('evo-calendar-navy-css');
+		wp_enqueue_script('evo-calendar-js');
+
 		$classes = 'map_block_leaflet';
 		if(array_key_exists('align', $settings)) {
 			switch ($settings['align']) {
 				case 'wide':
-				$classes .= ' alignwide';
+				$classes_all .= ' alignwide';
 				break;
 				case 'full':
-				$classes .= ' alignfull';
+				$classes_all .= ' alignfull';
 				break;
 			}
 		}
@@ -416,141 +437,120 @@ function map_block_leaflet_multi_marker_render($settings) {
 		$id2 = uniqid('lmb_');
 	
 		return '
-		<!-- Add the evo-calendar.css for styling -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.royal-navy.css"/>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
-		<!-- Add jQuery library (required) -->
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-		<!-- Add the evo-calendar.js for.. obviously, functionality! -->
-		<script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/js/evo-calendar.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
-		<style>
-
-		</style>
-		<div class="container mt-5" id="all_container">
-		<div id="calendar_container" style="height: '. $settings['height'] . 'px; zoom:90%;"></div>
-		<hr>
-		<div class="row py-1">
-		<div class="col-10">
-		   <a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
-		</div>
-		<div class="col-2">
-		</div>
-	 </div>
-		</div>
-
-		<div class="modal left fade" id="infoModal" tabindex="" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content" id="info-modal-content">
-			<div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px;margin-left:-30px;margin-right:-30px;margin-top:-30px;">
-				<div class="container">
-				<div class="row">
-				<div class="col-6">
-				<b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()" style="margin-bottom:10px;"><i class="fa fa-arrow-left"></i> Zurück</a></b>
-				</div>
-				<div class="col-6">
-				<button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Schließen</button>
-				</div>
-				</div>
-				<hr>
-				<div class="row" style="margin-top:10px;">
-				<div class="col-4 col-md-3 col-lg-3">
-				<img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
-				</div>
-				<div class="col-8 col-md-9 col-lg-9">
-					<div style="display: block; margin-right: 4px;">
-					<h3 id="info-modal-title"></h3>
-					</div>
-					<div style="display: block; margin-right: 4px;">
-					<p id="info-modal-type"></p>
-					</div>
-					<div class="accordion-preview" id="category_accordion">
-					  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-						<div class="btn-toolbar btn-group-sm flex" id="toolbar-group" role="toolbar" aria-label="Toolbar with filter buttons" aria-expanded="false">
-						</div>
-						</div>
-					  </div>
-					  					<a class="link-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Mehr anzeigen</a>	
-					</div>	
-				</div>
-				</div>
-				</div>
-				</div>
-                <div class="modal-body">
-				<div id="info-modal-organisation-card">
-					Von:&nbsp;<i class="fa fa-angle-right"></i>&nbsp;<b><a id="info-modal-organisation" data-link="" class="text-dark organisation_link"></a></b>
-					<hr>
-					</div>
-					<div id="info-modal-date-card">
-					<div class="row">
-					<div class="col-8">
-					Wann?&nbsp;<b><a id="info-modal-date" data-link="" class="text-dark"></a></b>
-					</div>
-					<div class="col-4">
-					<button type="button" class="btn btn-outline-secondary btn-sm" id="calendarButton">Zum Kalender hinzufügen</button>
-					</div>
-					</div>
-					<hr>
-					</div>
-					<div class="card mb-2" style="margin-left: -4px;">
-					<div class="card-body">
-					<b class="text-secondarys">Beschreibung</b>
-					<p id="info-modal-text"></p>
-					</div>
-					</div>
-					<div class="card mb-0" style="margin-left: -4px;" id="info-modal-hint-card">
-					<div class="card-body">
-					<b class="text-secondarys">Hinweise</b>
-					<p id="info-modal-hints"></p>
-					</div>
-					</div>
-					<hr>
-					<div class="card" style="margin-left: -4px;">
-					<div class="card-body">
-					<b class="text-secondarys">Kontaktdaten</b>
-					<p>
-					<i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-website" href="" target="_blank"></a><br>
-					<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-email" href=""></a><br>
-					<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-telephone" href=""></a><br>
-					</p>
-					</div>
-					</div>
-					<hr>
-					<div class="card" style="margin-left: -4px;">
-					<div class="card-body">
-					<b class="text-secondarys">Adresse & Karte</b>
-					<p>
-					<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span id="info-modal-address"></span><br>
-					<i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-route" href="" target="_blank">Route</a>
-					</p>
-					<div id="leaflet_map_small" class="'.$classes .'" style="height:400px"></div>
-					</div>
-					</div>
-					<hr>
-					<div class="card" style="margin-left: -4px;">
-					<div class="card-header">
-					<b>Weitere Projekte/Angebote/Veranstaltungen der Organisation</b>
-					</div>
-					<div class="card-body" id="info-modal-organisation-data">
-					</div>
-					</div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
-                </div>
+<div class="container mt-5 '.$classes_all .'" id="all_container">
+   <div id="calendar_container" style="height: '. $settings['height'] . 'px; zoom:90%;"></div>
+   <hr>
+   <div class="row py-1">
+      <div class="col-10">
+         <a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
+      </div>
+      <div class="col-2">
+      </div>
+   </div>
+</div>
+<div class="modal left fade" id="infoModal" tabindex="" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content" id="info-modal-content">
+         <div class="modal-header" id="info-modal-header" style="border-bottom: solid 5px;margin-left:-30px;margin-right:-30px;margin-top:-30px;">
+            <div class="container">
+               <div class="row">
+                  <div class="col-6">
+                     <b><a id="info-modal-back" class="text-dark mb-2" onclick="goBackFunction()" style="margin-bottom:10px;"><i class="fa fa-arrow-left"></i> Zurück</a></b>
+                  </div>
+                  <div class="col-6">
+                     <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Schließen</button>
+                  </div>
+               </div>
+               <hr>
+               <div class="row" style="margin-top:10px;">
+                  <div class="col-4 col-md-3 col-lg-3">
+                     <img src="https://buendnis-abfallvermeidung.de/wp-content/uploads/2022/06/organisation_default.png" class="img-fluid cover" alt="Responsive image" id="info-modal-photo">
+                  </div>
+                  <div class="col-8 col-md-9 col-lg-9">
+                     <div style="display: block; margin-right: 4px;">
+                        <h3 id="info-modal-title"></h3>
+                     </div>
+                     <div style="display: block; margin-right: 4px;">
+                        <p id="info-modal-type"></p>
+                     </div>
+                     <div class="accordion-preview" id="category_accordion">
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                           <div class="accordion-body">
+                              <div class="btn-toolbar btn-group-sm flex" id="toolbar-group" role="toolbar" aria-label="Toolbar with filter buttons" aria-expanded="false">
+                              </div>
+                           </div>
+                        </div>
+                        <a class="link-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Mehr anzeigen</a>	
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
+         </div>
+         <div class="modal-body">
+            <div id="info-modal-organisation-card">
+               Von:&nbsp;<i class="fa fa-angle-right"></i>&nbsp;<b><a id="info-modal-organisation" data-link="" class="text-dark organisation_link"></a></b>
+               <hr>
+            </div>
+            <div id="info-modal-date-card">
+               <div class="row">
+                  <div class="col-8">
+                     Wann?&nbsp;<b><a id="info-modal-date" data-link="" class="text-dark"></a></b>
+                  </div>
+                  <div class="col-4">
+                     <button type="button" class="btn btn-outline-secondary btn-sm" id="calendarButton">Zum Kalender hinzufügen</button>
+                  </div>
+               </div>
+               <hr>
+            </div>
+            <div class="card mb-2" style="margin-left: -4px;">
+               <div class="card-body">
+                  <b class="text-secondarys">Beschreibung</b>
+                  <p id="info-modal-text"></p>
+               </div>
+            </div>
+            <div class="card mb-0" style="margin-left: -4px;" id="info-modal-hint-card">
+               <div class="card-body">
+                  <b class="text-secondarys">Hinweise</b>
+                  <p id="info-modal-hints"></p>
+               </div>
+            </div>
+            <hr>
+            <div class="card" style="margin-left: -4px;">
+               <div class="card-body">
+                  <b class="text-secondarys">Kontaktdaten</b>
+                  <p>
+                     <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-website" href="" target="_blank"></a><br>
+                     <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-email" href=""></a><br>
+                     <i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-telephone" href=""></a><br>
+                  </p>
+               </div>
+            </div>
+            <hr>
+            <div class="card" style="margin-left: -4px;">
+               <div class="card-body">
+                  <b class="text-secondarys">Adresse & Karte</b>
+                  <p>
+                     <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;<span id="info-modal-address"></span><br>
+                     <i class="fa fa-route" aria-hidden="true"></i>&nbsp;<a class="link-dark" id="info-modal-route" href="" target="_blank">Route</a>
+                  </p>
+                  <div id="leaflet_map_small" class="'.$classes .'" style="height:400px"></div>
+               </div>
+            </div>
+            <hr>
+            <div class="card" style="margin-left: -4px;">
+               <div class="card-header">
+                  <b>Weitere Projekte/Angebote/Veranstaltungen der Organisation</b>
+               </div>
+               <div class="card-body" id="info-modal-organisation-data">
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+         </div>
+      </div>
+   </div>
 </div>
-</div>
-
-
 		<script>
 			console.log('. json_encode($settings).');
 			var default_categories = '. json_encode($settings['categories']) .';
@@ -580,6 +580,7 @@ function map_block_leaflet_dequeue_lib_script()
     wp_dequeue_style('lib-css-map-block-leaflet-sustainability');
 	wp_dequeue_style('lib-css-bootstrap-blocks');
   }
+
 }
 
 add_action('wp_enqueue_scripts', 'map_block_leaflet_dequeue_lib_script');

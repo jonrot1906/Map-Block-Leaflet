@@ -3,24 +3,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/calendar/components/Inspector.js:57
-msgid "Options"
+#: src/blocks/multi-marker/components/Inspector.js:72
+msgid "Theme"
 msgstr ""
 
-#: src/blocks/calendar/components/Inspector.js:59
-msgid "Calendar height"
-msgstr ""
-
-#: src/blocks/calendar/components/Inspector.js:68
 #: src/blocks/multi-marker/components/Inspector.js:79
 msgid "Regionen voreinstellen"
 msgstr ""
 
-#: src/blocks/calendar/components/Inspector.js:80
 #: src/blocks/multi-marker/components/Inspector.js:91
 msgid "Kategorien voreinstellen"
-msgstr ""
-
-#: src/blocks/multi-marker/components/Inspector.js:72
-msgid "Theme"
 msgstr ""
