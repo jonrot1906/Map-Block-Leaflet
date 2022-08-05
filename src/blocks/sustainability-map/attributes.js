@@ -1,4 +1,4 @@
-import providers from './../../shared/providers';
+import providers from '../../shared/providers';
 
 const attributes = {
     markers: {

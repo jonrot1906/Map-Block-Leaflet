@@ -32540,7 +32540,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _shared_providers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/providers */ "./src/shared/providers.js");
+/* harmony import */ var _shared_providers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/providers */ "./src/shared/providers.js");
 
 var attributes = {
   markers: {
@@ -33213,7 +33213,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _i18n_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_i18n_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _providers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./providers.js */ "./src/providers.js");
 /* harmony import */ var _blocks_leaflet_map_block__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./blocks/leaflet-map-block */ "./src/blocks/leaflet-map-block/index.js");
-/* harmony import */ var _blocks_sustainability_map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blocks/sustainability-map */ "./src/blocks/sustainability-map/index.js");
+/* harmony import */ var _blocks_sustainability_map__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./blocks/sustainability-map */ "./src/blocks/sustainability-map/index.js");
 /* harmony import */ var _blocks_sustainability_calendar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./blocks/sustainability-calendar */ "./src/blocks/sustainability-calendar/index.js");
 
 /**
