@@ -11,8 +11,8 @@ import Resizable from "../../components/Resizable";
 import RevoCalendar from "revo-calendar";
 
 export default registerBlockType('map-block-leaflet/map-block-leaflet-calendar', {
-    title: __('Map Leaflet Calendar', 'map-block-leaflet'),
-    description: __('Easy way to inside maps in your contents', 'map-block-leaflet'),
+    title: __('Nachhaltigkeits-Kalender', 'map-block-leaflet'),
+    description: __('Hier werden je nach Einstellung (Region/Kategorie) die entsprechenden zukünftigen Veranstaltungen aus der Datenbank Nachhaltiges Sachsen in Kalenderform angezeigt.', 'map-block-leaflet'),
     category: 'embed',
     keywords: [
         __('kalendar', 'map-block-leaflet'),

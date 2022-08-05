@@ -11,8 +11,8 @@ import Resizable from "../../components/Resizable";
 import { Map, Cluster } from "../../components/Map";
 
 export default registerBlockType('map-block-leaflet/map-block-leaflet-multimarker', {
-    title: __('Map Leaflet multimarker', 'map-block-leaflet'),
-    description: __('Easy way to inside maps in your contents', 'map-block-leaflet'),
+    title: __('Nachhaltigkeits-Karte', 'map-block-leaflet'),
+    description: __('Hier werden je nach Einstellung (Region/Kategorie) alle Projekte, Initiativen, Angebote und Veranstaltungen aus der Datenbank Nachhaltiges Sachsen auf einer Karte angezeigt.', 'map-block-leaflet'),
     category: 'embed',
     keywords: [
         __('map', 'map-block-leaflet'),

@@ -1,10 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { InspectorControls } from "@wordpress/block-editor";
-import { PanelBody, SelectControl } from "@wordpress/components";
-
-import themes from '../../../shared/themes';
-import providers from '../../../shared/providers';
-import ThemePicker from '../../../components/ThemePicker';
+import { PanelBody, TextControl, SelectControl } from "@wordpress/components";
 
 var fetch_categories = [];
 var fetch_regions = [];
@@ -15,6 +11,8 @@ function getRegionData(){
         return response.json();
       })
       .then(data => {
+        fetch_regions.push({label: "Region(en) auswählen", value: "", disabled:true});
+        fetch_regions.push({label: "- Alle", value: ""});
         data.map((region) => {
             fetch_regions.push({label: "- " + region.name, value: region.id})
         })
@@ -31,6 +29,8 @@ function getCategoryData(){
         return response.json();
       })
       .then(data => {
+        fetch_categories.push({label: "Kategorie(n) auswählen", value: "", disabled:true});
+        fetch_categories.push({label: "- Alle", value: ""});
         data.map((category) => {
             if(category.depth == 0){
                 fetch_categories.push({label: "- " + category.name, value: category.id})
@@ -47,36 +47,30 @@ getCategoryData();
 
 const Inspector = ( props ) => {
     const { attributes, setAttributes } = props;
-    const { themeId } = attributes;
-
-    const setTheme = ({ id }) => {
-        const themeSelected = providers.find( provider => provider.id === id);
-        if( themeSelected) {
-            setAttributes({
-                themeId: themeSelected.id,
-                themeUrl: themeSelected.url,
-                themeAttribution: themeSelected.attribution,
-            })
-        }
-    }
-
+    const { height } = attributes;
     const addRegion = (region) => {
         setAttributes( { regions : region });
     }
     const addCategory = (category) => {
+        console.log(category);
         setAttributes( { categories : category });
     }
 
+
     return (
         <InspectorControls>
-        <PanelBody title={__('Theme', 'map-block-leaflet')} initialOpen={false}>
-            <ThemePicker
-                value={ themeId }
-                themes={ themes }
-                onChange={ setTheme }
-            />
-        </PanelBody>
-        <PanelBody title={__('Regionen voreinstellen', 'map-block-leaflet')} initialOpen={false}>
+                    <PanelBody title={__('Options', 'map-block-leaflet')} initialOpen={false}>
+
+<label class="blocks-base-control__label" for="calendar-block-text-control-lon">{__('Calendar height', 'map-block-leaflet')}</label>
+<TextControl 
+    onChange={ height => setAttributes({height: Number(height)})}
+    id="calendar-block-text-control-lon"
+    type="number"
+    step="10"
+    value={height}
+/>
+</PanelBody>
+<PanelBody title={__('Regionen voreinstellen', 'map-block-leaflet')} initialOpen={false}>
 
 <SelectControl style={{height: "auto"}}
     multiple={true}

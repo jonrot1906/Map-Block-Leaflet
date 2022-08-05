@@ -290,10 +290,6 @@ body {
     padding-top: 4px;
 }
 
-#all_container {
-    z-index: 3;
-}
-
 .sort {
 	border:none;
 	display:inline-block;

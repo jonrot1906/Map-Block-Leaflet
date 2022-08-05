@@ -3,14 +3,64 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/multi-marker/components/Inspector.js:72
+#: src/blocks/multi-marker/components/Inspector.js:75
+#: src/blocks/sustainability-map/components/Inspector.js:75
 msgid "Theme"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:79
+#: src/blocks/multi-marker/components/Inspector.js:82
+#: src/blocks/sustainability-calendar/components/Inspector.js:73
+#: src/blocks/sustainability-calendar/components/Inspector.js:72
+#: src/blocks/sustainability-map/components/Inspector.js:82
 msgid "Regionen voreinstellen"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:91
+#: src/blocks/multi-marker/components/Inspector.js:94
+#: src/blocks/sustainability-calendar/components/Inspector.js:85
+#: src/blocks/sustainability-calendar/components/Inspector.js:84
+#: src/blocks/sustainability-map/components/Inspector.js:94
 msgid "Kategorien voreinstellen"
+msgstr ""
+
+#: src/blocks/sustainability-calendar/components/Inspector.js:62
+msgid "Options"
+msgstr ""
+
+#: src/blocks/sustainability-calendar/components/Inspector.js:64
+msgid "Calendar height"
+msgstr ""
+
+#: src/blocks/sustainability-calendar/index.js:14
+msgid "Nachhaltigkeits-Kalender"
+msgstr ""
+
+#: src/blocks/sustainability-calendar/index.js:15
+msgid ""
+"Hier werden je nach Einstellung (Region/Kategorie) die entsprechenden "
+"zukünftigen Veranstaltungen aus der Datenbank Nachhaltiges Sachsen in "
+"Kalenderform angezeigt."
+msgstr ""
+
+#: src/blocks/sustainability-calendar/index.js:18
+msgid "kalendar"
+msgstr ""
+
+#: src/blocks/sustainability-calendar/index.js:19
+#: src/blocks/sustainability-map/index.js:19
+msgid "leaflet"
+msgstr ""
+
+#: src/blocks/sustainability-map/index.js:14
+msgid "Nachhaltigkeits-Karte"
+msgstr ""
+
+#: src/blocks/sustainability-map/index.js:15
+msgid ""
+"Hier werden je nach Einstellung (Region/Kategorie) alle Projekte, "
+"Initiativen, Angebote und Veranstaltungen aus der Datenbank Nachhaltiges "
+"Sachsen auf einer Karte angezeigt."
+msgstr ""
+
+#: src/blocks/sustainability-map/index.js:18
+msgid "map"
 msgstr ""

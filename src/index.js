@@ -5,6 +5,6 @@ import './i18n.js';
  */
  import './providers.js';
  import './blocks/leaflet-map-block';
- import './blocks/multi-marker';
- import './blocks/calendar';
+ import './blocks/sustainability-map';
+ import './blocks/sustainability-calendar';
 
