@@ -39,7 +39,7 @@ function map_block_leaflet_register() {
 	$lib_version = '1.7.1';
 
 
-	wp_register_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+	wp_register_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css');
 	wp_enqueue_style('bootstrap-css');
 	wp_register_style('bootstrap-select-css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css');
 	wp_register_style('font-awesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
@@ -49,17 +49,22 @@ function map_block_leaflet_register() {
 	wp_register_style('easy-button-css', 'https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css');
 	wp_register_style('evo-calendar-css', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css');
 	wp_register_style('evo-calendar-navy-css', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.royal-navy.css');
+	wp_register_style('color-calendar-css', 'https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-basic.css');
+
 	
-	wp_register_script( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
-	wp_enqueue_script('bootstrap-js');
+	
+	wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js', array('jquery', 'bootstrap-select-js', 'loading-overlay-js'), null, true);
+	#wp_enqueue_script('bootstrap-js');
 	wp_register_script('bootstrap-select-js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js', array('jquery'), null, true);
 	wp_register_script('bootstrap-select-german-js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/i18n/defaults-de_DE.min.js', array('jquery'), null, true);
 	wp_register_script('font-awesome-js', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js', array('jquery'), null, true);
 	wp_enqueue_script('font-awesome-js');
 	wp_register_script('loading-overlay-js', 'https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js', array('jquery'), null, true);
 	wp_enqueue_script('loading-overlay-js');
-	wp_register_script('moment-js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js', array('jquery'), null, true);
+	wp_register_script('moment-js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js', array('jquery'), null, true);
 	wp_enqueue_script('moment-js');
+	wp_register_script('moment-german-js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/de.min.js', array('jquery'), null, true);
+	wp_enqueue_script('moment-german-js');
 	wp_register_script('oms-js', 'https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js', array('jquery', 'lib-js-map-block-leaflet'), null, true);
 	wp_register_script('easy-button-js', 'https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js', array('jquery', 'lib-js-map-block-leaflet'), null, true);
 	wp_register_script('sweetalert-js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11', array('jquery'), null, true);
@@ -67,13 +72,14 @@ function map_block_leaflet_register() {
 	wp_register_script('jquery-ui-js', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', array('jquery'), null, true);
 	wp_register_script('list-js', 'https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js', array('jquery'), null, true);
 	wp_register_script('evo-calendar-js', 'https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/js/evo-calendar.min.js', array('jquery'), null, true);
+	wp_register_script('color-calendar-js', 'https://cdn.jsdelivr.net/npm/color-calendar/dist/bundle.js', array('jquery'), null, true);
 	
 
 	wp_register_style( 'lib-css-map-block-leaflet', plugins_url($lib_style_path, __FILE__), array(), $lib_version );
-	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array("jquery"), $lib_version, false );
+	wp_register_script( 'lib-js-map-block-leaflet', plugins_url($lib_script_path, __FILE__), array('jquery', 'bootstrap-js'), $lib_version, false );
 	wp_register_style( 'lib-css-map-block-leaflet-sustainability', plugins_url("/lib/Map_Calendar_Design.css", __FILE__), array("lib-css-map-block-leaflet"), $lib_version );
-	wp_register_script( 'lib-js-map-block-leaflet-sustainability', plugins_url("/lib/sustainability_map.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
-	wp_register_script( 'lib-js-calendar-block-leaflet-sustainability', plugins_url("/lib/sustainability_calendar.js", __FILE__), array("lib-js-map-block-leaflet"), $lib_version, false );
+	wp_register_script( 'lib-js-map-block-leaflet-sustainability', plugins_url("/lib/sustainability_map.js", __FILE__), array("lib-js-map-block-leaflet", 'jquery', 'bootstrap-js'), $lib_version, false );
+	wp_register_script( 'lib-js-calendar-block-leaflet-sustainability', plugins_url("/lib/sustainability_calendar.js", __FILE__), array("lib-js-map-block-leaflet", 'jquery', 'bootstrap-js'), $lib_version, false );
 
 	// Enqueue the bundled block JS file
 	wp_register_script(
@@ -176,6 +182,7 @@ function map_block_leaflet_multi_marker_render($settings) {
 	}
 
 	return '
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
 	<div class="container mt-5 mb-5 '.$classes_all .'" id="all_container">
 	   <div class="row d-flex justify-content-center">
 		  <div class="col-md-12">
@@ -420,6 +427,8 @@ function map_block_leaflet_multi_marker_render($settings) {
 		wp_enqueue_style('evo-calendar-css');
 		wp_enqueue_style('evo-calendar-navy-css');
 		wp_enqueue_script('evo-calendar-js');
+		wp_enqueue_style('color-calendar-css');
+		wp_enqueue_script('color-calendar-js');
 
 		$classes = 'map_block_leaflet';
 		if(array_key_exists('align', $settings)) {
@@ -439,7 +448,18 @@ function map_block_leaflet_multi_marker_render($settings) {
 		return '
 <div class="container mt-5 '.$classes_all .'" id="all_container">
    <div id="calendar_container" style="height: '. $settings['height'] . 'px; zoom:90%;"></div>
+
    <hr>
+   <div class="row gx-5">
+   <div class="col-xs-6 col-md-4 mt-2" id="color-calendar">
+   </div>
+   <div class="col-xs-6 col-md-8 bg-light result_wrapper mt-2" id="list_wrapper_cal" style="height: inherit;box-shadow:0 7px 30px -10px rgba(150, 170, 180, 0.5);">
+   <div class="events-display"></div>
+   </div>
+   
+	</div>
+	</div>
+
    <div class="row py-1">
       <div class="col-10">
          <a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
