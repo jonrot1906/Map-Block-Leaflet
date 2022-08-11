@@ -1,29 +1,30 @@
-# Leaft map block for Gutenberg
+# Nachhaltigkeitskarte für das Leipziger Bündnis Abfallvermeidung
 
-The objective of this project is an alternative in Google Maps to include maps in the WordPress content, for this I take advantage of the new capabilities of the Gutenberg editor
+Dies ist die Nachhaltigskeitskarte vom Leipziger Bündnis Abfallvermeidung. Unter Nutzung der APIv1 des Datenbank des LVNS (https://daten.nachhaltiges-sachsen.de) können sachsenweit je nach Filterkriterien nachhaltige Orte, Initiativen, Angebote und Veranstaltungen angezeigt werden.
 
-I use leaflet for maps and as a search engine to algolia
+## Was ist das Leipziger Bündnis Abfallvermeidung?
 
-## Goals
+- Das Leipziger Bündnis Abfallvermeidung ist ein aktives Netzwerk zahlreicher städtischer Vereine, Strukturen und Initiativen mit dem Ziel, Müll zu vermeiden, Gegenstände länger zu gebrauchen und die Nutzung von Mehrweg vorwärtszubringen.
 
-- Easy way to add maps inside contents of WordPress
-- Is free and no need to use any api key
-- Multimarker
+## Warum das Plugin?
 
-# Setup
+- Unter Nutzung der Datenbank Nachhaltiges Sachsen werden sachsenweit Initiativen, Projekte und Veranstaltungen in Karten- und Kalenderform vorgestellt.
+- Das Plugin kann kostenlos genutzt und weiterverwendet werden.
 
-Download this folder inside your plugins directory
+# Installation
+
+Um die Codebase zu verwenden, muss dieses Repository heruntergeladen werden. Außerdem muss npm vorhanden sein.
 
 ```
-cd /wp-content/plugins/leaflet-map-block/
+cd /wp-content/plugins/nachhaltigkeitskarte-leipzig/
 npm install
 npm start
 ```
 
-For generate compressed files
+Um die komprimierten Dateien zu erzeugen:
 
 ```
 npm run build
 ```
 
-Feel free to tweet and say 👋 at me [@goiblas](https://twitter.com/goiblas/)
+Das Plugin wird unter anderem auf der Website https://buendnis-abfallvermeidung.de/karte und https://buendnis-abfallvermeidung.de/kalender genutzt.

@@ -3,64 +3,46 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/multi-marker/components/Inspector.js:75
-#: src/blocks/sustainability-map/components/Inspector.js:75
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:100
+msgid "Disable scroll zoom"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:38
+msgid "Content of tooltip"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:43
 msgid "Theme"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:82
-#: src/blocks/sustainability-calendar/components/Inspector.js:73
-#: src/blocks/sustainability-calendar/components/Inspector.js:72
-#: src/blocks/sustainability-map/components/Inspector.js:82
-msgid "Regionen voreinstellen"
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:50
+msgid "XYZ Tiles"
 msgstr ""
 
-#: src/blocks/multi-marker/components/Inspector.js:94
-#: src/blocks/sustainability-calendar/components/Inspector.js:85
-#: src/blocks/sustainability-calendar/components/Inspector.js:84
-#: src/blocks/sustainability-map/components/Inspector.js:94
-msgid "Kategorien voreinstellen"
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:57
+msgid "Attribution"
 msgstr ""
 
-#: src/blocks/sustainability-calendar/components/Inspector.js:62
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:65
+msgid "Position"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:66
+msgid "Latitude"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:73
+msgid "Longitude"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:81
+msgid "Zoom"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:88
 msgid "Options"
 msgstr ""
 
-#: src/blocks/sustainability-calendar/components/Inspector.js:64
-msgid "Calendar height"
-msgstr ""
-
-#: src/blocks/sustainability-calendar/index.js:14
-msgid "Nachhaltigkeits-Kalender"
-msgstr ""
-
-#: src/blocks/sustainability-calendar/index.js:15
-msgid ""
-"Hier werden je nach Einstellung (Region/Kategorie) die entsprechenden "
-"zukünftigen Veranstaltungen aus der Datenbank Nachhaltiges Sachsen in "
-"Kalenderform angezeigt."
-msgstr ""
-
-#: src/blocks/sustainability-calendar/index.js:18
-msgid "kalendar"
-msgstr ""
-
-#: src/blocks/sustainability-calendar/index.js:19
-#: src/blocks/sustainability-map/index.js:19
-msgid "leaflet"
-msgstr ""
-
-#: src/blocks/sustainability-map/index.js:14
-msgid "Nachhaltigkeits-Karte"
-msgstr ""
-
-#: src/blocks/sustainability-map/index.js:15
-msgid ""
-"Hier werden je nach Einstellung (Region/Kategorie) alle Projekte, "
-"Initiativen, Angebote und Veranstaltungen aus der Datenbank Nachhaltiges "
-"Sachsen auf einer Karte angezeigt."
-msgstr ""
-
-#: src/blocks/sustainability-map/index.js:18
-msgid "map"
+#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:90
+msgid "Map height"
 msgstr ""

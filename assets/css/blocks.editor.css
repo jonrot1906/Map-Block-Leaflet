@@ -2,7 +2,7 @@
   height: 100%;
   position: relative; }
 
-.map-block-leaflet-header {
+.nachhaltigkeitskarte-leipzig-header {
   width: 100%;
   max-width: 32rem;
   margin: 0 0 .5rem;
@@ -12,12 +12,12 @@
   opacity: 0;
   transition: opacity .25; }
 
-.is-map-block-leaflet-selected {
+.is-nachhaltigkeitskarte-leipzig-selected {
   pointer-events: all;
   position: relative;
   opacity: 1; }
 
-.map_block_leaflet a {
+.nachhaltigkeitskarte a {
   text-decoration: none; }
 
 .resizable-handle {

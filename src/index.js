@@ -4,7 +4,6 @@ import './i18n.js';
  * Import blocks
  */
  import './providers.js';
- import './blocks/leaflet-map-block';
- import './blocks/sustainability-map';
- import './blocks/sustainability-calendar';
-
+ import './blocks/nachhaltigkeitskarte-leipzig';
+ import './blocks/nachhaltigkeitskarte-leipzig-map';
+ import './blocks/nachhaltigkeitskarte-leipzig-calendar';

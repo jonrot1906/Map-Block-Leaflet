@@ -1,11 +1,11 @@
-const voyager = "/wp-content/plugins/map-block-leaflet/assets/img/voyager.png";
-const worldimagery = "/wp-content/plugins/map-block-leaflet/assets/img/worldimagery.png";
-const blackAndWhite = "/wp-content/plugins/map-block-leaflet/assets/img/black-and-white.png";
-const grayscale = "/wp-content/plugins/map-block-leaflet/assets/img/grayscale.png";
-const drakMatter = "/wp-content/plugins/map-block-leaflet/assets/img/dark-matter.png";
-const mapnik = "/wp-content/plugins/map-block-leaflet/assets/img/mapnik.png";
-const stadia = "/wp-content/plugins/map-block-leaflet/assets/img/stadia.png";
-const watercolor = "/wp-content/plugins/map-block-leaflet/assets/img/watercolor.png";
+const voyager = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/voyager.png";
+const worldimagery = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/worldimagery.png";
+const blackAndWhite = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/black-and-white.png";
+const grayscale = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/grayscale.png";
+const drakMatter = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/dark-matter.png";
+const mapnik = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/mapnik.png";
+const stadia = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/stadia.png";
+const watercolor = "/wp-content/plugins/nachhaltigkeitskarte-leipzig/assets/img/watercolor.png";
 
 const themes = [
   {

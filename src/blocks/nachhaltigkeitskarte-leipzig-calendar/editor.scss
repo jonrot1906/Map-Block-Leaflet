@@ -1,0 +1,24 @@
+.algolia-places {
+    z-index: 9999;
+    margin-bottom: 1rem;
+  }
+.nachhaltigkeitskarte-leipzig-list-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .85rem;
+  align-items: center;
+  padding: .5rem 0;
+}
+.nachhaltigkeitskarte-leipzig-list-item-action {
+  display: flex;
+  padding-top: .25rem;
+}
+.nachhaltigkeitskarte-leipzig-list-item-action > *:not(:last-child) {
+  margin-right: .5rem;
+}
+
+// Handle resize above the map
+.components-resizable-box__container.has-show-handle 
+.components-resizable-box__handle {
+  z-index: 600;
+}
