@@ -411,6 +411,7 @@ function nachhaltigkeitskarte_map_render($settings) {
 	<script>
 		var default_categories = '. json_encode($settings['categories']) .';
 		var default_regions = '. json_encode($settings['regions']) .';
+		console.log(default_regions);
 		var themeUrl = '.json_encode($settings['themeUrl']).';
 		var themeAttribution = '.json_encode($settings['themeAttribution']).';
 		var default_height = '.json_encode($settings['height']).';
