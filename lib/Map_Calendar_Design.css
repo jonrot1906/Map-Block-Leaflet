@@ -337,3 +337,7 @@ body {
   .color-calendar.basic .calendar__days .calendar__day-bullet{
 	background-color: #FFBF00;
   }
+
+.color-calendar.basic {
+	z-index: 4;
+  }
