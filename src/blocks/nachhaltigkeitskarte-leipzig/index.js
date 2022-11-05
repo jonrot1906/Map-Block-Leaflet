@@ -15,8 +15,8 @@ import Resizable from "../../components/Resizable"
 import { Map, Marker } from "../../components/Map"
 
 export default registerBlockType(  'nachhaltigkeitskarte-leipzig/nachhaltigkeitskarte-leipzig', {
-    title:__('Map Leaflet', 'nachhaltigkeitskarte-leipzig'),
-    description: __('Easy way to inside maps in your contents', 'nachhaltigkeitskarte-leipzig'),
+    title:__('Karte', 'nachhaltigkeitskarte-leipzig'),
+    description: __('Easy way to integrate maps to your contents', 'nachhaltigkeitskarte-leipzig'),
     category: 'embed',
     keywords: [
         __( 'map', 'nachhaltigkeitskarte-leipzig' ),

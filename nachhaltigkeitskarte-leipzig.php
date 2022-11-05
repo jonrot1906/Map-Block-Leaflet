@@ -98,6 +98,52 @@ function nachhaltigkeitskarte_register() {
 		$asset_file['version']
 	);
 
+	register_block_type( 'nachhaltigkeitskarte-leipzig/nachhaltigkeitskarte-leipzig', array(
+		'editor_script' => 'js-editor-nachhaltigkeitskarte-leipzig',
+		'editor_style' => 'css-editor-nachhaltigkeitskarte-leipzig',
+		'render_callback' => 'single_karte_render',
+		'script' => 'lib-js-nachhaltigkeitskarte-leipzig',
+		'style' => 'lib-css-nachhaltigkeitskarte-leipzig',
+		'attributes' => [
+			'lat' => [
+				'type' => 'number',
+				'default' => 51.340199
+			],
+			'lng'  => [
+				'type'  => 'number',
+				'default' => 12.360103
+			],
+			'themeUrl' => [
+				'type' => 'string',
+				'default' =>  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+			],
+			'themeAttribution' => [
+				'type' => 'string',
+				'default' => '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+			],
+			'height' => [
+				'type' => 'number',
+				'default' => 220
+			],
+			'disableScrollZoom'=> [
+				'type' => 'boolean',
+				'default' => true
+			],
+			'zoom' => [
+				'type' => 'number',
+				'default' => 15
+			],
+			'themeId' => [
+				'type' => 'number',
+				'default' => 1
+			],
+			'content' => [
+				'type' => 'string',
+				'default' => ''
+			]
+		]
+	 ) );
+
 	// Register nachhaltigkeitskarte-leipzig-map
     register_block_type( 'nachhaltigkeitskarte-leipzig/nachhaltigkeitskarte-leipzig-map', array(
 		'editor_script' => 'js-editor-nachhaltigkeitskarte-leipzig',
@@ -159,6 +205,75 @@ function nachhaltigkeitskarte_register() {
 add_action('init', 'nachhaltigkeitskarte_register');
 
 
+function single_karte_render($settings) {
+	$content = trim(preg_replace('/\s\s+/', ' ', $settings['content']));
+
+	$classes = 'map_block_leaflet';
+	if(array_key_exists('align', $settings)) {
+		switch ($settings['align']) {
+			case 'wide':
+			$classes .= ' alignwide';
+			break;
+			case 'full':
+			$classes .= ' alignfull';
+			break;
+		}
+	}
+
+	$id = uniqid('lmb_');
+	$output = '<div id=\''. $id .'\' class="'.$classes .'" style="height: '. $settings['height'] . 'px"></div>';
+	$output .= '
+		<script>
+		( function(){
+		var map = L.map(\''. $id .'\').setView([' . $settings['lat'] . ', '. $settings['lng'] .'], \''. $settings['zoom'] .'\');
+			L.tileLayer(\''. $settings['themeUrl'] . '\', {
+				attribution: \''. $settings['themeAttribution'] .'\'
+			}).addTo(map);
+	';
+	if($settings['disableScrollZoom']) {
+		$output .= 'map.scrollWheelZoom.disable();';
+	}
+	if ( !empty( $content ) ){
+		$output .= '
+			var content = \''. esc_js($content) .'\';
+			L.marker([' . $settings['lat'] . ', '. $settings['lng'] .']).addTo(map)
+				.bindPopup( content.replace(/\r?\n/g, "<br />") )';
+	} else {
+		$output .= 'L.marker([' . $settings['lat'] . ', '. $settings['lng'] .']).addTo(map)';
+	}
+
+	$output .= '
+		function is_loading() {
+			return document.body.classList.contains("loading");
+		}
+		var timer = 100;
+		function checkRender() {
+			if( is_loading()) {
+				setTimeout(function(){
+					checkRender();
+				}, timer);
+			} else {
+				map.invalidateSize(true);
+			}
+		}
+		if( is_loading()) {
+			checkRender();
+		} else {
+			document.addEventListener("DOMContentLoaded", function() {
+				map.invalidateSize(true);
+			});
+		}
+    var container = document.getElementById(\'' . $id . '\');
+    var observer = ResizeObserver && new ResizeObserver(function() {
+      map.invalidateSize(true);
+    });
+    observer && observer.observe(container);
+	';
+	$output .= '})();</script>';
+
+	return $output;
+}
+
 function nachhaltigkeitskarte_map_render($settings) {
 
 	wp_enqueue_style('bootstrap-select-css');
@@ -186,7 +301,6 @@ function nachhaltigkeitskarte_map_render($settings) {
 	<div class="container mt-5 mb-5 '.$classes_all .'" id="all_container">
 	   <div class="row d-flex justify-content-center">
 		  <div class="col-md-12">
-			 <h5>Filter dich zur Nachhaltigkeit!</h5>
 			 <div class="row">
 				<div class="col-md-8 mb-md-0 mb-5" id="map_wrapper">
 				   <div id="leaflet_map" class="'.$classes .'" style="height: '. $settings['height'] . 'px">
@@ -411,7 +525,7 @@ function nachhaltigkeitskarte_map_render($settings) {
 	<script>
 		var default_categories = '. json_encode($settings['categories']) .';
 		var default_regions = '. json_encode($settings['regions']) .';
-		console.log(default_regions);
+		//console.log(default_regions);
 		var themeUrl = '.json_encode($settings['themeUrl']).';
 		var themeAttribution = '.json_encode($settings['themeAttribution']).';
 		var default_height = '.json_encode($settings['height']).';

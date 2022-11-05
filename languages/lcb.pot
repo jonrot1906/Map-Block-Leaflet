@@ -3,46 +3,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:100
-msgid "Disable scroll zoom"
+#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:18
+msgid "Karte"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:38
-msgid "Content of tooltip"
+#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:19
+msgid "Easy way to integrate maps to your contents"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:43
-msgid "Theme"
+#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:22
+msgid "map"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:50
-msgid "XYZ Tiles"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:57
-msgid "Attribution"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:65
-msgid "Position"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:66
-msgid "Latitude"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:73
-msgid "Longitude"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:81
-msgid "Zoom"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:88
-msgid "Options"
-msgstr ""
-
-#: src/blocks/nachhaltigkeitskarte-leipzig/components/Inspector.js:90
-msgid "Map height"
+#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:23
+msgid "leaflet"
 msgstr ""
