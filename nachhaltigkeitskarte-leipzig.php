@@ -418,7 +418,7 @@ function nachhaltigkeitskarte_map_render($settings) {
 		  <hr>
 		  <div class="row">
 			 <div class="col-10">
-				<a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-secondary">Eigenes Projekt/Veranstaltung veröffentlichen</a>
+				<a href="https://daten.nachhaltiges-sachsen.de" target="_blank" class="link-dark" style="font-size:16px;"><strong>Eigenes Projekt/Veranstaltung veröffentlichen</strong></a>
 			 </div>
 			 <div class="col-2">
 			 </div>

@@ -20,12 +20,6 @@ class CalendarComponent extends React.Component {
         monthDisplayType: "long",
         calendarSize: "small",
         layoutModifiers: ["month-left-align"],
-        dateChanged: (currentDate, events) => {
-          console.log("date change", currentDate, events);
-        },
-        monthChanged: (currentDate, events) => {
-          console.log("month change", currentDate, events);
-        }
       });
     }
   

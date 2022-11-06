@@ -3,18 +3,21 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:18
-msgid "Karte"
+#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:47
+msgid "Nachhaltigkeits-Kalender"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:19
-msgid "Easy way to integrate maps to your contents"
+#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:48
+msgid ""
+"Hier werden je nach Einstellung (Region/Kategorie) die entsprechenden "
+"zukünftigen Veranstaltungen aus der Datenbank Nachhaltiges Sachsen in "
+"Kalenderform angezeigt."
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:22
-msgid "map"
+#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:51
+msgid "kalendar"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig/index.js:23
+#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:52
 msgid "leaflet"
 msgstr ""

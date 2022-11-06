@@ -93,7 +93,7 @@ const Inspector = ( props ) => {
         </PanelBody>
         <PanelBody title={__('Regionen voreinstellen', 'nachhaltigkeitskarte-leipzig')} initialOpen={false}>
 
-<SelectControl style={{height: "auto"}}
+<SelectControl style={{height: "auto", overflow: "scroll"}}
     multiple={true}
     label="Regionen"
     value={attributes.regions}
@@ -105,7 +105,7 @@ const Inspector = ( props ) => {
 </PanelBody>
 <PanelBody title={__('Kategorien voreinstellen', 'nachhaltigkeitskarte-leipzig')} initialOpen={false}>
 
-<SelectControl style={{height: "auto"}}
+<SelectControl style={{height: "auto", overflow: "scroll"}}
     multiple={true}
     label="Kategorien"
     value={attributes.categories}
