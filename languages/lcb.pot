@@ -3,21 +3,22 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:47
-msgid "Nachhaltigkeits-Kalender"
+#: src/blocks/nachhaltigkeitskarte-leipzig-map/components/Inspector.js:106
+msgid "Kategorien voreinstellen"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:48
-msgid ""
-"Hier werden je nach Einstellung (Region/Kategorie) die entsprechenden "
-"zukünftigen Veranstaltungen aus der Datenbank Nachhaltiges Sachsen in "
-"Kalenderform angezeigt."
+#: src/blocks/nachhaltigkeitskarte-leipzig-map/components/Inspector.js:75
+msgid "Optionen"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:51
-msgid "kalendar"
+#: src/blocks/nachhaltigkeitskarte-leipzig-map/components/Inspector.js:77
+msgid "Karten-Größe"
 msgstr ""
 
-#: src/blocks/nachhaltigkeitskarte-leipzig-calendar/index.js:52
-msgid "leaflet"
+#: src/blocks/nachhaltigkeitskarte-leipzig-map/components/Inspector.js:87
+msgid "Theme"
+msgstr ""
+
+#: src/blocks/nachhaltigkeitskarte-leipzig-map/components/Inspector.js:94
+msgid "Regionen voreinstellen"
 msgstr ""

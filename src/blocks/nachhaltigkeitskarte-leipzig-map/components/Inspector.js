@@ -10,7 +10,7 @@ var fetch_categories = [];
 var fetch_regions = [];
 
 function getRegionData(){
-    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json")
+    fetch("https://cors-anywhere-528p.onrender.com/https://daten.nachhaltiges-sachsen.de/api/v1/regions.json")
       .then(response => {
         return response.json();
       })
@@ -27,7 +27,7 @@ function getRegionData(){
 }
 
 function getCategoryData(){
-    fetch("https://blooming-chamber-31847.herokuapp.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json")
+    fetch("https://cors-anywhere-528p.onrender.com/https://daten.nachhaltiges-sachsen.de/api/v1/categories.json")
       .then(response => {
         return response.json();
       })
